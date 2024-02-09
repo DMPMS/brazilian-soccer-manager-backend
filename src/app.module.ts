@@ -3,6 +3,9 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SaveModule } from './save/save.module';
+import { CountryController } from './country/country.controller';
+import { CountryService } from './country/country.service';
+import { CountryModule } from './country/country.module';
 
 @Module({
   imports: [
@@ -22,8 +25,9 @@ import { SaveModule } from './save/save.module';
     }),
     UserModule,
     SaveModule,
+    CountryModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [CountryController],
+  providers: [CountryService],
 })
 export class AppModule {}
