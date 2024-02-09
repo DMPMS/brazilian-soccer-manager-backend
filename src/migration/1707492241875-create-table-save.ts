@@ -6,6 +6,7 @@ export class CreateTableSave1707492241875 implements MigrationInterface {
         CREATE TABLE public.save (
             id SERIAL NOT NULL,
             id_user INTEGER NOT NULL,
+            name character varying NOT NULL,
 
             created_at timestamp without time zone DEFAULT now() NOT NULL,
             updated_at timestamp without time zone DEFAULT now() NOT NULL,
