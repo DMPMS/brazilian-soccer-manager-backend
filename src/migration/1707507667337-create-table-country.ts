@@ -6,7 +6,7 @@ export class CreateTableCountry1707507667337 implements MigrationInterface {
         CREATE TABLE public.country (
             id SERIAL NOT NULL,
             name character varying NOT NULL,
-            srcImage character varying NOT NULL,
+            src_image character varying NOT NULL,
 
             created_at timestamp without time zone DEFAULT now() NOT NULL,
             updated_at timestamp without time zone DEFAULT now() NOT NULL,

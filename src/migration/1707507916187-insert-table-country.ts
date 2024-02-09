@@ -3,7 +3,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 export class InsertTableCountry1707507916187 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(`
-        INSERT INTO public.country(name, srcImage) VALUES
+        INSERT INTO public.country(name, src_image) VALUES
         ('Afeganistão', 'afeganistão.png'),
         ('África do Sul', 'áfrica_do_sul.png'),
         ('Albânia', 'albânia.png'),

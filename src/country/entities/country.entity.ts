@@ -7,14 +7,14 @@ import {
 } from 'typeorm';
 
 @Entity({ name: 'country' })
-export class StateEntity {
+export class CountryEntity {
   @PrimaryGeneratedColumn('rowid')
   id: number;
 
   @Column({ name: 'name', nullable: false })
   name: string;
 
-  @Column({ name: 'srcImage', nullable: false })
+  @Column({ name: 'src_image', nullable: false })
   srcImage: string;
 
   @CreateDateColumn({ name: 'created_at' })

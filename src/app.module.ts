@@ -27,7 +27,7 @@ import { CountryModule } from './country/country.module';
     SaveModule,
     CountryModule,
   ],
-  controllers: [CountryController],
-  providers: [CountryService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
