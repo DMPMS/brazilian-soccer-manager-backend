@@ -1,25 +1,24 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateTableUser1707491422107 implements MigrationInterface {
+export class CreateTableSave1707492241875 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(`
-        CREATE TABLE public.user (
+        CREATE TABLE public.save (
             id SERIAL NOT NULL,
-            name character varying NOT NULL,
-            email character varying NOT NULL,
-            password character varying NOT NULL,
+            id_user INTEGER NOT NULL,
 
             created_at timestamp without time zone DEFAULT now() NOT NULL,
             updated_at timestamp without time zone DEFAULT now() NOT NULL,
 
-            primary key (id)
+            primary key (id),
+            foreign key (id_user) references public.user(id)
         );
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(`
-        DROP TABLE public.user;
+        DROP TABLE public.save;
     `);
   }
 }
