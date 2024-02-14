@@ -16,6 +16,9 @@ export class UserEntity {
   @Column({ name: 'name', nullable: false })
   name: string;
 
+  @Column({ name: 'user_type', nullable: false })
+  userType: number;
+
   @Column({ name: 'email', nullable: false })
   email: string;
 
