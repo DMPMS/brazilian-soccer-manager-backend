@@ -6,6 +6,7 @@ import { SaveModule } from './save/save.module';
 import { CountryController } from './country/country.controller';
 import { CountryService } from './country/country.service';
 import { CountryModule } from './country/country.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { CountryModule } from './country/country.module';
     UserModule,
     SaveModule,
     CountryModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
