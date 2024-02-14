@@ -7,7 +7,7 @@ export class CountryController {
   constructor(private readonly countryService: CountryService) {}
 
   @Get()
-  async getAllCountry(): Promise<CountryEntity[]> {
-    return this.countryService.getAllCountry();
+  async findAllCountry(): Promise<CountryEntity[]> {
+    return this.countryService.findAllCountry();
   }
 }

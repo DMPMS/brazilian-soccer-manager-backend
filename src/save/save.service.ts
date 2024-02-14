@@ -17,7 +17,7 @@ export class SaveService {
     createSaveDto: CreateSaveDto,
     idUser: number,
   ): Promise<SaveEntity> {
-    await this.userService.getUserById(idUser);
+    await this.userService.findUserById(idUser);
 
     return this.saveRepository.save({
       ...createSaveDto,

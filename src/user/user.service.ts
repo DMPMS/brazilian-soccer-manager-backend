@@ -23,11 +23,11 @@ export class UserService {
     });
   }
 
-  async getAllUser(): Promise<UserEntity[]> {
+  async findAllUser(): Promise<UserEntity[]> {
     return this.userRepository.find();
   }
 
-  async getUserById(idUser: number): Promise<UserEntity> {
+  async findUserById(idUser: number): Promise<UserEntity> {
     const user = await this.userRepository.findOne({
       where: {
         id: idUser,
@@ -41,7 +41,7 @@ export class UserService {
     return user;
   }
 
-  async getUserByIdUsingRelations(idUser: number): Promise<UserEntity> {
+  async findUserByIdUsingRelations(idUser: number): Promise<UserEntity> {
     const user = await this.userRepository.findOne({
       where: {
         id: idUser,

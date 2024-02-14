@@ -10,7 +10,7 @@ export class CountryService {
     private readonly countryRepository: Repository<CountryEntity>,
   ) {}
 
-  async getAllCountry(): Promise<CountryEntity[]> {
+  async findAllCountry(): Promise<CountryEntity[]> {
     return this.countryRepository.find();
   }
 }

@@ -23,16 +23,16 @@ export class UserController {
   }
 
   @Get()
-  async getAllUser(): Promise<ReturnUserDto[]> {
-    return (await this.userService.getAllUser()).map(
+  async findAllUser(): Promise<ReturnUserDto[]> {
+    return (await this.userService.findAllUser()).map(
       (UserEntity) => new ReturnUserDto(UserEntity),
     );
   }
 
   @Get('/:idUser')
-  async getUserById(@Param('idUser') idUser: number): Promise<ReturnUserDto> {
+  async findUserById(@Param('idUser') idUser: number): Promise<ReturnUserDto> {
     return new ReturnUserDto(
-      await this.userService.getUserByIdUsingRelations(idUser),
+      await this.userService.findUserByIdUsingRelations(idUser),
     );
   }
 }
