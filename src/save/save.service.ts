@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SaveEntity } from './entities/save.entity';
@@ -23,5 +23,19 @@ export class SaveService {
       ...createSaveDto,
       idUser,
     });
+  }
+
+  async findSaveByUserId(idUser: number): Promise<SaveEntity[]> {
+    const saves = await this.saveRepository.find({
+      where: {
+        idUser: idUser,
+      },
+    });
+
+    if (!saves || saves.length === 0) {
+      throw new NotFoundException(`Save not found for userId: ${idUser}`);
+    }
+
+    return saves;
   }
 }
