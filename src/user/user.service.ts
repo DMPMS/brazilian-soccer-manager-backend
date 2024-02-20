@@ -86,9 +86,9 @@ export class UserService {
 
   async updateUserPassword(
     updatePasswordDTO: UpdatePasswordDto,
-    userId: number,
+    idUser: number,
   ): Promise<UserEntity> {
-    const user = await this.findUserById(userId);
+    const user = await this.findUserById(idUser);
 
     const passwordHashed = await createPasswordHashed(
       updatePasswordDTO.newPassword,

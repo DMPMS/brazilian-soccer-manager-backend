@@ -12,7 +12,7 @@ import { CreateSaveDto } from './dtos/createSave.dto';
 import { SaveEntity } from './entities/save.entity';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/user/enums/type.enum';
-import { idUser } from 'src/decorators/userId.decorator';
+import { IdUser } from 'src/decorators/idUser.decorator';
 import { ReturnSaveDto } from './dtos/returnSave.dto';
 
 @Roles(UserType.User)
@@ -24,14 +24,14 @@ export class SaveController {
   @UsePipes(ValidationPipe)
   async createSave(
     @Body() createSaveDto: CreateSaveDto,
-    @idUser() idUser: number,
+    @IdUser() idUser: number,
   ): Promise<SaveEntity> {
     return this.saveService.createSave(createSaveDto, idUser);
   }
 
   @Get()
-  async findSaveByUserId(@idUser() idUser: number): Promise<ReturnSaveDto[]> {
-    return (await this.saveService.findSaveByUserId(idUser)).map(
+  async findSaveByIdUser(@IdUser() idUser: number): Promise<ReturnSaveDto[]> {
+    return (await this.saveService.findSaveByIdUser(idUser)).map(
       (save) => new ReturnSaveDto(save),
     );
   }

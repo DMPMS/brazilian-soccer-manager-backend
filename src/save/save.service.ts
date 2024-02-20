@@ -25,7 +25,7 @@ export class SaveService {
     });
   }
 
-  async findSaveByUserId(idUser: number): Promise<SaveEntity[]> {
+  async findSaveByIdUser(idUser: number): Promise<SaveEntity[]> {
     const saves = await this.saveRepository.find({
       where: {
         idUser: idUser,
@@ -33,7 +33,7 @@ export class SaveService {
     });
 
     if (!saves || saves.length === 0) {
-      throw new NotFoundException(`Save not found for userId: ${idUser}`);
+      throw new NotFoundException(`Save not found for idUser: ${idUser}`);
     }
 
     return saves;

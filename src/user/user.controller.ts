@@ -12,7 +12,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { UserEntity } from './entities/user.entity';
 import { ReturnUserDto } from './dtos/returnUser.dto';
-import { idUser } from 'src/decorators/userId.decorator';
+import { IdUser } from 'src/decorators/idUser.decorator';
 import { UpdatePasswordDto } from './dtos/updatePassword.dto';
 
 @Controller('user')
@@ -43,7 +43,7 @@ export class UserController {
   @UsePipes(ValidationPipe)
   async updatePasswordUser(
     @Body() UpdatePasswordDto: UpdatePasswordDto,
-    @idUser() idUser: number,
+    @IdUser() idUser: number,
   ): Promise<UserEntity> {
     return this.userService.updateUserPassword(UpdatePasswordDto, idUser);
   }
