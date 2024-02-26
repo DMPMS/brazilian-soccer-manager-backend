@@ -14,8 +14,8 @@ export class SaveEntity {
   @PrimaryGeneratedColumn('rowid')
   id: number;
 
-  @Column({ name: 'id_user', nullable: false })
-  idUser: number;
+  @Column({ name: 'user_id', nullable: false })
+  userId: number;
 
   @Column({ name: 'name', nullable: false })
   name: string;
@@ -27,6 +27,6 @@ export class SaveEntity {
   updatedAt: Date;
 
   @ManyToOne(() => UserEntity, (user) => user.saves)
-  @JoinColumn({ name: 'id_user', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user?: UserEntity;
 }

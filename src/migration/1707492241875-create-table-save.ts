@@ -5,14 +5,14 @@ export class CreateTableSave1707492241875 implements MigrationInterface {
     queryRunner.query(`
         CREATE TABLE public.save (
             id SERIAL NOT NULL,
-            id_user INTEGER NOT NULL,
+            user_id INTEGER NOT NULL,
             name character varying NOT NULL,
 
             created_at timestamp without time zone DEFAULT now() NOT NULL,
             updated_at timestamp without time zone DEFAULT now() NOT NULL,
 
             primary key (id),
-            foreign key (id_user) references public.user(id)
+            foreign key (user_id) references public.user(id)
         );
     `);
   }

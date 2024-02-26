@@ -32,7 +32,7 @@ export class UserService {
 
     return this.userRepository.save({
       ...createUserDto,
-      userType: UserType.User,
+      type: UserType.User,
       password: passwordHashed,
     });
   }
@@ -41,30 +41,30 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  async findUserById(idUser: number): Promise<UserEntity> {
+  async findUserById(userId: number): Promise<UserEntity> {
     const user = await this.userRepository.findOne({
       where: {
-        id: idUser,
+        id: userId,
       },
     });
 
     if (!user) {
-      throw new NotFoundException(`idUser: ${idUser} not found.`);
+      throw new NotFoundException(`userId: ${userId} not found.`);
     }
 
     return user;
   }
 
-  async findUserByIdUsingRelations(idUser: number): Promise<UserEntity> {
+  async findUserByIdUsingRelations(userId: number): Promise<UserEntity> {
     const user = await this.userRepository.findOne({
       where: {
-        id: idUser,
+        id: userId,
       },
       relations: ['saves'],
     });
 
     if (!user) {
-      throw new NotFoundException(`idUser: ${idUser} not found.`);
+      throw new NotFoundException(`userId: ${userId} not found.`);
     }
 
     return user;
@@ -86,9 +86,9 @@ export class UserService {
 
   async updateUserPassword(
     updatePasswordDTO: UpdatePasswordDto,
-    idUser: number,
+    userId: number,
   ): Promise<UserEntity> {
-    const user = await this.findUserById(idUser);
+    const user = await this.findUserById(userId);
 
     const passwordHashed = await createPasswordHashed(
       updatePasswordDTO.newPassword,

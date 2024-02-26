@@ -15,25 +15,25 @@ export class SaveService {
 
   async createSave(
     createSaveDto: CreateSaveDto,
-    idUser: number,
+    userId: number,
   ): Promise<SaveEntity> {
-    await this.userService.findUserById(idUser);
+    await this.userService.findUserById(userId);
 
     return this.saveRepository.save({
       ...createSaveDto,
-      idUser,
+      userId,
     });
   }
 
-  async findSaveByIdUser(idUser: number): Promise<SaveEntity[]> {
+  async findSaveByUserId(userId: number): Promise<SaveEntity[]> {
     const saves = await this.saveRepository.find({
       where: {
-        idUser: idUser,
+        userId: userId,
       },
     });
 
     if (!saves || saves.length === 0) {
-      throw new NotFoundException(`Save not found for idUser: ${idUser}`);
+      throw new NotFoundException(`Save not found for userId: ${userId}`);
     }
 
     return saves;
