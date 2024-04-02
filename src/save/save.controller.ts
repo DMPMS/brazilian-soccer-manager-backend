@@ -11,7 +11,7 @@ import { SaveService } from './save.service';
 import { CreateSaveDto } from './dtos/createSave.dto';
 import { SaveEntity } from './entities/save.entity';
 import { Roles } from 'src/decorators/roles.decorator';
-import { UserType } from 'src/user/enums/type.enum';
+import { UserType } from 'src/user/enums/userType.enum';
 import { UserId } from 'src/decorators/userId.decorator';
 import { ReturnSaveDto } from './dtos/returnSave.dto';
 

@@ -8,7 +8,7 @@ import { CreateUserDto } from './dtos/createUser.dto';
 import { UserEntity } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserType } from './enums/type.enum';
+import { UserType } from './enums/userType.enum';
 import { UpdatePasswordDto } from './dtos/updatePassword.dto';
 import { createPasswordHashed, validatePassword } from 'src/utils/password';
 
@@ -32,7 +32,7 @@ export class UserService {
 
     return this.userRepository.save({
       ...createUserDto,
-      type: UserType.User,
+      userType: UserType.User,
       password: passwordHashed,
     });
   }

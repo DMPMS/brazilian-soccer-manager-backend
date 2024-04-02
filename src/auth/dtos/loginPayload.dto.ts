@@ -2,10 +2,10 @@ import { UserEntity } from 'src/user/entities/user.entity';
 
 export class LoginPayload {
   id: number;
-  type: number;
+  userType: number;
 
   constructor(user: UserEntity) {
     this.id = user.id;
-    this.type = user.type;
+    this.userType = user.userType;
   }
 }
