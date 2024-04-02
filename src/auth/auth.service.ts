@@ -26,7 +26,7 @@ export class AuthService {
     );
 
     if (!user || !isMatch) {
-      throw new NotFoundException('Email or password invalid');
+      throw new NotFoundException('Email or password invalid.');
     }
 
     return {

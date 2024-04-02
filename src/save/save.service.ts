@@ -33,7 +33,7 @@ export class SaveService {
     });
 
     if (!saves || saves.length === 0) {
-      throw new NotFoundException(`Save not found for userId: ${userId}`);
+      throw new NotFoundException(`Saves not found for userId: ${userId}.`);
     }
 
     return saves;

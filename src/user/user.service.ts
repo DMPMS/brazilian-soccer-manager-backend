@@ -25,7 +25,7 @@ export class UserService {
     );
 
     if (user) {
-      throw new BadGatewayException('Email already registered in the system');
+      throw new BadGatewayException('Email already registered in the system.');
     }
 
     const passwordHashed = await createPasswordHashed(createUserDto.password);
@@ -38,7 +38,13 @@ export class UserService {
   }
 
   async findAllUser(): Promise<UserEntity[]> {
-    return this.userRepository.find();
+    const users = await this.userRepository.find();
+
+    if (!users || users.length === 0) {
+      throw new NotFoundException(`Users not found.`);
+    }
+
+    return users;
   }
 
   async findUserById(userId: number): Promise<UserEntity> {
@@ -100,7 +106,7 @@ export class UserService {
     );
 
     if (!isMatch) {
-      throw new BadRequestException('Last password invalid');
+      throw new BadRequestException('Last password invalid.');
     }
 
     return this.userRepository.save({
