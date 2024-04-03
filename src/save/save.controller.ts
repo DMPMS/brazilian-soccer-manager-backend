@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
@@ -13,6 +15,7 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/user/enums/userType.enum';
 import { UserId } from 'src/decorators/userId.decorator';
 import { ReturnSaveDto } from './dtos/returnSave.dto';
+import { DeleteResult } from 'typeorm';
 
 @Roles(UserType.User, UserType.Admin)
 @Controller('save')
@@ -26,6 +29,14 @@ export class SaveController {
     @UserId() userId: number,
   ): Promise<SaveEntity> {
     return this.saveService.createSave(createSaveDto, userId);
+  }
+
+  @Delete('/:saveId')
+  async deleteSave(
+    @Param('saveId') saveId: number,
+    @UserId() userId: number,
+  ): Promise<DeleteResult> {
+    return this.saveService.deleteSave(saveId, userId);
   }
 
   @Get()

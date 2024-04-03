@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { SaveEntity } from './entities/save.entity';
 import { CreateSaveDto } from './dtos/createSave.dto';
 import { UserService } from 'src/user/user.service';
@@ -67,5 +67,30 @@ export class SaveService {
     }
 
     return save;
+  }
+
+  async findSaveById(saveId: number): Promise<SaveEntity> {
+    const save = await this.saveRepository.findOne({
+      where: {
+        id: saveId,
+      },
+    });
+
+    if (!save) {
+      throw new NotFoundException(`saveId: ${saveId} not found.`);
+    }
+
+    return save;
+  }
+
+  async deleteSave(saveId: number, userId: number): Promise<DeleteResult> {
+    const save = await this.findSaveById(saveId);
+
+    if (save.userId !== userId) {
+      // Better not to say that the save does not belong to the user.
+      throw new NotFoundException(`saveId: ${saveId} not found.`);
+    }
+
+    return this.saveRepository.delete({ id: save.id });
   }
 }
