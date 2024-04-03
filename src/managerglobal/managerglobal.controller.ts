@@ -7,26 +7,26 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ManagerglobalService } from './managerglobal.service';
-import { CreateManagerGlobalDto } from './dtos/createManagerGlobal.dto';
-import { ManagerGlobalEntity } from './entities/managerglobal.entity';
-import { ReturnManagerGlobalDto } from './dtos/returnManagerGlobal.dto';
+import { CreateManagerglobalDto } from './dtos/createManagerglobal.dto';
+import { ManagerglobalEntity } from './entities/managerglobal.entity';
+import { ReturnManagerglobalDto } from './dtos/returnManagerglobal.dto';
 
 @Controller('managerglobal')
 export class ManagerglobalController {
-  constructor(private readonly managerGlobalService: ManagerglobalService) {}
+  constructor(private readonly managerglobalService: ManagerglobalService) {}
 
   @UsePipes(ValidationPipe)
   @Post()
-  async createManagerGlobal(
-    @Body() createManagerGlobal: CreateManagerGlobalDto,
-  ): Promise<ManagerGlobalEntity> {
-    return this.managerGlobalService.createManagerGlobal(createManagerGlobal);
+  async createManagerglobal(
+    @Body() createManagerglobal: CreateManagerglobalDto,
+  ): Promise<ManagerglobalEntity> {
+    return this.managerglobalService.createManagerglobal(createManagerglobal);
   }
 
   @Get()
-  async findAllManagerGlobal(): Promise<ReturnManagerGlobalDto[]> {
-    return (await this.managerGlobalService.findAllManagerGlobal(true)).map(
-      (managerglobal) => new ReturnManagerGlobalDto(managerglobal),
+  async findAllManagerglobal(): Promise<ReturnManagerglobalDto[]> {
+    return (await this.managerglobalService.findAllManagerglobal(true)).map(
+      (managerglobal) => new ReturnManagerglobalDto(managerglobal),
     );
   }
 }

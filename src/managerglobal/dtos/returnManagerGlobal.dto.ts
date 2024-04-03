@@ -1,19 +1,19 @@
 import { ReturnCountryDto } from 'src/country/dtos/returnCountry.dto';
-import { ManagerGlobalEntity } from '../entities/managerglobal.entity';
+import { ManagerglobalEntity } from '../entities/managerglobal.entity';
 
-export class ReturnManagerGlobalDto {
+export class ReturnManagerglobalDto {
   id: number;
   name: string;
   age: number;
   country?: ReturnCountryDto;
 
-  constructor(managerGlobalEntity: ManagerGlobalEntity) {
-    this.id = managerGlobalEntity.id;
-    this.name = managerGlobalEntity.name;
-    this.age = managerGlobalEntity.age;
+  constructor(managerglobalEntity: ManagerglobalEntity) {
+    this.id = managerglobalEntity.id;
+    this.name = managerglobalEntity.name;
+    this.age = managerglobalEntity.age;
 
-    this.country = managerGlobalEntity.country
-      ? new ReturnCountryDto(managerGlobalEntity.country)
+    this.country = managerglobalEntity.country
+      ? new ReturnCountryDto(managerglobalEntity.country)
       : undefined;
   }
 }

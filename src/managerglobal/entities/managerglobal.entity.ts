@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 
 @Entity({ name: 'managerglobal' })
-export class ManagerGlobalEntity {
+export class ManagerglobalEntity {
   @PrimaryGeneratedColumn('rowid')
   id: number;
 

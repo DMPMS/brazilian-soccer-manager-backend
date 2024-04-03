@@ -1,31 +1,31 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ManagerGlobalEntity } from './entities/managerglobal.entity';
+import { ManagerglobalEntity } from './entities/managerglobal.entity';
 import { Repository } from 'typeorm';
-import { CreateManagerGlobalDto } from './dtos/createManagerGlobal.dto';
+import { CreateManagerglobalDto } from './dtos/createManagerglobal.dto';
 import { CountryService } from 'src/country/country.service';
 
 @Injectable()
 export class ManagerglobalService {
   constructor(
-    @InjectRepository(ManagerGlobalEntity)
-    private readonly managerGlobalRepository: Repository<ManagerGlobalEntity>,
+    @InjectRepository(ManagerglobalEntity)
+    private readonly managerglobalRepository: Repository<ManagerglobalEntity>,
     private readonly countryService: CountryService,
   ) {}
 
-  async createManagerGlobal(
-    createManagerGlobalDto: CreateManagerGlobalDto,
-  ): Promise<ManagerGlobalEntity> {
-    await this.countryService.findCountryById(createManagerGlobalDto.countryId);
+  async createManagerglobal(
+    createManagerglobalDto: CreateManagerglobalDto,
+  ): Promise<ManagerglobalEntity> {
+    await this.countryService.findCountryById(createManagerglobalDto.countryId);
 
-    return this.managerGlobalRepository.save({
-      ...createManagerGlobalDto,
+    return this.managerglobalRepository.save({
+      ...createManagerglobalDto,
     });
   }
 
-  async findAllManagerGlobal(
+  async findAllManagerglobal(
     isFindRelations?: boolean,
-  ): Promise<ManagerGlobalEntity[]> {
+  ): Promise<ManagerglobalEntity[]> {
     let findOptions = {};
 
     if (isFindRelations) {
@@ -37,12 +37,12 @@ export class ManagerglobalService {
       };
     }
 
-    const managersGlobal = await this.managerGlobalRepository.find(findOptions);
+    const managersglobal = await this.managerglobalRepository.find(findOptions);
 
-    if (!managersGlobal || managersGlobal.length === 0) {
-      throw new NotFoundException(`ManagersGlobal not found.`);
+    if (!managersglobal || managersglobal.length === 0) {
+      throw new NotFoundException(`Managersglobal not found.`);
     }
 
-    return managersGlobal;
+    return managersglobal;
   }
 }
