@@ -15,7 +15,7 @@ import { UserType } from 'src/user/enums/userType.enum';
 import { UserId } from 'src/decorators/userId.decorator';
 import { ReturnSaveDto } from './dtos/returnSave.dto';
 
-@Roles(UserType.User)
+@Roles(UserType.User, UserType.Admin)
 @Controller('save')
 export class SaveController {
   constructor(private readonly saveService: SaveService) {}

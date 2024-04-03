@@ -10,7 +10,10 @@ import { ManagerglobalService } from './managerglobal.service';
 import { CreateManagerglobalDto } from './dtos/createManagerglobal.dto';
 import { ManagerglobalEntity } from './entities/managerglobal.entity';
 import { ReturnManagerglobalDto } from './dtos/returnManagerglobal.dto';
+import { UserType } from 'src/user/enums/userType.enum';
+import { Roles } from 'src/decorators/roles.decorator';
 
+@Roles(UserType.Admin)
 @Controller('managerglobal')
 export class ManagerglobalController {
   constructor(private readonly managerglobalService: ManagerglobalService) {}
