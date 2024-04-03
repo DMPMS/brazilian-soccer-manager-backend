@@ -31,7 +31,7 @@ export class UserController {
   @Get()
   async findAllUser(): Promise<ReturnUserDto[]> {
     return (await this.userService.findAllUser()).map(
-      (UserEntity) => new ReturnUserDto(UserEntity),
+      (user) => new ReturnUserDto(user),
     );
   }
 
