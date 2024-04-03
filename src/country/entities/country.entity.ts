@@ -1,7 +1,9 @@
+import { ManagerGlobalEntity } from 'src/managerglobal/entities/managerglobal.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -22,4 +24,10 @@ export class CountryEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @OneToMany(
+    () => ManagerGlobalEntity,
+    (managerglobal) => managerglobal.country,
+  )
+  managersglobal?: ManagerGlobalEntity[];
 }
