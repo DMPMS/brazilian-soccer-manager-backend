@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SaveEntity } from './entities/save.entity';
@@ -17,7 +21,16 @@ export class SaveService {
     createSaveDto: CreateSaveDto,
     userId: number,
   ): Promise<SaveEntity> {
-    await this.userService.findUserById(userId);
+    const save = await this.findUserSaveByName(
+      userId,
+      createSaveDto.name,
+    ).catch(() => undefined);
+
+    if (save) {
+      throw new BadRequestException(
+        `Save name ${createSaveDto.name} already exist for userId: ${userId}.`,
+      );
+    }
 
     return this.saveRepository.save({
       ...createSaveDto,
@@ -37,5 +50,22 @@ export class SaveService {
     }
 
     return saves;
+  }
+
+  async findUserSaveByName(userId: number, name: string): Promise<SaveEntity> {
+    const save = await this.saveRepository.findOne({
+      where: {
+        userId: userId,
+        name: name,
+      },
+    });
+
+    if (!save) {
+      throw new NotFoundException(
+        `Save name ${name} not found for userId: ${userId}.`,
+      );
+    }
+
+    return save;
   }
 }
