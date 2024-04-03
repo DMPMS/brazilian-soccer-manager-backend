@@ -19,4 +19,18 @@ export class CountryService {
 
     return countries;
   }
+
+  async findCountryById(countryId: number): Promise<CountryEntity> {
+    const country = await this.countryRepository.findOne({
+      where: {
+        id: countryId,
+      },
+    });
+
+    if (!country) {
+      throw new NotFoundException(`countryId: ${countryId} not found.`);
+    }
+
+    return country;
+  }
 }
