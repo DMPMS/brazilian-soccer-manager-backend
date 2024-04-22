@@ -27,7 +27,7 @@ export class InsertTableCountry1707507916187 implements MigrationInterface {
         ('Bélgica', 'bélgica.png'),
         ('Belize', 'belize.png'),
         ('Benim', 'benim.png'),
-        ('Bermudas ', 'bermudas_.png'),
+        ('Bermudas', 'bermudas_.png'),
         ('Bielorrússia', 'bielorrússia.png'),
         ('Bolívia', 'bolívia.png'),
         ('Bósnia e Herzegovina', 'bósnia_e_herzegovina.png'),
