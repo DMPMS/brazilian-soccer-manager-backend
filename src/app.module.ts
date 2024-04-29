@@ -9,6 +9,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './guards/roles.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { ManagerglobalModule } from './managerglobal/managerglobal.module';
+import { TeamglobalModule } from './teamglobal/teamglobal.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ManagerglobalModule } from './managerglobal/managerglobal.module';
     AuthModule,
     JwtModule,
     ManagerglobalModule,
+    TeamglobalModule,
   ],
   controllers: [],
   providers: [

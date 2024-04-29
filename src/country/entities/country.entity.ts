@@ -1,4 +1,5 @@
 import { ManagerglobalEntity } from 'src/managerglobal/entities/managerglobal.entity';
+import { TeamglobalEntity } from 'src/teamglobal/entities/teamglobal.entity';
 import {
   Column,
   CreateDateColumn,
@@ -30,4 +31,7 @@ export class CountryEntity {
     (managerglobal) => managerglobal.country,
   )
   managersglobal?: ManagerglobalEntity[];
+
+  @OneToMany(() => TeamglobalEntity, (teamglobal) => teamglobal.country)
+  teamsglobal?: TeamglobalEntity[];
 }

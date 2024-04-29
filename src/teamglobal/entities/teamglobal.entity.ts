@@ -1,5 +1,5 @@
 import { CountryEntity } from 'src/country/entities/country.entity';
-import { TeamglobalEntity } from 'src/teamglobal/entities/teamglobal.entity';
+import { ManagerglobalEntity } from 'src/managerglobal/entities/managerglobal.entity';
 import {
   Column,
   CreateDateColumn,
@@ -11,19 +11,22 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'managerglobal' })
-export class ManagerglobalEntity {
+@Entity({ name: 'teamglobal' })
+export class TeamglobalEntity {
   @PrimaryGeneratedColumn('rowid')
   id: number;
 
   @Column({ name: 'country_id', nullable: false })
   countryId: number;
 
+  @Column({ name: 'managerglobal_id', nullable: false })
+  managerglobalId: number;
+
   @Column({ name: 'name', nullable: false })
   name: string;
 
-  @Column({ name: 'age', nullable: false })
-  age: number;
+  @Column({ name: 'src_image', nullable: false })
+  srcImage: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
@@ -31,10 +34,14 @@ export class ManagerglobalEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToOne(() => CountryEntity, (country) => country.managersglobal)
+  @ManyToOne(() => CountryEntity, (country) => country.teamsglobal)
   @JoinColumn({ name: 'country_id', referencedColumnName: 'id' })
   country?: CountryEntity;
 
-  @OneToOne(() => TeamglobalEntity, (teamglobal) => teamglobal.managerglobal)
-  teamglobal?: TeamglobalEntity;
+  @OneToOne(
+    () => ManagerglobalEntity,
+    (managerglobal) => managerglobal.teamglobal,
+  )
+  @JoinColumn({ name: 'managerglobal_id', referencedColumnName: 'id' })
+  managerglobal?: ManagerglobalEntity;
 }

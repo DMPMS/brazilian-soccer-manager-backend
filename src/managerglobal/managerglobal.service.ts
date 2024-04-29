@@ -33,6 +33,7 @@ export class ManagerglobalService {
         ...findOptions,
         relations: {
           country: true,
+          teamglobal: true,
         },
       };
     }
@@ -44,5 +45,23 @@ export class ManagerglobalService {
     }
 
     return managersglobal;
+  }
+
+  async findManagerglobalById(
+    managerglobalId: number,
+  ): Promise<ManagerglobalEntity> {
+    const managerglobal = await this.managerglobalRepository.findOne({
+      where: {
+        id: managerglobalId,
+      },
+    });
+
+    if (!managerglobal) {
+      throw new NotFoundException(
+        `managerglobalId: ${managerglobalId} not found.`,
+      );
+    }
+
+    return managerglobal;
   }
 }

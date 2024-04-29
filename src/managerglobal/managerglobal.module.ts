@@ -9,5 +9,6 @@ import { CountryModule } from 'src/country/country.module';
   imports: [TypeOrmModule.forFeature([ManagerglobalEntity]), CountryModule],
   controllers: [ManagerglobalController],
   providers: [ManagerglobalService],
+  exports: [ManagerglobalService],
 })
 export class ManagerglobalModule {}
