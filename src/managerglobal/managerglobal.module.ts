@@ -4,9 +4,14 @@ import { ManagerglobalService } from './managerglobal.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ManagerglobalEntity } from './entities/managerglobal.entity';
 import { CountryModule } from 'src/country/country.module';
+import { TeamglobalModule } from 'src/teamglobal/teamglobal.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ManagerglobalEntity]), CountryModule],
+  imports: [
+    TypeOrmModule.forFeature([ManagerglobalEntity]),
+    CountryModule,
+    TeamglobalModule,
+  ],
   controllers: [ManagerglobalController],
   providers: [ManagerglobalService],
   exports: [ManagerglobalService],

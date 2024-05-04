@@ -32,4 +32,15 @@ export class ManagerglobalController {
       (managerglobal) => new ReturnManagerglobalDto(managerglobal),
     );
   }
+
+  @Get('/withoutTeamglobal')
+  async findAllManagerglobalWithoutTeamglobal(): Promise<
+    ReturnManagerglobalDto[]
+  > {
+    return (
+      await this.managerglobalService.findAllManagerglobalWithoutTeamglobal(
+        true,
+      )
+    ).map((managerglobal) => new ReturnManagerglobalDto(managerglobal));
+  }
 }

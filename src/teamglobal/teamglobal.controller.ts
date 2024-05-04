@@ -28,8 +28,8 @@ export class TeamglobalController {
 
   @Get()
   async findAllTeamglobal(): Promise<ReturnTeamglobalDto[]> {
-    return (await this.teamglobalService.findAllTeamglobal(true)).map(
-      (teamglobal) => new ReturnTeamglobalDto(teamglobal),
-    );
+    return (
+      await this.teamglobalService.findAllTeamglobal(undefined, true)
+    ).map((teamglobal) => new ReturnTeamglobalDto(teamglobal));
   }
 }

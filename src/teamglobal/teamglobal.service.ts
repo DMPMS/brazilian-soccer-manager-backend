@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CountryService } from 'src/country/country.service';
@@ -12,6 +17,8 @@ export class TeamglobalService {
     @InjectRepository(TeamglobalEntity)
     private readonly teamglobalRepository: Repository<TeamglobalEntity>,
     private readonly countryService: CountryService,
+
+    @Inject(forwardRef(() => ManagerglobalService))
     private readonly managerglobalService: ManagerglobalService,
   ) {}
 
@@ -29,9 +36,23 @@ export class TeamglobalService {
   }
 
   async findAllTeamglobal(
+    fields?: string[],
     isFindRelations?: boolean,
   ): Promise<TeamglobalEntity[]> {
     let findOptions = {};
+
+    if (fields) {
+      const selectOptions: Record<string, boolean> = {};
+
+      fields.forEach((field) => {
+        selectOptions[field] = true;
+      });
+
+      findOptions = {
+        ...findOptions,
+        select: selectOptions,
+      };
+    }
 
     if (isFindRelations) {
       findOptions = {
