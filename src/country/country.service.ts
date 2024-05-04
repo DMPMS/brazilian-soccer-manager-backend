@@ -11,7 +11,16 @@ export class CountryService {
   ) {}
 
   async findAllCountry(): Promise<CountryEntity[]> {
-    const countries = await this.countryRepository.find();
+    let findOptions = {};
+
+    findOptions = {
+      ...findOptions,
+      order: {
+        name: 'ASC',
+      },
+    };
+
+    const countries = await this.countryRepository.find(findOptions);
 
     if (!countries) {
       throw new NotFoundException(`Countries not found.`);
@@ -21,11 +30,16 @@ export class CountryService {
   }
 
   async findCountryById(countryId: number): Promise<CountryEntity> {
-    const country = await this.countryRepository.findOne({
+    let findOptions = {};
+
+    findOptions = {
+      ...findOptions,
       where: {
         id: countryId,
       },
-    });
+    };
+
+    const country = await this.countryRepository.findOne(findOptions);
 
     if (!country) {
       throw new NotFoundException(`countryId: ${countryId} not found.`);

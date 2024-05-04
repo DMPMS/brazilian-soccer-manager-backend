@@ -40,6 +40,13 @@ export class ManagerglobalService {
       };
     }
 
+    findOptions = {
+      ...findOptions,
+      order: {
+        createdAt: 'DESC',
+      },
+    };
+
     const managersglobal = await this.managerglobalRepository.find(findOptions);
 
     if (!managersglobal) {
@@ -71,6 +78,9 @@ export class ManagerglobalService {
       where: {
         id: Not(In(managersglobalIds)),
       },
+      order: {
+        createdAt: 'DESC',
+      },
     };
 
     if (isFindRelations) {
@@ -95,11 +105,17 @@ export class ManagerglobalService {
   async findManagerglobalById(
     managerglobalId: number,
   ): Promise<ManagerglobalEntity> {
-    const managerglobal = await this.managerglobalRepository.findOne({
+    let findOptions = {};
+
+    findOptions = {
+      ...findOptions,
       where: {
         id: managerglobalId,
       },
-    });
+    };
+
+    const managerglobal =
+      await this.managerglobalRepository.findOne(findOptions);
 
     if (!managerglobal) {
       throw new NotFoundException(

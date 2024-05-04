@@ -38,7 +38,16 @@ export class UserService {
   }
 
   async findAllUser(): Promise<UserEntity[]> {
-    const users = await this.userRepository.find();
+    let findOptions = {};
+
+    findOptions = {
+      ...findOptions,
+      order: {
+        createdAt: 'DESC',
+      },
+    };
+
+    const users = await this.userRepository.find(findOptions);
 
     if (!users) {
       throw new NotFoundException(`Users not found.`);
@@ -48,11 +57,16 @@ export class UserService {
   }
 
   async findUserById(userId: number): Promise<UserEntity> {
-    const user = await this.userRepository.findOne({
+    let findOptions = {};
+
+    findOptions = {
+      ...findOptions,
       where: {
         id: userId,
       },
-    });
+    };
+
+    const user = await this.userRepository.findOne(findOptions);
 
     if (!user) {
       throw new NotFoundException(`userId: ${userId} not found.`);
@@ -62,12 +76,17 @@ export class UserService {
   }
 
   async findUserByIdUsingRelations(userId: number): Promise<UserEntity> {
-    const user = await this.userRepository.findOne({
+    let findOptions = {};
+
+    findOptions = {
+      ...findOptions,
       where: {
         id: userId,
       },
       relations: ['saves'],
-    });
+    };
+
+    const user = await this.userRepository.findOne(findOptions);
 
     if (!user) {
       throw new NotFoundException(`userId: ${userId} not found.`);
@@ -77,11 +96,16 @@ export class UserService {
   }
 
   async findUserByEmail(email: string): Promise<UserEntity> {
-    const user = await this.userRepository.findOne({
+    let findOptions = {};
+
+    findOptions = {
+      ...findOptions,
       where: {
         email: email,
       },
-    });
+    };
+
+    const user = await this.userRepository.findOne(findOptions);
 
     if (!user) {
       throw new NotFoundException(`Email: ${email} not found.`);

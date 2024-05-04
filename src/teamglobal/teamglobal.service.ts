@@ -64,6 +64,13 @@ export class TeamglobalService {
       };
     }
 
+    findOptions = {
+      ...findOptions,
+      order: {
+        createdAt: 'DESC',
+      },
+    };
+
     const teamsglobal = await this.teamglobalRepository.find(findOptions);
 
     if (!teamsglobal) {

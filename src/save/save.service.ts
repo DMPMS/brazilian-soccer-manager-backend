@@ -39,11 +39,19 @@ export class SaveService {
   }
 
   async findSaveByUserId(userId: number): Promise<SaveEntity[]> {
-    const saves = await this.saveRepository.find({
+    let findOptions = {};
+
+    findOptions = {
+      ...findOptions,
       where: {
         userId: userId,
       },
-    });
+      order: {
+        updatedAt: 'DESC',
+      },
+    };
+
+    const saves = await this.saveRepository.find(findOptions);
 
     if (!saves) {
       throw new NotFoundException(`Saves not found for userId: ${userId}.`);
@@ -53,12 +61,17 @@ export class SaveService {
   }
 
   async findUserSaveByName(userId: number, name: string): Promise<SaveEntity> {
-    const save = await this.saveRepository.findOne({
+    let findOptions = {};
+
+    findOptions = {
+      ...findOptions,
       where: {
         userId: userId,
         name: name,
       },
-    });
+    };
+
+    const save = await this.saveRepository.findOne(findOptions);
 
     if (!save) {
       throw new NotFoundException(
@@ -70,11 +83,16 @@ export class SaveService {
   }
 
   async findSaveById(saveId: number): Promise<SaveEntity> {
-    const save = await this.saveRepository.findOne({
+    let findOptions = {};
+
+    findOptions = {
+      ...findOptions,
       where: {
         id: saveId,
       },
-    });
+    };
+
+    const save = await this.saveRepository.findOne(findOptions);
 
     if (!save) {
       throw new NotFoundException(`saveId: ${saveId} not found.`);
