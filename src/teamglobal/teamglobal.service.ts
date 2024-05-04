@@ -66,7 +66,7 @@ export class TeamglobalService {
 
     const teamsglobal = await this.teamglobalRepository.find(findOptions);
 
-    if (!teamsglobal || teamsglobal.length === 0) {
+    if (!teamsglobal) {
       throw new NotFoundException(`Teamsglobal not found.`);
     }
 

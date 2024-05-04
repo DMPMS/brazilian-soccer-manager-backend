@@ -13,7 +13,7 @@ export class CountryService {
   async findAllCountry(): Promise<CountryEntity[]> {
     const countries = await this.countryRepository.find();
 
-    if (!countries || countries.length === 0) {
+    if (!countries) {
       throw new NotFoundException(`Countries not found.`);
     }
 

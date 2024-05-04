@@ -42,7 +42,7 @@ export class ManagerglobalService {
 
     const managersglobal = await this.managerglobalRepository.find(findOptions);
 
-    if (!managersglobal || managersglobal.length === 0) {
+    if (!managersglobal) {
       throw new NotFoundException(`Managersglobal not found.`);
     }
 

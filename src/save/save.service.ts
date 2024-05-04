@@ -45,7 +45,7 @@ export class SaveService {
       },
     });
 
-    if (!saves || saves.length === 0) {
+    if (!saves) {
       throw new NotFoundException(`Saves not found for userId: ${userId}.`);
     }
 
