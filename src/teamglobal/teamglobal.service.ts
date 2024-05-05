@@ -10,6 +10,7 @@ import { CountryService } from 'src/country/country.service';
 import { TeamglobalEntity } from './entities/teamglobal.entity';
 import { CreateTeamglobalDto } from './dtos/createTeamglobal.dto';
 import { ManagerglobalService } from 'src/managerglobal/managerglobal.service';
+import { UpdateTeamglobalDto } from './dtos/updateTeamglobal.dto';
 
 @Injectable()
 export class TeamglobalService {
@@ -78,5 +79,36 @@ export class TeamglobalService {
     }
 
     return teamsglobal;
+  }
+
+  async findTeamglobalById(teamglobalId: number): Promise<TeamglobalEntity> {
+    let findOptions = {};
+
+    findOptions = {
+      ...findOptions,
+      where: {
+        id: teamglobalId,
+      },
+    };
+
+    const teamglobal = await this.teamglobalRepository.findOne(findOptions);
+
+    if (!teamglobal) {
+      throw new NotFoundException(`teamglobalId: ${teamglobalId} not found.`);
+    }
+
+    return teamglobal;
+  }
+
+  async updateTeamglobal(
+    updateTeamglobal: UpdateTeamglobalDto,
+    teamglobalId: number,
+  ): Promise<TeamglobalEntity> {
+    const teamglobal = await this.findTeamglobalById(teamglobalId);
+
+    return this.teamglobalRepository.save({
+      ...teamglobal,
+      ...updateTeamglobal,
+    });
   }
 }

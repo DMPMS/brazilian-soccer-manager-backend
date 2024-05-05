@@ -2,7 +2,9 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
+  Put,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -12,6 +14,7 @@ import { ManagerglobalEntity } from './entities/managerglobal.entity';
 import { ReturnManagerglobalDto } from './dtos/returnManagerglobal.dto';
 import { UserType } from 'src/user/enums/userType.enum';
 import { Roles } from 'src/decorators/roles.decorator';
+import { UpdateManagerglobalDto } from './dtos/updateManagergloba.dto';
 
 @Roles(UserType.Admin)
 @Controller('managerglobal')
@@ -42,5 +45,18 @@ export class ManagerglobalController {
         true,
       )
     ).map((managerglobal) => new ReturnManagerglobalDto(managerglobal));
+  }
+
+  @Roles(UserType.Admin)
+  @UsePipes(ValidationPipe)
+  @Put('/:managerglobalId')
+  async updateManagerglobal(
+    @Body() updateManagerglobal: UpdateManagerglobalDto,
+    @Param('managerglobalId') managerglobalId: number,
+  ): Promise<ManagerglobalEntity> {
+    return this.managerglobalService.updateManagerglobal(
+      updateManagerglobal,
+      managerglobalId,
+    );
   }
 }

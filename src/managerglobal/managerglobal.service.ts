@@ -5,6 +5,7 @@ import { In, Not, Repository } from 'typeorm';
 import { CreateManagerglobalDto } from './dtos/createManagerglobal.dto';
 import { CountryService } from 'src/country/country.service';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
+import { UpdateManagerglobalDto } from './dtos/updateManagergloba.dto';
 
 @Injectable()
 export class ManagerglobalService {
@@ -124,5 +125,17 @@ export class ManagerglobalService {
     }
 
     return managerglobal;
+  }
+
+  async updateManagerglobal(
+    updateManagerglobal: UpdateManagerglobalDto,
+    managerglobalId: number,
+  ): Promise<ManagerglobalEntity> {
+    const managerglobal = await this.findManagerglobalById(managerglobalId);
+
+    return this.managerglobalRepository.save({
+      ...managerglobal,
+      ...updateManagerglobal,
+    });
   }
 }
