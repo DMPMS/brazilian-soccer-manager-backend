@@ -11,6 +11,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ManagerglobalModule } from './managerglobal/managerglobal.module';
 import { TeamglobalModule } from './teamglobal/teamglobal.module';
 import { RuleModule } from './rule/rule.module';
+import { CompetitionglobalModule } from './competitionglobal/competitionglobal.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { RuleModule } from './rule/rule.module';
     ManagerglobalModule,
     TeamglobalModule,
     RuleModule,
+    CompetitionglobalModule,
   ],
   controllers: [],
   providers: [

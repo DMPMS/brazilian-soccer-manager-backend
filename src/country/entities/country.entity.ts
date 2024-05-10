@@ -1,3 +1,4 @@
+import { CompetitionglobalEntity } from 'src/competitionglobal/entities/competitionglobal.entity';
 import { ManagerglobalEntity } from 'src/managerglobal/entities/managerglobal.entity';
 import { TeamglobalEntity } from 'src/teamglobal/entities/teamglobal.entity';
 import {
@@ -34,4 +35,10 @@ export class CountryEntity {
 
   @OneToMany(() => TeamglobalEntity, (teamglobal) => teamglobal.country)
   teamsglobal?: TeamglobalEntity[];
+
+  @OneToMany(
+    () => CompetitionglobalEntity,
+    (competitionglobal) => competitionglobal.country,
+  )
+  competitionsglobal?: CompetitionglobalEntity[];
 }

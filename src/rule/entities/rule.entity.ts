@@ -1,7 +1,9 @@
+import { CompetitionglobalEntity } from 'src/competitionglobal/entities/competitionglobal.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -28,4 +30,10 @@ export class RuleEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @OneToMany(
+    () => CompetitionglobalEntity,
+    (competitionglobal) => competitionglobal.rule,
+  )
+  competitionsglobal?: CompetitionglobalEntity[];
 }
