@@ -10,7 +10,6 @@ import { CountryService } from 'src/country/country.service';
 import { RuleService } from 'src/rule/rule.service';
 import { CreateCompetitionglobalDto } from './dtos/createCompetitionglobal.dto';
 import { UpdateCompetitionglobalDto } from './dtos/updateCompetitionglobal.dto';
-import { CompetitionglobalNationalEntity } from './entities/competitionglobal-national.entity';
 
 @Injectable()
 export class CompetitionglobalService {
@@ -31,11 +30,7 @@ export class CompetitionglobalService {
         createCompetitionglobalDto.countryId,
       );
 
-      const competitionglobalNational = new CompetitionglobalNationalEntity(
-        createCompetitionglobalDto,
-      );
-
-      return this.competitionglobalRepository.save(competitionglobalNational);
+      return this.competitionglobalRepository.save(createCompetitionglobalDto);
     }
 
     throw new BadRequestException('countryId not specified.');

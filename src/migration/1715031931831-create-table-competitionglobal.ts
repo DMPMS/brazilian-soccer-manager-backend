@@ -11,7 +11,6 @@ export class CreateTableCompetitionglobal1715031931831
             country_id integer,
             name character varying NOT NULL,
             season character varying NOT NULL,
-            level character varying NOT NULL,
             src_image character varying NOT NULL,
 
             created_at timestamp without time zone DEFAULT now() NOT NULL,

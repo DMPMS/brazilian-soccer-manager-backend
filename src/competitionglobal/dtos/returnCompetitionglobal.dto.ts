@@ -6,7 +6,6 @@ export class ReturnCompetitionglobalDto {
   id: number;
   name: string;
   season: string;
-  level: string;
   srcImage: string;
   rule?: ReturnRuleDto;
   country?: ReturnCountryDto;
@@ -15,7 +14,6 @@ export class ReturnCompetitionglobalDto {
     this.id = competitionglobalEntity.id;
     this.name = competitionglobalEntity.name;
     this.season = competitionglobalEntity.season;
-    this.level = competitionglobalEntity.level;
     this.srcImage = competitionglobalEntity.srcImage;
 
     this.rule = competitionglobalEntity.rule

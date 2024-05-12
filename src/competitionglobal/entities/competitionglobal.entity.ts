@@ -7,13 +7,10 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  TableInheritance,
   UpdateDateColumn,
 } from 'typeorm';
-import { CreateCompetitionglobalDto } from '../dtos/createCompetitionglobal.dto';
 
 @Entity({ name: 'competitionglobal' })
-@TableInheritance({ column: { type: 'varchar', name: 'level' } })
 export abstract class CompetitionglobalEntity {
   @PrimaryGeneratedColumn('rowid')
   id: number;
@@ -21,14 +18,14 @@ export abstract class CompetitionglobalEntity {
   @Column({ name: 'rule_id', nullable: false })
   ruleId: number;
 
+  @Column({ name: 'country_id', nullable: true })
+  countryId: number;
+
   @Column({ name: 'name', nullable: false })
   name: string;
 
   @Column({ name: 'season', nullable: false })
   season: string;
-
-  @Column({ name: 'level', nullable: false })
-  level: string;
 
   @Column({ name: 'src_image', nullable: false })
   srcImage: string;
@@ -46,11 +43,4 @@ export abstract class CompetitionglobalEntity {
   @ManyToOne(() => CountryEntity, (country) => country.competitionsglobal)
   @JoinColumn({ name: 'country_id', referencedColumnName: 'id' })
   country?: CountryEntity;
-
-  constructor(createCompetitionglobalDto: CreateCompetitionglobalDto) {
-    this.ruleId = createCompetitionglobalDto?.ruleId || 0;
-    this.name = createCompetitionglobalDto?.name || '';
-    this.season = createCompetitionglobalDto?.season || '';
-    this.srcImage = createCompetitionglobalDto?.srcImage || '';
-  }
 }
