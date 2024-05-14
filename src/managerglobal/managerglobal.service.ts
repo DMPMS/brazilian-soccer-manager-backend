@@ -21,9 +21,7 @@ export class ManagerglobalService {
   ): Promise<ManagerglobalEntity> {
     await this.countryService.findCountryById(createManagerglobalDTO.countryId);
 
-    return this.managerglobalRepository.save({
-      ...createManagerglobalDTO,
-    });
+    return this.managerglobalRepository.save(createManagerglobalDTO);
   }
 
   async findAllManagerglobal(

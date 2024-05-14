@@ -31,9 +31,7 @@ export class TeamglobalService {
       createTeamglobalDTO.managerglobalId,
     );
 
-    return this.teamglobalRepository.save({
-      ...createTeamglobalDTO,
-    });
+    return this.teamglobalRepository.save(createTeamglobalDTO);
   }
 
   async findAllTeamglobal(
