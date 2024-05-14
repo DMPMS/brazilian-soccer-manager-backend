@@ -36,7 +36,6 @@ export class TeamglobalController {
     ).map((teamglobal) => new ReturnTeamglobalDTO(teamglobal));
   }
 
-  @Roles(UserType.Admin)
   @UsePipes(ValidationPipe)
   @Put('/:teamglobalId')
   async updateTeamglobal(

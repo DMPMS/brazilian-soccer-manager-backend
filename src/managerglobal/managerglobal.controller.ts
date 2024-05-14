@@ -47,7 +47,6 @@ export class ManagerglobalController {
     ).map((managerglobal) => new ReturnManagerglobalDTO(managerglobal));
   }
 
-  @Roles(UserType.Admin)
   @UsePipes(ValidationPipe)
   @Put('/:managerglobalId')
   async updateManagerglobal(

@@ -16,6 +16,7 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/user/enums/userType.enum';
 import { UpdateCompetitionglobalDTO } from './dtos/updateCompetitionglobal.dto';
 
+@Roles(UserType.Admin)
 @Controller('competitionglobal')
 export class CompetitionglobalController {
   constructor(
@@ -41,7 +42,6 @@ export class CompetitionglobalController {
     );
   }
 
-  @Roles(UserType.Admin)
   @UsePipes(ValidationPipe)
   @Put('/:competitionglobalId')
   async updateCompetitionglobal(

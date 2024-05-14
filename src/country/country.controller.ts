@@ -4,7 +4,7 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/user/enums/userType.enum';
 import { ReturnCountryDTO } from './dtos/returnCountry.dto';
 
-@Roles(UserType.User, UserType.Admin)
+@Roles(UserType.Admin)
 @Controller('country')
 export class CountryController {
   constructor(private readonly countryService: CountryService) {}
