@@ -9,13 +9,13 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dtos/createUser.dto';
+import { CreateUserDTO } from './dtos/createUser.dto';
 import { UserEntity } from './entities/user.entity';
-import { ReturnUserDto } from './dtos/returnUser.dto';
+import { ReturnUserDTO } from './dtos/returnUser.dto';
 import { UserId } from 'src/decorators/userId.decorator';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserType } from './enums/userType.enum';
-import { UpdatePasswordDto } from './dtos/updatePassword.dto';
+import { UpdatePasswordDTO } from './dtos/updatePassword.dto';
 
 @Controller('user')
 export class UserController {
@@ -23,22 +23,22 @@ export class UserController {
 
   @UsePipes(ValidationPipe)
   @Post()
-  async createUser(@Body() createUser: CreateUserDto): Promise<UserEntity> {
+  async createUser(@Body() createUser: CreateUserDTO): Promise<UserEntity> {
     return this.userService.createUser(createUser);
   }
 
   @Roles(UserType.Admin)
   @Get()
-  async findAllUser(): Promise<ReturnUserDto[]> {
+  async findAllUser(): Promise<ReturnUserDTO[]> {
     return (await this.userService.findAllUser()).map(
-      (user) => new ReturnUserDto(user),
+      (user) => new ReturnUserDTO(user),
     );
   }
 
   @Roles(UserType.Admin)
   @Get('/:userId')
-  async findUserById(@Param('userId') userId: number): Promise<ReturnUserDto> {
-    return new ReturnUserDto(
+  async findUserById(@Param('userId') userId: number): Promise<ReturnUserDTO> {
+    return new ReturnUserDTO(
       await this.userService.findUserByIdUsingRelations(userId),
     );
   }
@@ -47,9 +47,9 @@ export class UserController {
   @Patch()
   @UsePipes(ValidationPipe)
   async updatePasswordUser(
-    @Body() UpdatePasswordDto: UpdatePasswordDto,
+    @Body() UpdatePasswordDTO: UpdatePasswordDTO,
     @UserId() userId: number,
   ): Promise<UserEntity> {
-    return this.userService.updateUserPassword(UpdatePasswordDto, userId);
+    return this.userService.updateUserPassword(UpdatePasswordDTO, userId);
   }
 }

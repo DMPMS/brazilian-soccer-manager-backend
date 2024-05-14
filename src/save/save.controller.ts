@@ -9,12 +9,12 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { SaveService } from './save.service';
-import { CreateSaveDto } from './dtos/createSave.dto';
+import { CreateSaveDTO } from './dtos/createSave.dto';
 import { SaveEntity } from './entities/save.entity';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/user/enums/userType.enum';
 import { UserId } from 'src/decorators/userId.decorator';
-import { ReturnSaveDto } from './dtos/returnSave.dto';
+import { ReturnSaveDTO } from './dtos/returnSave.dto';
 import { DeleteResult } from 'typeorm';
 
 @Roles(UserType.User, UserType.Admin)
@@ -25,10 +25,10 @@ export class SaveController {
   @Post()
   @UsePipes(ValidationPipe)
   async createSave(
-    @Body() createSaveDto: CreateSaveDto,
+    @Body() createSaveDTO: CreateSaveDTO,
     @UserId() userId: number,
   ): Promise<SaveEntity> {
-    return this.saveService.createSave(createSaveDto, userId);
+    return this.saveService.createSave(createSaveDTO, userId);
   }
 
   @Delete('/:saveId')
@@ -40,9 +40,9 @@ export class SaveController {
   }
 
   @Get()
-  async findSaveByUserId(@UserId() userId: number): Promise<ReturnSaveDto[]> {
+  async findSaveByUserId(@UserId() userId: number): Promise<ReturnSaveDTO[]> {
     return (await this.saveService.findSaveByUserId(userId)).map(
-      (save) => new ReturnSaveDto(save),
+      (save) => new ReturnSaveDTO(save),
     );
   }
 }

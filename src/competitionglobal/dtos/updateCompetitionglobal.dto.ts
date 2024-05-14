@@ -1,6 +1,6 @@
 import { IsNumber, IsString } from 'class-validator';
 
-export class UpdateCompetitionglobalDto {
+export class UpdateCompetitionglobalDTO {
   @IsNumber()
   ruleId: number;
 

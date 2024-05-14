@@ -11,10 +11,10 @@ import {
 import { UserType } from 'src/user/enums/userType.enum';
 import { Roles } from 'src/decorators/roles.decorator';
 import { TeamglobalService } from './teamglobal.service';
-import { CreateTeamglobalDto } from './dtos/createTeamglobal.dto';
+import { CreateTeamglobalDTO } from './dtos/createTeamglobal.dto';
 import { TeamglobalEntity } from './entities/teamglobal.entity';
-import { ReturnTeamglobalDto } from './dtos/returnTeamglobal.dto';
-import { UpdateTeamglobalDto } from './dtos/updateTeamglobal.dto';
+import { ReturnTeamglobalDTO } from './dtos/returnTeamglobal.dto';
+import { UpdateTeamglobalDTO } from './dtos/updateTeamglobal.dto';
 
 @Roles(UserType.Admin)
 @Controller('teamglobal')
@@ -24,23 +24,23 @@ export class TeamglobalController {
   @UsePipes(ValidationPipe)
   @Post()
   async createTeamglobal(
-    @Body() createTeamglobal: CreateTeamglobalDto,
+    @Body() createTeamglobal: CreateTeamglobalDTO,
   ): Promise<TeamglobalEntity> {
     return this.teamglobalService.createTeamglobal(createTeamglobal);
   }
 
   @Get()
-  async findAllTeamglobal(): Promise<ReturnTeamglobalDto[]> {
+  async findAllTeamglobal(): Promise<ReturnTeamglobalDTO[]> {
     return (
       await this.teamglobalService.findAllTeamglobal(undefined, true)
-    ).map((teamglobal) => new ReturnTeamglobalDto(teamglobal));
+    ).map((teamglobal) => new ReturnTeamglobalDTO(teamglobal));
   }
 
   @Roles(UserType.Admin)
   @UsePipes(ValidationPipe)
   @Put('/:teamglobalId')
   async updateTeamglobal(
-    @Body() updateTeamglobal: UpdateTeamglobalDto,
+    @Body() updateTeamglobal: UpdateTeamglobalDTO,
     @Param('teamglobalId') teamglobalId: number,
   ): Promise<TeamglobalEntity> {
     return this.teamglobalService.updateTeamglobal(

@@ -8,8 +8,8 @@ import { CompetitionglobalEntity } from './entities/competitionglobal.entity';
 import { Repository } from 'typeorm';
 import { CountryService } from 'src/country/country.service';
 import { RuleService } from 'src/rule/rule.service';
-import { CreateCompetitionglobalDto } from './dtos/createCompetitionglobal.dto';
-import { UpdateCompetitionglobalDto } from './dtos/updateCompetitionglobal.dto';
+import { CreateCompetitionglobalDTO } from './dtos/createCompetitionglobal.dto';
+import { UpdateCompetitionglobalDTO } from './dtos/updateCompetitionglobal.dto';
 
 @Injectable()
 export class CompetitionglobalService {
@@ -21,16 +21,16 @@ export class CompetitionglobalService {
   ) {}
 
   async createCompetitionglobal(
-    createCompetitionglobalDto: CreateCompetitionglobalDto,
+    createCompetitionglobalDTO: CreateCompetitionglobalDTO,
   ): Promise<CompetitionglobalEntity> {
-    if (createCompetitionglobalDto.countryId) {
-      await this.ruleService.findRuleById(createCompetitionglobalDto.ruleId);
+    if (createCompetitionglobalDTO.countryId) {
+      await this.ruleService.findRuleById(createCompetitionglobalDTO.ruleId);
 
       await this.countryService.findCountryById(
-        createCompetitionglobalDto.countryId,
+        createCompetitionglobalDTO.countryId,
       );
 
-      return this.competitionglobalRepository.save(createCompetitionglobalDto);
+      return this.competitionglobalRepository.save(createCompetitionglobalDTO);
     }
 
     throw new BadRequestException('countryId not specified.');
@@ -93,19 +93,19 @@ export class CompetitionglobalService {
   }
 
   async updateCompetitionglobal(
-    updateCompetitionglobalDto: UpdateCompetitionglobalDto,
+    updateCompetitionglobalDTO: UpdateCompetitionglobalDTO,
     competitionglobalId: number,
   ): Promise<CompetitionglobalEntity> {
     const competitionglobal =
       await this.findCompetitionglobalById(competitionglobalId);
 
-    if ('countryId' in updateCompetitionglobalDto) {
-      delete updateCompetitionglobalDto.countryId;
+    if ('countryId' in updateCompetitionglobalDTO) {
+      delete updateCompetitionglobalDTO.countryId;
     }
 
     return this.competitionglobalRepository.save({
       ...competitionglobal,
-      ...updateCompetitionglobalDto,
+      ...updateCompetitionglobalDTO,
     });
   }
 }

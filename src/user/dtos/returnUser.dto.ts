@@ -1,12 +1,12 @@
-import { ReturnSaveDto } from 'src/save/dtos/returnSave.dto';
+import { ReturnSaveDTO } from 'src/save/dtos/returnSave.dto';
 import { UserEntity } from '../entities/user.entity';
 
-export class ReturnUserDto {
+export class ReturnUserDTO {
   id: number;
   name: string;
   userType: number;
   email: string;
-  saves?: ReturnSaveDto[];
+  saves?: ReturnSaveDTO[];
 
   constructor(userEntity: UserEntity) {
     this.id = userEntity.id;
@@ -15,7 +15,7 @@ export class ReturnUserDto {
     this.email = userEntity.email;
 
     this.saves = userEntity.saves
-      ? userEntity.saves.map((save) => new ReturnSaveDto(save))
+      ? userEntity.saves.map((save) => new ReturnSaveDTO(save))
       : undefined;
   }
 }

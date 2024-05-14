@@ -10,11 +10,11 @@ import {
 } from '@nestjs/common';
 import { CompetitionglobalService } from './competitionglobal.service';
 import { CompetitionglobalEntity } from './entities/competitionglobal.entity';
-import { CreateCompetitionglobalDto } from './dtos/createCompetitionglobal.dto';
-import { ReturnCompetitionglobalDto } from './dtos/returnCompetitionglobal.dto';
+import { CreateCompetitionglobalDTO } from './dtos/createCompetitionglobal.dto';
+import { ReturnCompetitionglobalDTO } from './dtos/returnCompetitionglobal.dto';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserType } from 'src/user/enums/userType.enum';
-import { UpdateCompetitionglobalDto } from './dtos/updateCompetitionglobal.dto';
+import { UpdateCompetitionglobalDTO } from './dtos/updateCompetitionglobal.dto';
 
 @Controller('competitionglobal')
 export class CompetitionglobalController {
@@ -25,7 +25,7 @@ export class CompetitionglobalController {
   @UsePipes(ValidationPipe)
   @Post()
   async createCompetitionglobal(
-    @Body() createCompetitionglobal: CreateCompetitionglobalDto,
+    @Body() createCompetitionglobal: CreateCompetitionglobalDTO,
   ): Promise<CompetitionglobalEntity> {
     return this.competitionglobalService.createCompetitionglobal(
       createCompetitionglobal,
@@ -33,11 +33,11 @@ export class CompetitionglobalController {
   }
 
   @Get()
-  async findAllCompetitionglobal(): Promise<ReturnCompetitionglobalDto[]> {
+  async findAllCompetitionglobal(): Promise<ReturnCompetitionglobalDTO[]> {
     return (
       await this.competitionglobalService.findAllCompetitionglobal(true)
     ).map(
-      (competitionglobal) => new ReturnCompetitionglobalDto(competitionglobal),
+      (competitionglobal) => new ReturnCompetitionglobalDTO(competitionglobal),
     );
   }
 
@@ -45,7 +45,7 @@ export class CompetitionglobalController {
   @UsePipes(ValidationPipe)
   @Put('/:competitionglobalId')
   async updateCompetitionglobal(
-    @Body() updateCompetitionglobal: UpdateCompetitionglobalDto,
+    @Body() updateCompetitionglobal: UpdateCompetitionglobalDTO,
     @Param('competitionglobalId') competitionglobalId: number,
   ): Promise<CompetitionglobalEntity> {
     return this.competitionglobalService.updateCompetitionglobal(

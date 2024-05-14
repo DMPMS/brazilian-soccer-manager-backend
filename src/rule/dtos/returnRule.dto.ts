@@ -1,6 +1,6 @@
 import { RuleEntity } from '../entities/rule.entity';
 
-export class ReturnRuleDto {
+export class ReturnRuleDTO {
   id: number;
   name: string;
   competitionType: number;

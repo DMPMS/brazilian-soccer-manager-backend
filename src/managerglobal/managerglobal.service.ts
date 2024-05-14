@@ -2,10 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ManagerglobalEntity } from './entities/managerglobal.entity';
 import { In, Not, Repository } from 'typeorm';
-import { CreateManagerglobalDto } from './dtos/createManagerglobal.dto';
+import { CreateManagerglobalDTO } from './dtos/createManagerglobal.dto';
 import { CountryService } from 'src/country/country.service';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
-import { UpdateManagerglobalDto } from './dtos/updateManagergloba.dto';
+import { UpdateManagerglobalDTO } from './dtos/updateManagergloba.dto';
 
 @Injectable()
 export class ManagerglobalService {
@@ -17,12 +17,12 @@ export class ManagerglobalService {
   ) {}
 
   async createManagerglobal(
-    createManagerglobalDto: CreateManagerglobalDto,
+    createManagerglobalDTO: CreateManagerglobalDTO,
   ): Promise<ManagerglobalEntity> {
-    await this.countryService.findCountryById(createManagerglobalDto.countryId);
+    await this.countryService.findCountryById(createManagerglobalDTO.countryId);
 
     return this.managerglobalRepository.save({
-      ...createManagerglobalDto,
+      ...createManagerglobalDTO,
     });
   }
 
@@ -128,7 +128,7 @@ export class ManagerglobalService {
   }
 
   async updateManagerglobal(
-    updateManagerglobal: UpdateManagerglobalDto,
+    updateManagerglobal: UpdateManagerglobalDTO,
     managerglobalId: number,
   ): Promise<ManagerglobalEntity> {
     const managerglobal = await this.findManagerglobalById(managerglobalId);

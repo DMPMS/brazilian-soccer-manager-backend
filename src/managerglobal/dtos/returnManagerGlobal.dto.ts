@@ -1,13 +1,13 @@
-import { ReturnCountryDto } from 'src/country/dtos/returnCountry.dto';
+import { ReturnCountryDTO } from 'src/country/dtos/returnCountry.dto';
 import { ManagerglobalEntity } from '../entities/managerglobal.entity';
-import { ReturnTeamglobalDto } from 'src/teamglobal/dtos/returnTeamglobal.dto';
+import { ReturnTeamglobalDTO } from 'src/teamglobal/dtos/returnTeamglobal.dto';
 
-export class ReturnManagerglobalDto {
+export class ReturnManagerglobalDTO {
   id: number;
   name: string;
   age: number;
-  country?: ReturnCountryDto;
-  teamglobal?: ReturnTeamglobalDto;
+  country?: ReturnCountryDTO;
+  teamglobal?: ReturnTeamglobalDTO;
 
   constructor(managerglobalEntity: ManagerglobalEntity) {
     this.id = managerglobalEntity.id;
@@ -15,11 +15,11 @@ export class ReturnManagerglobalDto {
     this.age = managerglobalEntity.age;
 
     this.country = managerglobalEntity.country
-      ? new ReturnCountryDto(managerglobalEntity.country)
+      ? new ReturnCountryDTO(managerglobalEntity.country)
       : undefined;
 
     this.teamglobal = managerglobalEntity.teamglobal
-      ? new ReturnTeamglobalDto(managerglobalEntity.teamglobal)
+      ? new ReturnTeamglobalDTO(managerglobalEntity.teamglobal)
       : undefined;
   }
 }

@@ -1,6 +1,6 @@
 import { IsNumber, IsString } from 'class-validator';
 
-export class CreateTeamglobalDto {
+export class CreateTeamglobalDTO {
   @IsNumber()
   countryId: number;
 

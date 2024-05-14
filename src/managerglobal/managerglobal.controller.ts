@@ -9,12 +9,12 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ManagerglobalService } from './managerglobal.service';
-import { CreateManagerglobalDto } from './dtos/createManagerglobal.dto';
+import { CreateManagerglobalDTO } from './dtos/createManagerglobal.dto';
 import { ManagerglobalEntity } from './entities/managerglobal.entity';
-import { ReturnManagerglobalDto } from './dtos/returnManagerglobal.dto';
+import { ReturnManagerglobalDTO } from './dtos/returnManagerglobal.dto';
 import { UserType } from 'src/user/enums/userType.enum';
 import { Roles } from 'src/decorators/roles.decorator';
-import { UpdateManagerglobalDto } from './dtos/updateManagergloba.dto';
+import { UpdateManagerglobalDTO } from './dtos/updateManagergloba.dto';
 
 @Roles(UserType.Admin)
 @Controller('managerglobal')
@@ -24,34 +24,34 @@ export class ManagerglobalController {
   @UsePipes(ValidationPipe)
   @Post()
   async createManagerglobal(
-    @Body() createManagerglobal: CreateManagerglobalDto,
+    @Body() createManagerglobal: CreateManagerglobalDTO,
   ): Promise<ManagerglobalEntity> {
     return this.managerglobalService.createManagerglobal(createManagerglobal);
   }
 
   @Get()
-  async findAllManagerglobal(): Promise<ReturnManagerglobalDto[]> {
+  async findAllManagerglobal(): Promise<ReturnManagerglobalDTO[]> {
     return (await this.managerglobalService.findAllManagerglobal(true)).map(
-      (managerglobal) => new ReturnManagerglobalDto(managerglobal),
+      (managerglobal) => new ReturnManagerglobalDTO(managerglobal),
     );
   }
 
   @Get('/withoutTeamglobal')
   async findAllManagerglobalWithoutTeamglobal(): Promise<
-    ReturnManagerglobalDto[]
+    ReturnManagerglobalDTO[]
   > {
     return (
       await this.managerglobalService.findAllManagerglobalWithoutTeamglobal(
         true,
       )
-    ).map((managerglobal) => new ReturnManagerglobalDto(managerglobal));
+    ).map((managerglobal) => new ReturnManagerglobalDTO(managerglobal));
   }
 
   @Roles(UserType.Admin)
   @UsePipes(ValidationPipe)
   @Put('/:managerglobalId')
   async updateManagerglobal(
-    @Body() updateManagerglobal: UpdateManagerglobalDto,
+    @Body() updateManagerglobal: UpdateManagerglobalDTO,
     @Param('managerglobalId') managerglobalId: number,
   ): Promise<ManagerglobalEntity> {
     return this.managerglobalService.updateManagerglobal(

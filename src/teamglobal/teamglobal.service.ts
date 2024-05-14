@@ -8,9 +8,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CountryService } from 'src/country/country.service';
 import { TeamglobalEntity } from './entities/teamglobal.entity';
-import { CreateTeamglobalDto } from './dtos/createTeamglobal.dto';
+import { CreateTeamglobalDTO } from './dtos/createTeamglobal.dto';
 import { ManagerglobalService } from 'src/managerglobal/managerglobal.service';
-import { UpdateTeamglobalDto } from './dtos/updateTeamglobal.dto';
+import { UpdateTeamglobalDTO } from './dtos/updateTeamglobal.dto';
 
 @Injectable()
 export class TeamglobalService {
@@ -24,15 +24,15 @@ export class TeamglobalService {
   ) {}
 
   async createTeamglobal(
-    createTeamglobalDto: CreateTeamglobalDto,
+    createTeamglobalDTO: CreateTeamglobalDTO,
   ): Promise<TeamglobalEntity> {
-    await this.countryService.findCountryById(createTeamglobalDto.countryId);
+    await this.countryService.findCountryById(createTeamglobalDTO.countryId);
     await this.managerglobalService.findManagerglobalById(
-      createTeamglobalDto.managerglobalId,
+      createTeamglobalDTO.managerglobalId,
     );
 
     return this.teamglobalRepository.save({
-      ...createTeamglobalDto,
+      ...createTeamglobalDTO,
     });
   }
 
@@ -101,7 +101,7 @@ export class TeamglobalService {
   }
 
   async updateTeamglobal(
-    updateTeamglobal: UpdateTeamglobalDto,
+    updateTeamglobal: UpdateTeamglobalDTO,
     teamglobalId: number,
   ): Promise<TeamglobalEntity> {
     const teamglobal = await this.findTeamglobalById(teamglobalId);

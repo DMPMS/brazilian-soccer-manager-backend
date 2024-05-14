@@ -1,6 +1,6 @@
 import { SaveEntity } from '../entities/save.entity';
 
-export class ReturnSaveDto {
+export class ReturnSaveDTO {
   id: number;
   name: string;
 

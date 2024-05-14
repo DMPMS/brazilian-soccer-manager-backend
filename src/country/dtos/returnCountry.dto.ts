@@ -1,6 +1,6 @@
 import { CountryEntity } from '../entities/country.entity';
 
-export class ReturnCountryDto {
+export class ReturnCountryDTO {
   id: number;
   name: string;
 

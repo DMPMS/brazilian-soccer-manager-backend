@@ -1,6 +1,6 @@
 import { IsNumber, IsString } from 'class-validator';
 
-export class CreateManagerglobalDto {
+export class CreateManagerglobalDTO {
   @IsNumber()
   countryId: number;
 

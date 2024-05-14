@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { SaveEntity } from './entities/save.entity';
-import { CreateSaveDto } from './dtos/createSave.dto';
+import { CreateSaveDTO } from './dtos/createSave.dto';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
@@ -18,22 +18,22 @@ export class SaveService {
   ) {}
 
   async createSave(
-    createSaveDto: CreateSaveDto,
+    createSaveDTO: CreateSaveDTO,
     userId: number,
   ): Promise<SaveEntity> {
     const save = await this.findUserSaveByName(
       userId,
-      createSaveDto.name,
+      createSaveDTO.name,
     ).catch(() => undefined);
 
     if (save) {
       throw new BadRequestException(
-        `Save name ${createSaveDto.name} already exist for userId: ${userId}.`,
+        `Save name ${createSaveDTO.name} already exist for userId: ${userId}.`,
       );
     }
 
     return this.saveRepository.save({
-      ...createSaveDto,
+      ...createSaveDTO,
       userId,
     });
   }
