@@ -1,7 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ManagerglobalEntity } from './entities/managerglobal.entity';
-import { In, Not, Repository } from 'typeorm';
+import { DeleteResult, In, Not, Repository } from 'typeorm';
 import { CreateManagerglobalDTO } from './dtos/createManagerglobal.dto';
 import { CountryService } from 'src/country/country.service';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
@@ -103,8 +107,19 @@ export class ManagerglobalService {
 
   async findManagerglobalById(
     managerglobalId: number,
+    isFindRelations?: boolean,
   ): Promise<ManagerglobalEntity> {
     let findOptions = {};
+
+    if (isFindRelations) {
+      findOptions = {
+        ...findOptions,
+        relations: {
+          country: true,
+          teamglobal: true,
+        },
+      };
+    }
 
     findOptions = {
       ...findOptions,
@@ -135,5 +150,20 @@ export class ManagerglobalService {
       ...managerglobal,
       ...updateManagerglobal,
     });
+  }
+
+  async deleteManagerglobal(managerglobalId: number): Promise<DeleteResult> {
+    const managerglobal = await this.findManagerglobalById(
+      managerglobalId,
+      true,
+    );
+
+    if (managerglobal.teamglobal) {
+      throw new BadRequestException(
+        `managerglobalId: ${managerglobalId} with relations.`,
+      );
+    }
+
+    return this.managerglobalRepository.delete({ id: managerglobalId });
   }
 }

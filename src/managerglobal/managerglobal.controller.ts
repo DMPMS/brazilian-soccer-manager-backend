@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -15,6 +16,7 @@ import { ReturnManagerglobalDTO } from './dtos/returnManagerglobal.dto';
 import { UserType } from 'src/user/enums/userType.enum';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UpdateManagerglobalDTO } from './dtos/updateManagergloba.dto';
+import { DeleteResult } from 'typeorm';
 
 @Roles(UserType.Admin)
 @Controller('managerglobal')
@@ -57,5 +59,12 @@ export class ManagerglobalController {
       updateManagerglobal,
       managerglobalId,
     );
+  }
+
+  @Delete('/:managerglobalId')
+  async deleteManagerglobal(
+    @Param('managerglobalId') managerglobalId: number,
+  ): Promise<DeleteResult> {
+    return this.managerglobalService.deleteManagerglobal(managerglobalId);
   }
 }
