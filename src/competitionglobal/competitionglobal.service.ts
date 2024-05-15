@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CompetitionglobalEntity } from './entities/competitionglobal.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CountryService } from 'src/country/country.service';
 import { RuleService } from 'src/rule/rule.service';
 import { CreateCompetitionglobalDTO } from './dtos/createCompetitionglobal.dto';
@@ -107,5 +107,13 @@ export class CompetitionglobalService {
       ...competitionglobal,
       ...updateCompetitionglobalDTO,
     });
+  }
+
+  async deleteCompetitionglobal(
+    competitionglobalId: number,
+  ): Promise<DeleteResult> {
+    await this.findCompetitionglobalById(competitionglobalId);
+
+    return this.competitionglobalRepository.delete({ id: competitionglobalId });
   }
 }
