@@ -1,3 +1,4 @@
+import { CompetitionglobalTeamglobalEntity } from 'src/competitionglobal_teamglobal/entities/competitionglobal_teamglobal.entity';
 import { CountryEntity } from 'src/country/entities/country.entity';
 import { ManagerglobalEntity } from 'src/managerglobal/entities/managerglobal.entity';
 import {
@@ -6,6 +7,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -44,4 +46,10 @@ export class TeamglobalEntity {
   )
   @JoinColumn({ name: 'managerglobal_id', referencedColumnName: 'id' })
   managerglobal?: ManagerglobalEntity;
+
+  @OneToMany(
+    () => CompetitionglobalTeamglobalEntity,
+    (competitionglobalTeamglobal) => competitionglobalTeamglobal.teamglobal,
+  )
+  competitionsglobalTeamglobal?: CompetitionglobalTeamglobalEntity[];
 }

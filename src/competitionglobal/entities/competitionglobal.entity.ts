@@ -1,3 +1,4 @@
+import { CompetitionglobalTeamglobalEntity } from 'src/competitionglobal_teamglobal/entities/competitionglobal_teamglobal.entity';
 import { CountryEntity } from 'src/country/entities/country.entity';
 import { RuleEntity } from 'src/rule/entities/rule.entity';
 import {
@@ -6,6 +7,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -43,4 +45,11 @@ export abstract class CompetitionglobalEntity {
   @ManyToOne(() => CountryEntity, (country) => country.competitionsglobal)
   @JoinColumn({ name: 'country_id', referencedColumnName: 'id' })
   country?: CountryEntity;
+
+  @OneToMany(
+    () => CompetitionglobalTeamglobalEntity,
+    (competitionglobalTeamglobal) =>
+      competitionglobalTeamglobal.competitionglobal,
+  )
+  competitionsglobalTeamglobal?: CompetitionglobalTeamglobalEntity[];
 }
