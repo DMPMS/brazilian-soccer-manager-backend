@@ -6,13 +6,14 @@ export class CreateTableCompetititionglobalTeamglobal1715886605026
   public async up(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(`
         CREATE TABLE public.competitionglobal_teamglobal (
+            id SERIAL NOT NULL,
             competitionglobal_id integer NOT NULL,
             teamglobal_id integer NOT NULL,
 
             created_at timestamp without time zone DEFAULT now() NOT NULL,
             updated_at timestamp without time zone DEFAULT now() NOT NULL,
 
-            primary key (competitionglobal_id, teamglobal_id),
+            primary key (id),
             foreign key (competitionglobal_id) references public.competitionglobal(id),
             foreign key (teamglobal_id) references public.teamglobal(id)
         );

@@ -6,17 +6,18 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity({ name: 'competitionglobal_teamglobal' })
 export class CompetitionglobalTeamglobalEntity {
-  @PrimaryColumn({ name: 'competitionglobal_id' })
+  @PrimaryGeneratedColumn('rowid')
+  id: number;
+
   @Column({ name: 'competitionglobal_id', nullable: false })
   competitionglobalId: number;
 
-  @PrimaryColumn({ name: 'competitionglobal_id' })
   @Column({ name: 'teamglobal_id', nullable: false })
   teamglobalId: number;
 
