@@ -144,6 +144,10 @@ export class CompetitionglobalService {
   ): Promise<DeleteResult> {
     await this.findCompetitionglobalById(competitionglobalId);
 
+    await this.competitionglobalTeamglobalService.deleteCompetitionglobalTeamglobal(
+      competitionglobalId,
+    );
+
     return this.competitionglobalRepository.delete({ id: competitionglobalId });
   }
 }

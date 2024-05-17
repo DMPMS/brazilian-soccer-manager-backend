@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CompetitionglobalTeamglobalEntity } from './entities/competitionglobal_teamglobal.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 
 @Injectable()
 export class CompetitionglobalTeamglobalService {
@@ -17,6 +17,14 @@ export class CompetitionglobalTeamglobalService {
     return this.competitionglobalTeamglobalRepository.save({
       competitionglobalId,
       teamglobalId,
+    });
+  }
+
+  async deleteCompetitionglobalTeamglobal(
+    competitionglobalId: number,
+  ): Promise<DeleteResult> {
+    return this.competitionglobalTeamglobalRepository.delete({
+      competitionglobalId,
     });
   }
 }
