@@ -32,7 +32,10 @@ export class TeamglobalController {
   @Get()
   async findAllTeamglobal(): Promise<ReturnTeamglobalDTO[]> {
     return (
-      await this.teamglobalService.findAllTeamglobal(undefined, true)
+      await this.teamglobalService.findAllTeamglobal([
+        'country',
+        'managerglobal',
+      ])
     ).map((teamglobal) => new ReturnTeamglobalDTO(teamglobal));
   }
 

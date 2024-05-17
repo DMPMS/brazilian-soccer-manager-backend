@@ -34,34 +34,8 @@ export class TeamglobalService {
     return this.teamglobalRepository.save(createTeamglobalDTO);
   }
 
-  async findAllTeamglobal(
-    fields?: string[],
-    isFindRelations?: boolean,
-  ): Promise<TeamglobalEntity[]> {
+  async findAllTeamglobal(relations?: string[]): Promise<TeamglobalEntity[]> {
     let findOptions = {};
-
-    if (fields) {
-      const selectOptions: Record<string, boolean> = {};
-
-      fields.forEach((field) => {
-        selectOptions[field] = true;
-      });
-
-      findOptions = {
-        ...findOptions,
-        select: selectOptions,
-      };
-    }
-
-    if (isFindRelations) {
-      findOptions = {
-        ...findOptions,
-        relations: {
-          country: true,
-          managerglobal: true,
-        },
-      };
-    }
 
     findOptions = {
       ...findOptions,
@@ -69,6 +43,19 @@ export class TeamglobalService {
         createdAt: 'DESC',
       },
     };
+
+    if (relations && relations.length > 0) {
+      const relationsOptions: Record<string, boolean> = {};
+
+      relations.forEach((relation) => {
+        relationsOptions[relation] = true;
+      });
+
+      findOptions = {
+        ...findOptions,
+        relations: relationsOptions,
+      };
+    }
 
     const teamsglobal = await this.teamglobalRepository.find(findOptions);
 
@@ -79,7 +66,10 @@ export class TeamglobalService {
     return teamsglobal;
   }
 
-  async findTeamglobalById(teamglobalId: number): Promise<TeamglobalEntity> {
+  async findTeamglobalById(
+    teamglobalId: number,
+    relations?: string[],
+  ): Promise<TeamglobalEntity> {
     let findOptions = {};
 
     findOptions = {
@@ -88,6 +78,19 @@ export class TeamglobalService {
         id: teamglobalId,
       },
     };
+
+    if (relations && relations.length > 0) {
+      const relationsOptions: Record<string, boolean> = {};
+
+      relations.forEach((relation) => {
+        relationsOptions[relation] = true;
+      });
+
+      findOptions = {
+        ...findOptions,
+        relations: relationsOptions,
+      };
+    }
 
     const teamglobal = await this.teamglobalRepository.findOne(findOptions);
 

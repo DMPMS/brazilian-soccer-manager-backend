@@ -67,19 +67,9 @@ export class CompetitionglobalService {
   }
 
   async findAllCompetitionglobal(
-    isFindRelations?: boolean,
+    relations?: string[],
   ): Promise<CompetitionglobalEntity[]> {
     let findOptions = {};
-
-    if (isFindRelations) {
-      findOptions = {
-        ...findOptions,
-        relations: {
-          rule: true,
-          country: true,
-        },
-      };
-    }
 
     findOptions = {
       ...findOptions,
@@ -87,6 +77,19 @@ export class CompetitionglobalService {
         createdAt: 'DESC',
       },
     };
+
+    if (relations && relations.length > 0) {
+      const relationsOptions: Record<string, boolean> = {};
+
+      relations.forEach((relation) => {
+        relationsOptions[relation] = true;
+      });
+
+      findOptions = {
+        ...findOptions,
+        relations: relationsOptions,
+      };
+    }
 
     const competitionsglobal =
       await this.competitionglobalRepository.find(findOptions);
@@ -100,6 +103,7 @@ export class CompetitionglobalService {
 
   async findCompetitionglobalById(
     competitionglobalId: number,
+    relations?: string[],
   ): Promise<CompetitionglobalEntity> {
     let findOptions = {};
 
@@ -109,6 +113,19 @@ export class CompetitionglobalService {
         id: competitionglobalId,
       },
     };
+
+    if (relations && relations.length > 0) {
+      const relationsOptions: Record<string, boolean> = {};
+
+      relations.forEach((relation) => {
+        relationsOptions[relation] = true;
+      });
+
+      findOptions = {
+        ...findOptions,
+        relations: relationsOptions,
+      };
+    }
 
     const competitionglobal =
       await this.competitionglobalRepository.findOne(findOptions);

@@ -56,7 +56,10 @@ export class UserService {
     return users;
   }
 
-  async findUserById(userId: number): Promise<UserEntity> {
+  async findUserById(
+    userId: number,
+    relations?: string[],
+  ): Promise<UserEntity> {
     let findOptions = {};
 
     findOptions = {
@@ -66,25 +69,18 @@ export class UserService {
       },
     };
 
-    const user = await this.userRepository.findOne(findOptions);
+    if (relations && relations.length > 0) {
+      const relationsOptions: Record<string, boolean> = {};
 
-    if (!user) {
-      throw new NotFoundException(`userId: ${userId} not found.`);
+      relations.forEach((relation) => {
+        relationsOptions[relation] = true;
+      });
+
+      findOptions = {
+        ...findOptions,
+        relations: relationsOptions,
+      };
     }
-
-    return user;
-  }
-
-  async findUserByIdUsingRelations(userId: number): Promise<UserEntity> {
-    let findOptions = {};
-
-    findOptions = {
-      ...findOptions,
-      where: {
-        id: userId,
-      },
-      relations: ['saves'],
-    };
 
     const user = await this.userRepository.findOne(findOptions);
 

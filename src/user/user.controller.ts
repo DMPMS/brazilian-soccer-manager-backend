@@ -39,7 +39,7 @@ export class UserController {
   @Get('/:userId')
   async findUserById(@Param('userId') userId: number): Promise<ReturnUserDTO> {
     return new ReturnUserDTO(
-      await this.userService.findUserByIdUsingRelations(userId),
+      await this.userService.findUserById(userId, ['saves']),
     );
   }
 
