@@ -10,6 +10,8 @@ import { CountryService } from 'src/country/country.service';
 import { RuleService } from 'src/rule/rule.service';
 import { CreateCompetitionglobalDTO } from './dtos/createCompetitionglobal.dto';
 import { UpdateCompetitionglobalDTO } from './dtos/updateCompetitionglobal.dto';
+import { CompetitionglobalTeamglobalService } from 'src/competitionglobal_teamglobal/competitionglobal_teamglobal.service';
+import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
 
 @Injectable()
 export class CompetitionglobalService {
@@ -18,19 +20,47 @@ export class CompetitionglobalService {
     private readonly competitionglobalRepository: Repository<CompetitionglobalEntity>,
     private readonly ruleService: RuleService,
     private readonly countryService: CountryService,
+    private readonly teamglobalService: TeamglobalService,
+    private readonly competitionglobalTeamglobalService: CompetitionglobalTeamglobalService,
   ) {}
 
   async createCompetitionglobal(
     createCompetitionglobalDTO: CreateCompetitionglobalDTO,
   ): Promise<CompetitionglobalEntity> {
     if (createCompetitionglobalDTO.countryId) {
-      await this.ruleService.findRuleById(createCompetitionglobalDTO.ruleId);
+      const rule = await this.ruleService.findRuleById(
+        createCompetitionglobalDTO.ruleId,
+      );
+
+      const numberOfTeamsRule = rule.numberOfTeams;
+      const numberOfTeamsDTO = createCompetitionglobalDTO.teamglobalIds.length;
+      if (numberOfTeamsRule !== numberOfTeamsDTO) {
+        throw new BadRequestException(
+          `According to the rule, there are supposed to be ${numberOfTeamsRule} teamsglobal, but there are ${numberOfTeamsDTO}.`,
+        );
+      }
 
       await this.countryService.findCountryById(
         createCompetitionglobalDTO.countryId,
       );
 
-      return this.competitionglobalRepository.save(createCompetitionglobalDTO);
+      const competitionglobal = await this.competitionglobalRepository.save(
+        createCompetitionglobalDTO,
+      );
+
+      // Try to accomplish this before creating the competitionglobal.
+      await Promise.all(
+        createCompetitionglobalDTO.teamglobalIds.map(async (teamglobalId) => {
+          await this.teamglobalService.findTeamglobalById(teamglobalId);
+
+          await this.competitionglobalTeamglobalService.createCompetitionglobalTeamglobal(
+            competitionglobal.id,
+            teamglobalId,
+          );
+        }),
+      );
+
+      return competitionglobal;
     }
 
     throw new BadRequestException('countryId not specified.');
