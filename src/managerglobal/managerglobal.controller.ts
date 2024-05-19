@@ -50,6 +50,17 @@ export class ManagerglobalController {
     ).map((managerglobal) => new ReturnManagerglobalDTO(managerglobal));
   }
 
+  @Get('/:managerglobalId')
+  async findManagerglobalById(
+    @Param('managerglobalId') managerglobalId,
+  ): Promise<ReturnManagerglobalDTO> {
+    return new ReturnManagerglobalDTO(
+      await this.managerglobalService.findManagerglobalById(managerglobalId, [
+        'country',
+      ]),
+    );
+  }
+
   @UsePipes(ValidationPipe)
   @Put('/:managerglobalId')
   async updateManagerglobal(
