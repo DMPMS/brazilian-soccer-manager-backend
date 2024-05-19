@@ -11,6 +11,7 @@ import { TeamglobalEntity } from './entities/teamglobal.entity';
 import { CreateTeamglobalDTO } from './dtos/createTeamglobal.dto';
 import { ManagerglobalService } from 'src/managerglobal/managerglobal.service';
 import { UpdateTeamglobalDTO } from './dtos/updateTeamglobal.dto';
+import { RelationsOptions } from 'src/types/RelationsOptions.type';
 
 @Injectable()
 export class TeamglobalService {
@@ -34,7 +35,9 @@ export class TeamglobalService {
     return this.teamglobalRepository.save(createTeamglobalDTO);
   }
 
-  async findAllTeamglobal(relations?: string[]): Promise<TeamglobalEntity[]> {
+  async findAllTeamglobal(
+    relations?: RelationsOptions,
+  ): Promise<TeamglobalEntity[]> {
     let findOptions = {};
 
     findOptions = {
@@ -44,16 +47,10 @@ export class TeamglobalService {
       },
     };
 
-    if (relations && relations.length > 0) {
-      const relationsOptions: Record<string, boolean> = {};
-
-      relations.forEach((relation) => {
-        relationsOptions[relation] = true;
-      });
-
+    if (relations && Object.keys(relations).length > 0) {
       findOptions = {
         ...findOptions,
-        relations: relationsOptions,
+        relations,
       };
     }
 
@@ -68,7 +65,7 @@ export class TeamglobalService {
 
   async findTeamglobalById(
     teamglobalId: number,
-    relations?: string[],
+    relations?: RelationsOptions,
   ): Promise<TeamglobalEntity> {
     let findOptions = {};
 
@@ -79,16 +76,10 @@ export class TeamglobalService {
       },
     };
 
-    if (relations && relations.length > 0) {
-      const relationsOptions: Record<string, boolean> = {};
-
-      relations.forEach((relation) => {
-        relationsOptions[relation] = true;
-      });
-
+    if (relations && Object.keys(relations).length > 0) {
       findOptions = {
         ...findOptions,
-        relations: relationsOptions,
+        relations,
       };
     }
 

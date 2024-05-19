@@ -37,11 +37,13 @@ export class CompetitionglobalController {
 
   @Get()
   async findAllCompetitionglobal(): Promise<ReturnCompetitionglobalDTO[]> {
+    const relations = {
+      rule: true,
+      country: true,
+    };
+
     return (
-      await this.competitionglobalService.findAllCompetitionglobal([
-        'rule',
-        'country',
-      ])
+      await this.competitionglobalService.findAllCompetitionglobal(relations)
     ).map(
       (competitionglobal) => new ReturnCompetitionglobalDTO(competitionglobal),
     );

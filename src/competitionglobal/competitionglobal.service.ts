@@ -12,6 +12,7 @@ import { CreateCompetitionglobalDTO } from './dtos/createCompetitionglobal.dto';
 import { UpdateCompetitionglobalDTO } from './dtos/updateCompetitionglobal.dto';
 import { CompetitionglobalTeamglobalService } from 'src/competitionglobal_teamglobal/competitionglobal_teamglobal.service';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
+import { RelationsOptions } from 'src/types/RelationsOptions.type';
 
 @Injectable()
 export class CompetitionglobalService {
@@ -67,7 +68,7 @@ export class CompetitionglobalService {
   }
 
   async findAllCompetitionglobal(
-    relations?: string[],
+    relations?: RelationsOptions,
   ): Promise<CompetitionglobalEntity[]> {
     let findOptions = {};
 
@@ -78,16 +79,10 @@ export class CompetitionglobalService {
       },
     };
 
-    if (relations && relations.length > 0) {
-      const relationsOptions: Record<string, boolean> = {};
-
-      relations.forEach((relation) => {
-        relationsOptions[relation] = true;
-      });
-
+    if (relations && Object.keys(relations).length > 0) {
       findOptions = {
         ...findOptions,
-        relations: relationsOptions,
+        relations,
       };
     }
 
@@ -103,7 +98,7 @@ export class CompetitionglobalService {
 
   async findCompetitionglobalById(
     competitionglobalId: number,
-    relations?: string[],
+    relations?: RelationsOptions,
   ): Promise<CompetitionglobalEntity> {
     let findOptions = {};
 
@@ -114,16 +109,10 @@ export class CompetitionglobalService {
       },
     };
 
-    if (relations && relations.length > 0) {
-      const relationsOptions: Record<string, boolean> = {};
-
-      relations.forEach((relation) => {
-        relationsOptions[relation] = true;
-      });
-
+    if (relations && Object.keys(relations).length > 0) {
       findOptions = {
         ...findOptions,
-        relations: relationsOptions,
+        relations,
       };
     }
 

@@ -10,6 +10,7 @@ import { CreateManagerglobalDTO } from './dtos/createManagerglobal.dto';
 import { CountryService } from 'src/country/country.service';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
 import { UpdateManagerglobalDTO } from './dtos/updateManagergloba.dto';
+import { RelationsOptions } from 'src/types/RelationsOptions.type';
 
 @Injectable()
 export class ManagerglobalService {
@@ -29,7 +30,7 @@ export class ManagerglobalService {
   }
 
   async findAllManagerglobal(
-    relations?: string[],
+    relations?: RelationsOptions,
   ): Promise<ManagerglobalEntity[]> {
     let findOptions = {};
 
@@ -40,16 +41,10 @@ export class ManagerglobalService {
       },
     };
 
-    if (relations && relations.length > 0) {
-      const relationsOptions: Record<string, boolean> = {};
-
-      relations.forEach((relation) => {
-        relationsOptions[relation] = true;
-      });
-
+    if (relations && Object.keys(relations).length > 0) {
       findOptions = {
         ...findOptions,
-        relations: relationsOptions,
+        relations,
       };
     }
 
@@ -63,7 +58,7 @@ export class ManagerglobalService {
   }
 
   async findAllManagerglobalWithoutTeamglobal(
-    relations?: string[],
+    relations?: RelationsOptions,
   ): Promise<ManagerglobalEntity[]> {
     const teamsglobal = await this.teamglobalService.findAllTeamglobal();
 
@@ -87,16 +82,10 @@ export class ManagerglobalService {
       },
     };
 
-    if (relations && relations.length > 0) {
-      const relationsOptions: Record<string, boolean> = {};
-
-      relations.forEach((relation) => {
-        relationsOptions[relation] = true;
-      });
-
+    if (relations && Object.keys(relations).length > 0) {
       findOptions = {
         ...findOptions,
-        relations: relationsOptions,
+        relations,
       };
     }
 
@@ -111,7 +100,7 @@ export class ManagerglobalService {
 
   async findManagerglobalById(
     managerglobalId: number,
-    relations?: string[],
+    relations?: RelationsOptions,
   ): Promise<ManagerglobalEntity> {
     let findOptions = {};
 
@@ -122,16 +111,10 @@ export class ManagerglobalService {
       },
     };
 
-    if (relations && relations.length > 0) {
-      const relationsOptions: Record<string, boolean> = {};
-
-      relations.forEach((relation) => {
-        relationsOptions[relation] = true;
-      });
-
+    if (relations && Object.keys(relations).length > 0) {
       findOptions = {
         ...findOptions,
-        relations: relationsOptions,
+        relations,
       };
     }
 
@@ -160,9 +143,14 @@ export class ManagerglobalService {
   }
 
   async deleteManagerglobal(managerglobalId: number): Promise<DeleteResult> {
-    const managerglobal = await this.findManagerglobalById(managerglobalId, [
-      'teamglobal',
-    ]);
+    const relations = {
+      teamglobal: true,
+    };
+
+    const managerglobal = await this.findManagerglobalById(
+      managerglobalId,
+      relations,
+    );
 
     if (managerglobal.teamglobal) {
       throw new BadRequestException(

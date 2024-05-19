@@ -11,6 +11,7 @@ import { Repository } from 'typeorm';
 import { UserType } from './enums/userType.enum';
 import { UpdatePasswordDTO } from './dtos/updatePassword.dto';
 import { createPasswordHashed, validatePassword } from 'src/utils/password';
+import { RelationsOptions } from 'src/types/RelationsOptions.type';
 
 @Injectable()
 export class UserService {
@@ -58,7 +59,7 @@ export class UserService {
 
   async findUserById(
     userId: number,
-    relations?: string[],
+    relations?: RelationsOptions,
   ): Promise<UserEntity> {
     let findOptions = {};
 
@@ -69,16 +70,10 @@ export class UserService {
       },
     };
 
-    if (relations && relations.length > 0) {
-      const relationsOptions: Record<string, boolean> = {};
-
-      relations.forEach((relation) => {
-        relationsOptions[relation] = true;
-      });
-
+    if (relations && Object.keys(relations).length > 0) {
       findOptions = {
         ...findOptions,
-        relations: relationsOptions,
+        relations,
       };
     }
 

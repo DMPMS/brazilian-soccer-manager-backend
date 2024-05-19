@@ -33,11 +33,13 @@ export class ManagerglobalController {
 
   @Get()
   async findAllManagerglobal(): Promise<ReturnManagerglobalDTO[]> {
+    const relations = {
+      country: true,
+      teamglobal: true,
+    };
+
     return (
-      await this.managerglobalService.findAllManagerglobal([
-        'country',
-        'teamglobal',
-      ])
+      await this.managerglobalService.findAllManagerglobal(relations)
     ).map((managerglobal) => new ReturnManagerglobalDTO(managerglobal));
   }
 
@@ -54,10 +56,15 @@ export class ManagerglobalController {
   async findManagerglobalById(
     @Param('managerglobalId') managerglobalId,
   ): Promise<ReturnManagerglobalDTO> {
+    const relations = {
+      country: true,
+    };
+
     return new ReturnManagerglobalDTO(
-      await this.managerglobalService.findManagerglobalById(managerglobalId, [
-        'country',
-      ]),
+      await this.managerglobalService.findManagerglobalById(
+        managerglobalId,
+        relations,
+      ),
     );
   }
 

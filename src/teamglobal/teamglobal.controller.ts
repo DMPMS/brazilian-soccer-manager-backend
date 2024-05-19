@@ -31,12 +31,17 @@ export class TeamglobalController {
 
   @Get()
   async findAllTeamglobal(): Promise<ReturnTeamglobalDTO[]> {
-    return (
-      await this.teamglobalService.findAllTeamglobal([
-        'country',
-        'managerglobal',
-      ])
-    ).map((teamglobal) => new ReturnTeamglobalDTO(teamglobal));
+    const relations = {
+      country: true,
+      managerglobal: true,
+      competitionsglobalTeamglobal: {
+        competitionglobal: true,
+      },
+    };
+
+    return (await this.teamglobalService.findAllTeamglobal(relations)).map(
+      (teamglobal) => new ReturnTeamglobalDTO(teamglobal),
+    );
   }
 
   @UsePipes(ValidationPipe)
