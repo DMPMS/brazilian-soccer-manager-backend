@@ -1,11 +1,12 @@
 import {
+  BadRequestException,
   Inject,
   Injectable,
   NotFoundException,
   forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CountryService } from 'src/country/country.service';
 import { TeamglobalEntity } from './entities/teamglobal.entity';
 import { CreateTeamglobalDTO } from './dtos/createTeamglobal.dto';
@@ -102,5 +103,21 @@ export class TeamglobalService {
       ...teamglobal,
       ...updateTeamglobal,
     });
+  }
+
+  async deleteTeamglobal(teamglobalId: number): Promise<DeleteResult> {
+    const relations = {
+      competitionsglobalTeamglobal: true,
+    };
+
+    const teamglobal = await this.findTeamglobalById(teamglobalId, relations);
+
+    if (teamglobal.competitionsglobalTeamglobal.length > 0) {
+      throw new BadRequestException(
+        `teamglobalId: ${teamglobalId} with relations.`,
+      );
+    }
+
+    return this.teamglobalRepository.delete({ id: teamglobalId });
   }
 }

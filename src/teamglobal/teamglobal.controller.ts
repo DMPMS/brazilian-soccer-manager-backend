@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -15,6 +16,7 @@ import { CreateTeamglobalDTO } from './dtos/createTeamglobal.dto';
 import { TeamglobalEntity } from './entities/teamglobal.entity';
 import { ReturnTeamglobalDTO } from './dtos/returnTeamglobal.dto';
 import { UpdateTeamglobalDTO } from './dtos/updateTeamglobal.dto';
+import { DeleteResult } from 'typeorm';
 
 @Roles(UserType.Admin)
 @Controller('teamglobal')
@@ -54,5 +56,12 @@ export class TeamglobalController {
       updateTeamglobal,
       teamglobalId,
     );
+  }
+
+  @Delete('/:teamglobalId')
+  async deleteTeamglobal(
+    @Param('teamglobalId') teamglobalId: number,
+  ): Promise<DeleteResult> {
+    return this.teamglobalService.deleteTeamglobal(teamglobalId);
   }
 }
