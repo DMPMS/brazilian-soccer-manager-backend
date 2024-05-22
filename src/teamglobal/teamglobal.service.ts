@@ -29,7 +29,7 @@ export class TeamglobalService {
     createTeamglobalDTO: CreateTeamglobalDTO,
   ): Promise<TeamglobalEntity> {
     await this.countryService.findCountryById(createTeamglobalDTO.countryId);
-    await this.managerglobalService.findManagerglobalById(
+    await this.managerglobalService.findManagerglobalWithoutTeamglobalById(
       createTeamglobalDTO.managerglobalId,
     );
 
@@ -100,9 +100,12 @@ export class TeamglobalService {
     const teamglobal = await this.findTeamglobalById(teamglobalId);
 
     await this.countryService.findCountryById(updateTeamglobal.countryId);
-    await this.managerglobalService.findManagerglobalById(
-      updateTeamglobal.managerglobalId,
-    );
+
+    if (updateTeamglobal.managerglobalId !== teamglobal.managerglobalId) {
+      await this.managerglobalService.findManagerglobalWithoutTeamglobalById(
+        updateTeamglobal.managerglobalId,
+      );
+    }
 
     return this.teamglobalRepository.save({
       ...teamglobal,

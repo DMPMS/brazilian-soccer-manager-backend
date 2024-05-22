@@ -62,12 +62,10 @@ export class ManagerglobalService {
   ): Promise<ManagerglobalEntity[]> {
     const teamsglobal = await this.teamglobalService.findAllTeamglobal();
 
-    const managerglobalIds: number[] = [];
+    const managerglobalWithTeamglobalIds: number[] = [];
 
     teamsglobal.forEach((teamglobal) => {
-      if (teamglobal.managerglobalId) {
-        managerglobalIds.push(teamglobal.managerglobalId);
-      }
+      managerglobalWithTeamglobalIds.push(teamglobal.managerglobalId);
     });
 
     let findOptions = {};
@@ -75,7 +73,7 @@ export class ManagerglobalService {
     findOptions = {
       ...findOptions,
       where: {
-        id: Not(In(managerglobalIds)),
+        id: Not(In(managerglobalWithTeamglobalIds)),
       },
       order: {
         createdAt: 'DESC',
@@ -92,7 +90,9 @@ export class ManagerglobalService {
     const managersglobal = await this.managerglobalRepository.find(findOptions);
 
     if (!managersglobal) {
-      throw new NotFoundException(`Managersglobal not found.`);
+      throw new NotFoundException(
+        `Managersglobal without teamglobal not found.`,
+      );
     }
 
     return managersglobal;
@@ -124,6 +124,48 @@ export class ManagerglobalService {
     if (!managerglobal) {
       throw new NotFoundException(
         `managerglobalId: ${managerglobalId} not found.`,
+      );
+    }
+
+    return managerglobal;
+  }
+
+  async findManagerglobalWithoutTeamglobalById(
+    managerglobalId: number,
+    relations?: RelationsOptions,
+  ): Promise<ManagerglobalEntity> {
+    const teamsglobal = await this.teamglobalService.findAllTeamglobal();
+
+    teamsglobal.forEach((teamglobal) => {
+      if (managerglobalId === teamglobal.managerglobalId) {
+        throw new BadRequestException(
+          `managerglobalId: ${managerglobalId} with teamglobal.`,
+        );
+      }
+    });
+
+    let findOptions = {};
+
+    findOptions = {
+      ...findOptions,
+      where: {
+        id: managerglobalId,
+      },
+    };
+
+    if (relations && Object.keys(relations).length > 0) {
+      findOptions = {
+        ...findOptions,
+        relations,
+      };
+    }
+
+    const managerglobal =
+      await this.managerglobalRepository.findOne(findOptions);
+
+    if (!managerglobal) {
+      throw new NotFoundException(
+        `managerglobalWithoutTeamglobalId: ${managerglobalId} not found.`,
       );
     }
 
