@@ -46,6 +46,20 @@ export class TeamglobalController {
     );
   }
 
+  @Get('/:teamglobalId')
+  async findTeamglobalById(
+    @Param('teamglobalId') teamglobalId,
+  ): Promise<ReturnTeamglobalDTO> {
+    const relations = {
+      country: true,
+      managerglobal: true,
+    };
+
+    return new ReturnTeamglobalDTO(
+      await this.teamglobalService.findTeamglobalById(teamglobalId, relations),
+    );
+  }
+
   @UsePipes(ValidationPipe)
   @Put('/:teamglobalId')
   async updateTeamglobal(
