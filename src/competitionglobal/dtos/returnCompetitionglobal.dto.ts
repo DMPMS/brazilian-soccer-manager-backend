@@ -1,6 +1,7 @@
 import { ReturnCountryDTO } from 'src/country/dtos/returnCountry.dto';
 import { CompetitionglobalEntity } from '../entities/competitionglobal.entity';
 import { ReturnRuleDTO } from 'src/rule/dtos/returnRule.dto';
+import { ReturnCompetitionglobalTeamglobalDTO } from 'src/competitionglobal_teamglobal/dtos/returnCompetitionglobalTeamglobal.dto';
 
 export class ReturnCompetitionglobalDTO {
   id: number;
@@ -9,6 +10,7 @@ export class ReturnCompetitionglobalDTO {
   srcImage: string;
   rule?: ReturnRuleDTO;
   country?: ReturnCountryDTO;
+  competitionsglobalTeamglobal?: ReturnCompetitionglobalTeamglobalDTO[];
 
   constructor(competitionglobalEntity: CompetitionglobalEntity) {
     this.id = competitionglobalEntity.id;
@@ -23,5 +25,15 @@ export class ReturnCompetitionglobalDTO {
     this.country = competitionglobalEntity.country
       ? new ReturnCountryDTO(competitionglobalEntity.country)
       : undefined;
+
+    this.competitionsglobalTeamglobal =
+      competitionglobalEntity.competitionsglobalTeamglobal
+        ? competitionglobalEntity.competitionsglobalTeamglobal.map(
+            (competitionglobalTeamglobal) =>
+              new ReturnCompetitionglobalTeamglobalDTO(
+                competitionglobalTeamglobal,
+              ),
+          )
+        : undefined;
   }
 }

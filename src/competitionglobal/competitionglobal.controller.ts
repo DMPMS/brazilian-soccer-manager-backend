@@ -49,6 +49,26 @@ export class CompetitionglobalController {
     );
   }
 
+  @Get('/:competitionglobalId')
+  async findCompetitionglobalById(
+    @Param('competitionglobalId') competitionglobalId,
+  ): Promise<ReturnCompetitionglobalDTO> {
+    const relations = {
+      rule: true,
+      country: true,
+      competitionsglobalTeamglobal: {
+        teamglobal: true,
+      },
+    };
+
+    return new ReturnCompetitionglobalDTO(
+      await this.competitionglobalService.findCompetitionglobalById(
+        competitionglobalId,
+        relations,
+      ),
+    );
+  }
+
   @UsePipes(ValidationPipe)
   @Put('/:competitionglobalId')
   async updateCompetitionglobal(
