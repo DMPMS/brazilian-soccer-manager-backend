@@ -139,6 +139,33 @@ export class CompetitionglobalService {
       delete updateCompetitionglobalDTO.countryId;
     }
 
+    const rule = await this.ruleService.findRuleById(
+      updateCompetitionglobalDTO.ruleId,
+    );
+
+    const numberOfTeamsRule = rule.numberOfTeams;
+    const numberOfTeamsDTO = updateCompetitionglobalDTO.teamglobalIds.length;
+    if (numberOfTeamsRule !== numberOfTeamsDTO) {
+      throw new BadRequestException(
+        `According to the rule, there are supposed to be ${numberOfTeamsRule} teamsglobal, but there are ${numberOfTeamsDTO}.`,
+      );
+    }
+
+    await this.competitionglobalTeamglobalService.deleteCompetitionglobalTeamglobal(
+      competitionglobalId,
+    );
+
+    await Promise.all(
+      updateCompetitionglobalDTO.teamglobalIds.map(async (teamglobalId) => {
+        await this.teamglobalService.findTeamglobalById(teamglobalId);
+
+        await this.competitionglobalTeamglobalService.createCompetitionglobalTeamglobal(
+          competitionglobalId,
+          teamglobalId,
+        );
+      }),
+    );
+
     return this.competitionglobalRepository.save({
       ...competitionglobal,
       ...updateCompetitionglobalDTO,

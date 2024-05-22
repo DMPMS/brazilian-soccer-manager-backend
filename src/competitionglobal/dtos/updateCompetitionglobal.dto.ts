@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsNumber, IsString } from 'class-validator';
 
 export class UpdateCompetitionglobalDTO {
   @IsNumber()
@@ -12,4 +12,9 @@ export class UpdateCompetitionglobalDTO {
 
   @IsString()
   srcImage: string;
+
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsNumber({}, { each: true })
+  teamglobalIds: number[];
 }

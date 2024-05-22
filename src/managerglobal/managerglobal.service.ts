@@ -136,6 +136,8 @@ export class ManagerglobalService {
   ): Promise<ManagerglobalEntity> {
     const managerglobal = await this.findManagerglobalById(managerglobalId);
 
+    await this.countryService.findCountryById(updateManagerglobal.countryId);
+
     return this.managerglobalRepository.save({
       ...managerglobal,
       ...updateManagerglobal,

@@ -99,6 +99,11 @@ export class TeamglobalService {
   ): Promise<TeamglobalEntity> {
     const teamglobal = await this.findTeamglobalById(teamglobalId);
 
+    await this.countryService.findCountryById(updateTeamglobal.countryId);
+    await this.managerglobalService.findManagerglobalById(
+      updateTeamglobal.managerglobalId,
+    );
+
     return this.teamglobalRepository.save({
       ...teamglobal,
       ...updateTeamglobal,
