@@ -13,6 +13,7 @@ import { TeamglobalModule } from './teamglobal/teamglobal.module';
 import { RuleModule } from './rule/rule.module';
 import { CompetitionglobalModule } from './competitionglobal/competitionglobal.module';
 import { CompetitionglobalTeamglobalModule } from './competitionglobal_teamglobal/competitionglobal_teamglobal.module';
+import { PositionModule } from './position/position.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { CompetitionglobalTeamglobalModule } from './competitionglobal_teamgloba
     RuleModule,
     CompetitionglobalModule,
     CompetitionglobalTeamglobalModule,
+    PositionModule,
   ],
   controllers: [],
   providers: [
