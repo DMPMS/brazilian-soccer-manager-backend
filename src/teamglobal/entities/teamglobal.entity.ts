@@ -1,6 +1,7 @@
 import { CompetitionglobalTeamglobalEntity } from 'src/competitionglobal_teamglobal/entities/competitionglobal_teamglobal.entity';
 import { CountryEntity } from 'src/country/entities/country.entity';
 import { ManagerglobalEntity } from 'src/managerglobal/entities/managerglobal.entity';
+import { PlayerglobalEntity } from 'src/playerglobal/entities/playerglobal.entity';
 import {
   Column,
   CreateDateColumn,
@@ -52,4 +53,7 @@ export class TeamglobalEntity {
     (competitionglobalTeamglobal) => competitionglobalTeamglobal.teamglobal,
   )
   competitionsglobalTeamglobal?: CompetitionglobalTeamglobalEntity[];
+
+  @OneToOne(() => PlayerglobalEntity, (playerglobal) => playerglobal.teamglobal)
+  playersglobal?: PlayerglobalEntity;
 }

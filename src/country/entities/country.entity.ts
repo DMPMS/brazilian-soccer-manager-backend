@@ -1,5 +1,6 @@
 import { CompetitionglobalEntity } from 'src/competitionglobal/entities/competitionglobal.entity';
 import { ManagerglobalEntity } from 'src/managerglobal/entities/managerglobal.entity';
+import { PlayerglobalEntity } from 'src/playerglobal/entities/playerglobal.entity';
 import { TeamglobalEntity } from 'src/teamglobal/entities/teamglobal.entity';
 import {
   Column,
@@ -41,4 +42,7 @@ export class CountryEntity {
     (competitionglobal) => competitionglobal.country,
   )
   competitionsglobal?: CompetitionglobalEntity[];
+
+  @OneToMany(() => PlayerglobalEntity, (playerglobal) => playerglobal.country)
+  playersglobal?: PlayerglobalEntity[];
 }

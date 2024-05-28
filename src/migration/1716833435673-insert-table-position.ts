@@ -22,7 +22,7 @@ export class InsertTablePosition1716833435673 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(`
-        DROP TABLE public.position;
+        DELETE FROM public.position;
     `);
   }
 }
