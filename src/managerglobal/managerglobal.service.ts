@@ -12,6 +12,7 @@ import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
 import { UpdateManagerglobalDTO } from './dtos/updateManagergloba.dto';
 import { RelationsOptions } from 'src/types/RelationsOptions.type';
 
+const DEFAULT_WITHOUT_TEAMGLOBAL = false;
 @Injectable()
 export class ManagerglobalService {
   constructor(
@@ -31,6 +32,7 @@ export class ManagerglobalService {
 
   async findAllManagerglobal(
     relations?: RelationsOptions,
+    isWithoutTeamglobal = DEFAULT_WITHOUT_TEAMGLOBAL,
   ): Promise<ManagerglobalEntity[]> {
     let findOptions = {};
 
@@ -40,6 +42,18 @@ export class ManagerglobalService {
         createdAt: 'DESC',
       },
     };
+
+    if (isWithoutTeamglobal === true) {
+      const managerglobalWithTeamglobalIds =
+        await this.findManagerglobalWithTeamglobalIds();
+
+      findOptions = {
+        ...findOptions,
+        where: {
+          id: Not(In(managerglobalWithTeamglobalIds)),
+        },
+      };
+    }
 
     if (relations && Object.keys(relations).length > 0) {
       findOptions = {
@@ -57,9 +71,7 @@ export class ManagerglobalService {
     return managersglobal;
   }
 
-  async findAllManagerglobalWithoutTeamglobal(
-    relations?: RelationsOptions,
-  ): Promise<ManagerglobalEntity[]> {
+  async findManagerglobalWithTeamglobalIds(): Promise<number[]> {
     const teamsglobal = await this.teamglobalService.findAllTeamglobal();
 
     const managerglobalWithTeamglobalIds: number[] = [];
@@ -68,39 +80,13 @@ export class ManagerglobalService {
       managerglobalWithTeamglobalIds.push(teamglobal.managerglobalId);
     });
 
-    let findOptions = {};
-
-    findOptions = {
-      ...findOptions,
-      where: {
-        id: Not(In(managerglobalWithTeamglobalIds)),
-      },
-      order: {
-        createdAt: 'DESC',
-      },
-    };
-
-    if (relations && Object.keys(relations).length > 0) {
-      findOptions = {
-        ...findOptions,
-        relations,
-      };
-    }
-
-    const managersglobal = await this.managerglobalRepository.find(findOptions);
-
-    if (!managersglobal) {
-      throw new NotFoundException(
-        `Managersglobal without teamglobal not found.`,
-      );
-    }
-
-    return managersglobal;
+    return managerglobalWithTeamglobalIds;
   }
 
   async findManagerglobalById(
     managerglobalId: number,
     relations?: RelationsOptions,
+    withoutTeamglobal = DEFAULT_WITHOUT_TEAMGLOBAL,
   ): Promise<ManagerglobalEntity> {
     let findOptions = {};
 
@@ -127,45 +113,9 @@ export class ManagerglobalService {
       );
     }
 
-    return managerglobal;
-  }
-
-  async findManagerglobalWithoutTeamglobalById(
-    managerglobalId: number,
-    relations?: RelationsOptions,
-  ): Promise<ManagerglobalEntity> {
-    const teamsglobal = await this.teamglobalService.findAllTeamglobal();
-
-    teamsglobal.forEach((teamglobal) => {
-      if (managerglobalId === teamglobal.managerglobalId) {
-        throw new BadRequestException(
-          `managerglobalId: ${managerglobalId} with teamglobal.`,
-        );
-      }
-    });
-
-    let findOptions = {};
-
-    findOptions = {
-      ...findOptions,
-      where: {
-        id: managerglobalId,
-      },
-    };
-
-    if (relations && Object.keys(relations).length > 0) {
-      findOptions = {
-        ...findOptions,
-        relations,
-      };
-    }
-
-    const managerglobal =
-      await this.managerglobalRepository.findOne(findOptions);
-
-    if (!managerglobal) {
-      throw new NotFoundException(
-        `managerglobalWithoutTeamglobalId: ${managerglobalId} not found.`,
+    if (managerglobal.teamglobal && withoutTeamglobal === true) {
+      throw new BadRequestException(
+        `managerglobalId: ${managerglobalId} with teamglobal.`,
       );
     }
 

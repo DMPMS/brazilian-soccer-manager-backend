@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -32,23 +33,19 @@ export class ManagerglobalController {
   }
 
   @Get()
-  async findAllManagerglobal(): Promise<ReturnManagerglobalDTO[]> {
+  async findAllManagerglobal(
+    @Query('isWithoutTeamglobal') isWithoutTeamglobal?: boolean,
+  ): Promise<ReturnManagerglobalDTO[]> {
     const relations = {
       country: true,
       teamglobal: true,
     };
 
     return (
-      await this.managerglobalService.findAllManagerglobal(relations)
-    ).map((managerglobal) => new ReturnManagerglobalDTO(managerglobal));
-  }
-
-  @Get('/withoutTeamglobal')
-  async findAllManagerglobalWithoutTeamglobal(): Promise<
-    ReturnManagerglobalDTO[]
-  > {
-    return (
-      await this.managerglobalService.findAllManagerglobalWithoutTeamglobal()
+      await this.managerglobalService.findAllManagerglobal(
+        relations,
+        Boolean(isWithoutTeamglobal),
+      )
     ).map((managerglobal) => new ReturnManagerglobalDTO(managerglobal));
   }
 
