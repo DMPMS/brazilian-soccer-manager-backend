@@ -5,12 +5,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PlayerglobalEntity } from './entities/playerglobal.entity';
 import { CountryModule } from 'src/country/country.module';
 import { TeamglobalModule } from 'src/teamglobal/teamglobal.module';
+import { PositionModule } from 'src/position/position.module';
+import { PlayerglobalPositionModule } from 'src/playerglobal_position/playerglobal_position.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([PlayerglobalEntity]),
     CountryModule,
     TeamglobalModule,
+    PositionModule,
+    PlayerglobalPositionModule,
   ],
   providers: [PlayerglobalService],
   controllers: [PlayerglobalController],

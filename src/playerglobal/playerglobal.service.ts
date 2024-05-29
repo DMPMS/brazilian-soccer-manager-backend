@@ -11,6 +11,11 @@ import { CreatePlayerglobalDTO } from './dtos/createPlayerglobal.dto';
 import { RelationsOptions } from 'src/types/RelationsOptions.type';
 import { UpdatePlayerglobalDTO } from './dtos/updatePlayerglobal.dto';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
+import { PositionService } from 'src/position/position.service';
+import { PlayerglobalPositionService } from 'src/playerglobal_position/playerglobal_position.service';
+
+const PRIMARY_POSITIONS_MAX = 3;
+const SECONDARY_POSITIONS_MAX = 5;
 
 @Injectable()
 export class PlayerglobalService {
@@ -19,11 +24,33 @@ export class PlayerglobalService {
     private readonly playerglobalRepository: Repository<PlayerglobalEntity>,
     private readonly countryService: CountryService,
     private readonly teamglobalService: TeamglobalService,
+    private readonly positionService: PositionService,
+    private readonly playerglobalPositionService: PlayerglobalPositionService,
   ) {}
 
   async createPlayerglobal(
     createPlayerglobalDTO: CreatePlayerglobalDTO,
   ): Promise<PlayerglobalEntity> {
+    const numberOfPrimaryPositions =
+      createPlayerglobalDTO.primaryPositionIds.length;
+
+    if (numberOfPrimaryPositions > PRIMARY_POSITIONS_MAX) {
+      throw new BadRequestException(
+        `A playerglobal can have a maximum of ${PRIMARY_POSITIONS_MAX} primary positions, but there are ${numberOfPrimaryPositions}.`,
+      );
+    }
+
+    if (createPlayerglobalDTO.secondaryPositionIds !== undefined) {
+      const numberOfSecondaryPositions =
+        createPlayerglobalDTO.secondaryPositionIds.length;
+
+      if (numberOfSecondaryPositions > SECONDARY_POSITIONS_MAX) {
+        throw new BadRequestException(
+          `A playerglobal can have a maximum of ${SECONDARY_POSITIONS_MAX} secondary positions, but there are ${numberOfSecondaryPositions}.`,
+        );
+      }
+    }
+
     await this.countryService.findCountryById(createPlayerglobalDTO.countryId);
 
     if (
@@ -35,7 +62,34 @@ export class PlayerglobalService {
       );
     }
 
-    return this.playerglobalRepository.save(createPlayerglobalDTO);
+    const playerglobal = await this.playerglobalRepository.save(
+      createPlayerglobalDTO,
+    );
+
+    // Try to accomplish this before creating the playerglobal.
+    await Promise.all(
+      createPlayerglobalDTO.primaryPositionIds.map(async (positionId) => {
+        await this.positionService.findPositionById(positionId);
+        await this.playerglobalPositionService.createPlayerglobalPosition(
+          playerglobal.id,
+          positionId,
+        );
+      }),
+    );
+
+    if (createPlayerglobalDTO.secondaryPositionIds !== undefined) {
+      await Promise.all(
+        createPlayerglobalDTO.secondaryPositionIds.map(async (positionId) => {
+          await this.positionService.findPositionById(positionId);
+          await this.playerglobalPositionService.createPlayerglobalPosition(
+            playerglobal.id,
+            positionId,
+          );
+        }),
+      );
+    }
+
+    return playerglobal;
   }
 
   async findAllPlayerglobal(
@@ -103,6 +157,26 @@ export class PlayerglobalService {
   ): Promise<PlayerglobalEntity> {
     const playerglobal = await this.findPlayerglobalById(playerglobalId);
 
+    const numberOfPrimaryPositions =
+      updatePlayerglobalDTO.primaryPositionIds.length;
+
+    if (numberOfPrimaryPositions > PRIMARY_POSITIONS_MAX) {
+      throw new BadRequestException(
+        `A playerglobal can have a maximum of ${PRIMARY_POSITIONS_MAX} primary positions, but there are ${numberOfPrimaryPositions}.`,
+      );
+    }
+
+    if (updatePlayerglobalDTO.secondaryPositionIds !== undefined) {
+      const numberOfSecondaryPositions =
+        updatePlayerglobalDTO.secondaryPositionIds.length;
+
+      if (numberOfSecondaryPositions > SECONDARY_POSITIONS_MAX) {
+        throw new BadRequestException(
+          `A playerglobal can have a maximum of ${SECONDARY_POSITIONS_MAX} secondary positions, but there are ${numberOfSecondaryPositions}.`,
+        );
+      }
+    }
+
     await this.countryService.findCountryById(updatePlayerglobalDTO.countryId);
 
     if (updatePlayerglobalDTO.teamglobalId === undefined) {
@@ -110,6 +184,32 @@ export class PlayerglobalService {
     } else if (updatePlayerglobalDTO.teamglobalId !== null) {
       await this.teamglobalService.findTeamglobalById(
         updatePlayerglobalDTO.teamglobalId,
+      );
+    }
+
+    await this.playerglobalPositionService.deletePlayerglobalPosition(
+      playerglobalId,
+    );
+
+    await Promise.all(
+      updatePlayerglobalDTO.primaryPositionIds.map(async (positionId) => {
+        await this.positionService.findPositionById(positionId);
+        await this.playerglobalPositionService.createPlayerglobalPosition(
+          playerglobal.id,
+          positionId,
+        );
+      }),
+    );
+
+    if (updatePlayerglobalDTO.secondaryPositionIds !== undefined) {
+      await Promise.all(
+        updatePlayerglobalDTO.secondaryPositionIds.map(async (positionId) => {
+          await this.positionService.findPositionById(positionId);
+          await this.playerglobalPositionService.createPlayerglobalPosition(
+            playerglobal.id,
+            positionId,
+          );
+        }),
       );
     }
 
@@ -134,6 +234,10 @@ export class PlayerglobalService {
         `playerglobalId: ${playerglobalId} with relations.`,
       );
     }
+
+    await this.playerglobalPositionService.deletePlayerglobalPosition(
+      playerglobalId,
+    );
 
     return this.playerglobalRepository.delete({ id: playerglobalId });
   }

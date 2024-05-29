@@ -33,6 +33,9 @@ export class PlayerglobalController {
     const relations = {
       country: true,
       teamglobal: true,
+      playersglobalPosition: {
+        position: true,
+      },
     };
 
     return (await this.playerglobalService.findAllPlayerglobal(relations)).map(
@@ -47,6 +50,9 @@ export class PlayerglobalController {
     const relations = {
       country: true,
       teamglobal: true,
+      playersglobalPosition: {
+        position: true,
+      },
     };
 
     return new ReturnPlayerglobalDTO(

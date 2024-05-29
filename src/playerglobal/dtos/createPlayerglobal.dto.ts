@@ -1,4 +1,10 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreatePlayerglobalDTO {
   @IsNumber()
@@ -16,4 +22,14 @@ export class CreatePlayerglobalDTO {
 
   @IsNumber()
   overall: number;
+
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsNumber({}, { each: true })
+  primaryPositionIds: number[];
+
+  @IsOptional()
+  @IsArray()
+  @IsNumber({}, { each: true })
+  secondaryPositionIds: number[];
 }

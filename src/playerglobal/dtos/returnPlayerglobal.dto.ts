@@ -1,6 +1,7 @@
 import { ReturnCountryDTO } from 'src/country/dtos/returnCountry.dto';
 import { ReturnTeamglobalDTO } from 'src/teamglobal/dtos/returnTeamglobal.dto';
 import { PlayerglobalEntity } from '../entities/playerglobal.entity';
+import { ReturnPlayerglobalPositionDTO } from 'src/playerglobal_position/dtos/returnCompetitionglobalTeamglobal.dto';
 
 export class ReturnPlayerglobalDTO {
   id: number;
@@ -9,6 +10,8 @@ export class ReturnPlayerglobalDTO {
   overall: number;
   country?: ReturnCountryDTO;
   teamglobal?: ReturnTeamglobalDTO;
+
+  playersglobalPosition?: ReturnPlayerglobalPositionDTO[];
 
   constructor(playerglobal: PlayerglobalEntity) {
     this.id = playerglobal.id;
@@ -22,6 +25,13 @@ export class ReturnPlayerglobalDTO {
 
     this.teamglobal = playerglobal.teamglobal
       ? new ReturnTeamglobalDTO(playerglobal.teamglobal)
+      : undefined;
+
+    this.playersglobalPosition = playerglobal.playersglobalPosition
+      ? playerglobal.playersglobalPosition.map(
+          (playerglobalPosition) =>
+            new ReturnPlayerglobalPositionDTO(playerglobalPosition),
+        )
       : undefined;
   }
 }

@@ -6,5 +6,6 @@ import { PlayerglobalPositionEntity } from './entities/playerglobal_position.ent
 @Module({
   imports: [TypeOrmModule.forFeature([PlayerglobalPositionEntity])],
   providers: [PlayerglobalPositionService],
+  exports: [PlayerglobalPositionService],
 })
 export class PlayerglobalPositionModule {}
