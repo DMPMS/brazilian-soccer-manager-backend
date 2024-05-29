@@ -9,6 +9,7 @@ export class CreateTablePlayerglobalPosition1716994898724
             id SERIAL NOT NULL,
             playerglobal_id integer NOT NULL,
             position_id integer NOT NULL,
+            rating decimal(3,2) NOT NULL,
 
             created_at timestamp without time zone DEFAULT now() NOT NULL,
             updated_at timestamp without time zone DEFAULT now() NOT NULL,

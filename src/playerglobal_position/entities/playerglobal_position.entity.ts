@@ -21,6 +21,9 @@ export class PlayerglobalPositionEntity {
   @Column({ name: 'position_id', nullable: false })
   positionId: number;
 
+  @Column({ name: 'rating', type: 'decimal', nullable: false })
+  rating: number;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

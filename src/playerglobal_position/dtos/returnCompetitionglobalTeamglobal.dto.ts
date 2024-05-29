@@ -4,11 +4,16 @@ import { PlayerglobalPositionEntity } from '../entities/playerglobal_position.en
 
 export class ReturnPlayerglobalPositionDTO {
   id: number;
+  rating: number;
   playerglobal?: ReturnPlayerglobalDTO;
   position?: ReturnPositionDTO;
 
   constructor(playerglobalPositionEntity: PlayerglobalPositionEntity) {
     this.id = playerglobalPositionEntity.id;
+    this.rating =
+      typeof playerglobalPositionEntity.rating === 'string'
+        ? parseFloat(playerglobalPositionEntity.rating)
+        : playerglobalPositionEntity.rating;
 
     this.playerglobal = playerglobalPositionEntity.playerglobal
       ? new ReturnPlayerglobalDTO(playerglobalPositionEntity.playerglobal)

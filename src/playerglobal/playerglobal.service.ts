@@ -16,6 +16,8 @@ import { PlayerglobalPositionService } from 'src/playerglobal_position/playerglo
 
 const PRIMARY_POSITIONS_MAX = 3;
 const SECONDARY_POSITIONS_MAX = 5;
+const PRIMARY_POSITION_RATING = 1.0;
+const SECONDARY_POSITION_RATING = 0.95;
 
 @Injectable()
 export class PlayerglobalService {
@@ -73,6 +75,7 @@ export class PlayerglobalService {
         await this.playerglobalPositionService.createPlayerglobalPosition(
           playerglobal.id,
           positionId,
+          PRIMARY_POSITION_RATING,
         );
       }),
     );
@@ -84,6 +87,7 @@ export class PlayerglobalService {
           await this.playerglobalPositionService.createPlayerglobalPosition(
             playerglobal.id,
             positionId,
+            SECONDARY_POSITION_RATING,
           );
         }),
       );
@@ -197,6 +201,7 @@ export class PlayerglobalService {
         await this.playerglobalPositionService.createPlayerglobalPosition(
           playerglobal.id,
           positionId,
+          PRIMARY_POSITION_RATING,
         );
       }),
     );
@@ -208,6 +213,7 @@ export class PlayerglobalService {
           await this.playerglobalPositionService.createPlayerglobalPosition(
             playerglobal.id,
             positionId,
+            SECONDARY_POSITION_RATING,
           );
         }),
       );

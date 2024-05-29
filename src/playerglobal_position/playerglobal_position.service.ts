@@ -13,10 +13,12 @@ export class PlayerglobalPositionService {
   async createPlayerglobalPosition(
     playerglobalId: number,
     positionId: number,
+    rating: number,
   ): Promise<PlayerglobalPositionEntity> {
     return this.playerglobalPositionRepository.save({
       playerglobalId,
       positionId,
+      rating,
     });
   }
 
