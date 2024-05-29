@@ -1,4 +1,5 @@
 import { CountryEntity } from 'src/country/entities/country.entity';
+import { PlayerglobalPositionEntity } from 'src/playerglobal_position/entities/playerglobal_position.entity';
 import { TeamglobalEntity } from 'src/teamglobal/entities/teamglobal.entity';
 import {
   Column,
@@ -6,6 +7,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -44,4 +46,10 @@ export class PlayerglobalEntity {
   @OneToOne(() => TeamglobalEntity, (teamglobal) => teamglobal.playersglobal)
   @JoinColumn({ name: 'teamglobal_id', referencedColumnName: 'id' })
   teamglobal?: TeamglobalEntity;
+
+  @OneToMany(
+    () => PlayerglobalPositionEntity,
+    (playerglobalPosition) => playerglobalPosition.playerglobal,
+  )
+  playersglobalPosition?: PlayerglobalPositionEntity[];
 }

@@ -1,7 +1,9 @@
+import { PlayerglobalPositionEntity } from 'src/playerglobal_position/entities/playerglobal_position.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -25,4 +27,10 @@ export class PositionEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @OneToMany(
+    () => PlayerglobalPositionEntity,
+    (playerglobalPosition) => playerglobalPosition.position,
+  )
+  playersglobalPosition?: PlayerglobalPositionEntity[];
 }
