@@ -28,12 +28,14 @@ export class ReturnCompetitionglobalDTO {
 
     this.competitionsglobalTeamglobal =
       competitionglobalEntity.competitionsglobalTeamglobal
-        ? competitionglobalEntity.competitionsglobalTeamglobal.map(
-            (competitionglobalTeamglobal) =>
-              new ReturnCompetitionglobalTeamglobalDTO(
-                competitionglobalTeamglobal,
-              ),
-          )
+        ? competitionglobalEntity.competitionsglobalTeamglobal
+            .map(
+              (competitionglobalTeamglobal) =>
+                new ReturnCompetitionglobalTeamglobalDTO(
+                  competitionglobalTeamglobal,
+                ),
+            )
+            .sort((a, b) => a.teamglobal.name.localeCompare(b.teamglobal.name))
         : undefined;
   }
 }

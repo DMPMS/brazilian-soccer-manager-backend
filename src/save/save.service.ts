@@ -48,6 +48,7 @@ export class SaveService {
       },
       order: {
         updatedAt: 'DESC',
+        id: 'DESC',
       },
     };
 

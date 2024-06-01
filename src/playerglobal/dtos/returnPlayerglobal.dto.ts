@@ -28,10 +28,12 @@ export class ReturnPlayerglobalDTO {
       : undefined;
 
     this.playersglobalPosition = playerglobalEntity.playersglobalPosition
-      ? playerglobalEntity.playersglobalPosition.map(
-          (playerglobalPosition) =>
-            new ReturnPlayerglobalPositionDTO(playerglobalPosition),
-        )
+      ? playerglobalEntity.playersglobalPosition
+          .map(
+            (playerglobalPosition) =>
+              new ReturnPlayerglobalPositionDTO(playerglobalPosition),
+          )
+          .sort((a, b) => a.position.id - b.position.id)
       : undefined;
   }
 }

@@ -47,7 +47,8 @@ export class UserService {
         userType: UserType.User,
       },
       order: {
-        createdAt: 'DESC',
+        updatedAt: 'DESC',
+        id: 'DESC',
       },
     };
 

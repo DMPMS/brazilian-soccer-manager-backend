@@ -16,7 +16,7 @@ export class RuleService {
     findOptions = {
       ...findOptions,
       order: {
-        name: 'ASC',
+        id: 'ASC',
       },
     };
 

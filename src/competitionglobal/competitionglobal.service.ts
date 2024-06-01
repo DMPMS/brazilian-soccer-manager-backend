@@ -75,7 +75,8 @@ export class CompetitionglobalService {
     findOptions = {
       ...findOptions,
       order: {
-        createdAt: 'DESC',
+        updatedAt: 'DESC',
+        id: 'DESC',
       },
     };
 

@@ -46,7 +46,8 @@ export class TeamglobalService {
     findOptions = {
       ...findOptions,
       order: {
-        createdAt: 'DESC',
+        updatedAt: 'DESC',
+        id: 'DESC',
       },
     };
 

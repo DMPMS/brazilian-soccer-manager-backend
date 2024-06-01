@@ -100,7 +100,8 @@ export class PlayerglobalService {
     findOptions = {
       ...findOptions,
       order: {
-        createdAt: 'DESC',
+        updatedAt: 'DESC',
+        id: 'DESC',
       },
     };
 
