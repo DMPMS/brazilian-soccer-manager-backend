@@ -4,8 +4,8 @@ export class ReturnCountryDTO {
   id: number;
   name: string;
 
-  constructor(country: CountryEntity) {
-    this.id = country.id;
-    this.name = country.name;
+  constructor(countryEntity: CountryEntity) {
+    this.id = countryEntity.id;
+    this.name = countryEntity.name;
   }
 }

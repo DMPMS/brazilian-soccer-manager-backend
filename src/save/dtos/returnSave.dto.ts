@@ -4,8 +4,8 @@ export class ReturnSaveDTO {
   id: number;
   name: string;
 
-  constructor(save: SaveEntity) {
-    this.id = save.id;
-    this.name = save.name;
+  constructor(saveEntity: SaveEntity) {
+    this.id = saveEntity.id;
+    this.name = saveEntity.name;
   }
 }

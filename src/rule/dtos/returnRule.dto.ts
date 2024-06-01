@@ -7,11 +7,11 @@ export class ReturnRuleDTO {
   numberOfTeams: number;
   yellowCardsMax: number;
 
-  constructor(rule: RuleEntity) {
-    this.id = rule.id;
-    this.name = rule.name;
-    this.competitionType = rule.competitionType;
-    this.numberOfTeams = rule.numberOfTeams;
-    this.yellowCardsMax = rule.yellowCardsMax;
+  constructor(ruleEntity: RuleEntity) {
+    this.id = ruleEntity.id;
+    this.name = ruleEntity.name;
+    this.competitionType = ruleEntity.competitionType;
+    this.numberOfTeams = ruleEntity.numberOfTeams;
+    this.yellowCardsMax = ruleEntity.yellowCardsMax;
   }
 }

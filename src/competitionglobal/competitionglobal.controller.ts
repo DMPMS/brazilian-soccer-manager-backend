@@ -28,10 +28,10 @@ export class CompetitionglobalController {
   @UsePipes(ValidationPipe)
   @Post()
   async createCompetitionglobal(
-    @Body() createCompetitionglobal: CreateCompetitionglobalDTO,
+    @Body() createCompetitionglobalDTO: CreateCompetitionglobalDTO,
   ): Promise<CompetitionglobalEntity> {
     return this.competitionglobalService.createCompetitionglobal(
-      createCompetitionglobal,
+      createCompetitionglobalDTO,
     );
   }
 
@@ -72,11 +72,11 @@ export class CompetitionglobalController {
   @UsePipes(ValidationPipe)
   @Put('/:competitionglobalId')
   async updateCompetitionglobal(
-    @Body() updateCompetitionglobal: UpdateCompetitionglobalDTO,
+    @Body() updateCompetitionglobalDTO: UpdateCompetitionglobalDTO,
     @Param('competitionglobalId') competitionglobalId: number,
   ): Promise<CompetitionglobalEntity> {
     return this.competitionglobalService.updateCompetitionglobal(
-      updateCompetitionglobal,
+      updateCompetitionglobalDTO,
       competitionglobalId,
     );
   }

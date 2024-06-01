@@ -26,9 +26,9 @@ export class TeamglobalController {
   @UsePipes(ValidationPipe)
   @Post()
   async createTeamglobal(
-    @Body() createTeamglobal: CreateTeamglobalDTO,
+    @Body() createTeamglobalDTO: CreateTeamglobalDTO,
   ): Promise<TeamglobalEntity> {
-    return this.teamglobalService.createTeamglobal(createTeamglobal);
+    return this.teamglobalService.createTeamglobal(createTeamglobalDTO);
   }
 
   @Get()
@@ -63,11 +63,11 @@ export class TeamglobalController {
   @UsePipes(ValidationPipe)
   @Put('/:teamglobalId')
   async updateTeamglobal(
-    @Body() updateTeamglobal: UpdateTeamglobalDTO,
+    @Body() updateTeamglobalDTO: UpdateTeamglobalDTO,
     @Param('teamglobalId') teamglobalId: number,
   ): Promise<TeamglobalEntity> {
     return this.teamglobalService.updateTeamglobal(
-      updateTeamglobal,
+      updateTeamglobalDTO,
       teamglobalId,
     );
   }

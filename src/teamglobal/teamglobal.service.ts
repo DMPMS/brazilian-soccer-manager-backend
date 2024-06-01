@@ -96,16 +96,16 @@ export class TeamglobalService {
   }
 
   async updateTeamglobal(
-    updateTeamglobal: UpdateTeamglobalDTO,
+    updateTeamglobalDTO: UpdateTeamglobalDTO,
     teamglobalId: number,
   ): Promise<TeamglobalEntity> {
     const teamglobal = await this.findTeamglobalById(teamglobalId);
 
-    await this.countryService.findCountryById(updateTeamglobal.countryId);
+    await this.countryService.findCountryById(updateTeamglobalDTO.countryId);
 
-    if (updateTeamglobal.managerglobalId !== teamglobal.managerglobalId) {
+    if (updateTeamglobalDTO.managerglobalId !== teamglobal.managerglobalId) {
       await this.managerglobalService.findManagerglobalById(
-        updateTeamglobal.managerglobalId,
+        updateTeamglobalDTO.managerglobalId,
         undefined,
         true,
       );
@@ -113,7 +113,7 @@ export class TeamglobalService {
 
     return this.teamglobalRepository.save({
       ...teamglobal,
-      ...updateTeamglobal,
+      ...updateTeamglobalDTO,
     });
   }
 

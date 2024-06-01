@@ -16,7 +16,7 @@ import { ManagerglobalEntity } from './entities/managerglobal.entity';
 import { ReturnManagerglobalDTO } from './dtos/returnManagerglobal.dto';
 import { UserType } from 'src/user/enums/userType.enum';
 import { Roles } from 'src/decorators/roles.decorator';
-import { UpdateManagerglobalDTO } from './dtos/updateManagergloba.dto';
+import { UpdateManagerglobalDTO } from './dtos/updateManagerglobal.dto';
 import { DeleteResult } from 'typeorm';
 
 @Roles(UserType.Admin)
@@ -27,9 +27,11 @@ export class ManagerglobalController {
   @UsePipes(ValidationPipe)
   @Post()
   async createManagerglobal(
-    @Body() createManagerglobal: CreateManagerglobalDTO,
+    @Body() createManagerglobalDTO: CreateManagerglobalDTO,
   ): Promise<ManagerglobalEntity> {
-    return this.managerglobalService.createManagerglobal(createManagerglobal);
+    return this.managerglobalService.createManagerglobal(
+      createManagerglobalDTO,
+    );
   }
 
   @Get()
@@ -68,11 +70,11 @@ export class ManagerglobalController {
   @UsePipes(ValidationPipe)
   @Put('/:managerglobalId')
   async updateManagerglobal(
-    @Body() updateManagerglobal: UpdateManagerglobalDTO,
+    @Body() updateManagerglobalDTO: UpdateManagerglobalDTO,
     @Param('managerglobalId') managerglobalId: number,
   ): Promise<ManagerglobalEntity> {
     return this.managerglobalService.updateManagerglobal(
-      updateManagerglobal,
+      updateManagerglobalDTO,
       managerglobalId,
     );
   }

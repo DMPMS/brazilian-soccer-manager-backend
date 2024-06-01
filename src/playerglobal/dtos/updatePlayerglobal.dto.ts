@@ -28,7 +28,6 @@ export class UpdatePlayerglobalDTO {
   @IsNumber({}, { each: true })
   primaryPositionIds: number[];
 
-  @IsOptional()
   @IsArray()
   @IsNumber({}, { each: true })
   secondaryPositionIds: number[];

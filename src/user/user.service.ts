@@ -26,7 +26,7 @@ export class UserService {
     );
 
     if (user) {
-      throw new BadGatewayException('Email already registered in the system.');
+      throw new BadGatewayException('Email already registered.');
     }
 
     const passwordHashed = await createPasswordHashed(createUserDTO.password);
@@ -43,6 +43,9 @@ export class UserService {
 
     findOptions = {
       ...findOptions,
+      where: {
+        userType: UserType.User,
+      },
       order: {
         createdAt: 'DESC',
       },
@@ -111,13 +114,13 @@ export class UserService {
   ): Promise<UserEntity> {
     const user = await this.findUserById(userId);
 
-    const passwordHashed = await createPasswordHashed(
+    const newPasswordHashed = await createPasswordHashed(
       updatePasswordDTO.newPassword,
     );
 
     const isMatch = await validatePassword(
       updatePasswordDTO.lastPassword,
-      user.password || '',
+      user.password,
     );
 
     if (!isMatch) {
@@ -126,7 +129,7 @@ export class UserService {
 
     return this.userRepository.save({
       ...user,
-      password: passwordHashed,
+      password: newPasswordHashed,
     });
   }
 }

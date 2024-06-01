@@ -42,15 +42,13 @@ export class PlayerglobalService {
       );
     }
 
-    if (createPlayerglobalDTO.secondaryPositionIds !== undefined) {
-      const numberOfSecondaryPositions =
-        createPlayerglobalDTO.secondaryPositionIds.length;
+    const numberOfSecondaryPositions =
+      createPlayerglobalDTO.secondaryPositionIds.length;
 
-      if (numberOfSecondaryPositions > SECONDARY_POSITIONS_MAX) {
-        throw new BadRequestException(
-          `A playerglobal can have a maximum of ${SECONDARY_POSITIONS_MAX} secondary positions, but there are ${numberOfSecondaryPositions}.`,
-        );
-      }
+    if (numberOfSecondaryPositions > SECONDARY_POSITIONS_MAX) {
+      throw new BadRequestException(
+        `A playerglobal can have a maximum of ${SECONDARY_POSITIONS_MAX} secondary positions, but there are ${numberOfSecondaryPositions}.`,
+      );
     }
 
     await this.countryService.findCountryById(createPlayerglobalDTO.countryId);
@@ -80,18 +78,16 @@ export class PlayerglobalService {
       }),
     );
 
-    if (createPlayerglobalDTO.secondaryPositionIds !== undefined) {
-      await Promise.all(
-        createPlayerglobalDTO.secondaryPositionIds.map(async (positionId) => {
-          await this.positionService.findPositionById(positionId);
-          await this.playerglobalPositionService.createPlayerglobalPosition(
-            playerglobal.id,
-            positionId,
-            SECONDARY_POSITION_RATING,
-          );
-        }),
-      );
-    }
+    await Promise.all(
+      createPlayerglobalDTO.secondaryPositionIds.map(async (positionId) => {
+        await this.positionService.findPositionById(positionId);
+        await this.playerglobalPositionService.createPlayerglobalPosition(
+          playerglobal.id,
+          positionId,
+          SECONDARY_POSITION_RATING,
+        );
+      }),
+    );
 
     return playerglobal;
   }
@@ -170,15 +166,13 @@ export class PlayerglobalService {
       );
     }
 
-    if (updatePlayerglobalDTO.secondaryPositionIds !== undefined) {
-      const numberOfSecondaryPositions =
-        updatePlayerglobalDTO.secondaryPositionIds.length;
+    const numberOfSecondaryPositions =
+      updatePlayerglobalDTO.secondaryPositionIds.length;
 
-      if (numberOfSecondaryPositions > SECONDARY_POSITIONS_MAX) {
-        throw new BadRequestException(
-          `A playerglobal can have a maximum of ${SECONDARY_POSITIONS_MAX} secondary positions, but there are ${numberOfSecondaryPositions}.`,
-        );
-      }
+    if (numberOfSecondaryPositions > SECONDARY_POSITIONS_MAX) {
+      throw new BadRequestException(
+        `A playerglobal can have a maximum of ${SECONDARY_POSITIONS_MAX} secondary positions, but there are ${numberOfSecondaryPositions}.`,
+      );
     }
 
     await this.countryService.findCountryById(updatePlayerglobalDTO.countryId);
@@ -206,18 +200,16 @@ export class PlayerglobalService {
       }),
     );
 
-    if (updatePlayerglobalDTO.secondaryPositionIds !== undefined) {
-      await Promise.all(
-        updatePlayerglobalDTO.secondaryPositionIds.map(async (positionId) => {
-          await this.positionService.findPositionById(positionId);
-          await this.playerglobalPositionService.createPlayerglobalPosition(
-            playerglobal.id,
-            positionId,
-            SECONDARY_POSITION_RATING,
-          );
-        }),
-      );
-    }
+    await Promise.all(
+      updatePlayerglobalDTO.secondaryPositionIds.map(async (positionId) => {
+        await this.positionService.findPositionById(positionId);
+        await this.playerglobalPositionService.createPlayerglobalPosition(
+          playerglobal.id,
+          positionId,
+          SECONDARY_POSITION_RATING,
+        );
+      }),
+    );
 
     return this.playerglobalRepository.save({
       ...playerglobal,

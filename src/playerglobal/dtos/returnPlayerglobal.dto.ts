@@ -13,22 +13,22 @@ export class ReturnPlayerglobalDTO {
 
   playersglobalPosition?: ReturnPlayerglobalPositionDTO[];
 
-  constructor(playerglobal: PlayerglobalEntity) {
-    this.id = playerglobal.id;
-    this.name = playerglobal.name;
-    this.age = playerglobal.age;
-    this.overall = playerglobal.overall;
+  constructor(playerglobalEntity: PlayerglobalEntity) {
+    this.id = playerglobalEntity.id;
+    this.name = playerglobalEntity.name;
+    this.age = playerglobalEntity.age;
+    this.overall = playerglobalEntity.overall;
 
-    this.country = playerglobal.country
-      ? new ReturnCountryDTO(playerglobal.country)
+    this.country = playerglobalEntity.country
+      ? new ReturnCountryDTO(playerglobalEntity.country)
       : undefined;
 
-    this.teamglobal = playerglobal.teamglobal
-      ? new ReturnTeamglobalDTO(playerglobal.teamglobal)
+    this.teamglobal = playerglobalEntity.teamglobal
+      ? new ReturnTeamglobalDTO(playerglobalEntity.teamglobal)
       : undefined;
 
-    this.playersglobalPosition = playerglobal.playersglobalPosition
-      ? playerglobal.playersglobalPosition.map(
+    this.playersglobalPosition = playerglobalEntity.playersglobalPosition
+      ? playerglobalEntity.playersglobalPosition.map(
           (playerglobalPosition) =>
             new ReturnPlayerglobalPositionDTO(playerglobalPosition),
         )

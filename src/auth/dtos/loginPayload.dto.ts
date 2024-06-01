@@ -4,8 +4,8 @@ export class LoginPayload {
   id: number;
   userType: number;
 
-  constructor(user: UserEntity) {
-    this.id = user.id;
-    this.userType = user.userType;
+  constructor(userEntity: UserEntity) {
+    this.id = userEntity.id;
+    this.userType = userEntity.userType;
   }
 }

@@ -6,10 +6,10 @@ export class ReturnPositionDTO {
   abbreviation: string;
   area: string;
 
-  constructor(position: PositionEntity) {
-    this.id = position.id;
-    this.name = position.name;
-    this.abbreviation = position.abbreviation;
-    this.area = position.area;
+  constructor(positionEntity: PositionEntity) {
+    this.id = positionEntity.id;
+    this.name = positionEntity.name;
+    this.abbreviation = positionEntity.abbreviation;
+    this.area = positionEntity.area;
   }
 }

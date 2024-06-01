@@ -9,7 +9,7 @@ import { DeleteResult, In, Not, Repository } from 'typeorm';
 import { CreateManagerglobalDTO } from './dtos/createManagerglobal.dto';
 import { CountryService } from 'src/country/country.service';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
-import { UpdateManagerglobalDTO } from './dtos/updateManagergloba.dto';
+import { UpdateManagerglobalDTO } from './dtos/updateManagerglobal.dto';
 import { RelationsOptions } from 'src/types/RelationsOptions.type';
 
 const DEFAULT_WITHOUT_TEAMGLOBAL = false;
@@ -123,16 +123,16 @@ export class ManagerglobalService {
   }
 
   async updateManagerglobal(
-    updateManagerglobal: UpdateManagerglobalDTO,
+    updateManagerglobalDTO: UpdateManagerglobalDTO,
     managerglobalId: number,
   ): Promise<ManagerglobalEntity> {
     const managerglobal = await this.findManagerglobalById(managerglobalId);
 
-    await this.countryService.findCountryById(updateManagerglobal.countryId);
+    await this.countryService.findCountryById(updateManagerglobalDTO.countryId);
 
     return this.managerglobalRepository.save({
       ...managerglobal,
-      ...updateManagerglobal,
+      ...updateManagerglobalDTO,
     });
   }
 

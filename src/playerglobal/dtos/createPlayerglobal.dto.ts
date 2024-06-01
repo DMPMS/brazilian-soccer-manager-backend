@@ -28,7 +28,6 @@ export class CreatePlayerglobalDTO {
   @IsNumber({}, { each: true })
   primaryPositionIds: number[];
 
-  @IsOptional()
   @IsArray()
   @IsNumber({}, { each: true })
   secondaryPositionIds: number[];
