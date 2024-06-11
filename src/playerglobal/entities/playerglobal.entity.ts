@@ -8,7 +8,6 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -43,7 +42,7 @@ export class PlayerglobalEntity {
   @JoinColumn({ name: 'country_id', referencedColumnName: 'id' })
   country?: CountryEntity;
 
-  @OneToOne(() => TeamglobalEntity, (teamglobal) => teamglobal.playersglobal)
+  @ManyToOne(() => TeamglobalEntity, (teamglobal) => teamglobal.playersglobal)
   @JoinColumn({ name: 'teamglobal_id', referencedColumnName: 'id' })
   teamglobal?: TeamglobalEntity;
 

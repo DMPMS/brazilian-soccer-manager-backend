@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PlayerglobalEntity } from './entities/playerglobal.entity';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, IsNull, Repository } from 'typeorm';
 import { CountryService } from 'src/country/country.service';
 import { CreatePlayerglobalDTO } from './dtos/createPlayerglobal.dto';
 import { RelationsOptions } from 'src/types/RelationsOptions.type';
@@ -13,6 +13,8 @@ import { UpdatePlayerglobalDTO } from './dtos/updatePlayerglobal.dto';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
 import { PositionService } from 'src/position/position.service';
 import { PlayerglobalPositionService } from 'src/playerglobal_position/playerglobal_position.service';
+
+const DEFAULT_WITHOUT_TEAMGLOBAL = false;
 
 const PRIMARY_POSITIONS_MAX = 3;
 const SECONDARY_POSITIONS_MAX = 5;
@@ -94,6 +96,7 @@ export class PlayerglobalService {
 
   async findAllPlayerglobal(
     relations?: RelationsOptions,
+    isWithoutTeamglobal = DEFAULT_WITHOUT_TEAMGLOBAL,
   ): Promise<PlayerglobalEntity[]> {
     let findOptions = {};
 
@@ -104,6 +107,15 @@ export class PlayerglobalService {
         id: 'DESC',
       },
     };
+
+    if (isWithoutTeamglobal === true) {
+      findOptions = {
+        ...findOptions,
+        where: {
+          teamglobalId: IsNull(),
+        },
+      };
+    }
 
     if (relations && Object.keys(relations).length > 0) {
       findOptions = {
@@ -124,6 +136,7 @@ export class PlayerglobalService {
   async findPlayerglobalById(
     playerglobalId: number,
     relations?: RelationsOptions,
+    withoutTeamglobal = DEFAULT_WITHOUT_TEAMGLOBAL,
   ): Promise<PlayerglobalEntity> {
     let findOptions = {};
 
@@ -146,6 +159,12 @@ export class PlayerglobalService {
     if (!playerglobal) {
       throw new NotFoundException(
         `playerglobalId: ${playerglobalId} not found.`,
+      );
+    }
+
+    if (playerglobal.teamglobal && withoutTeamglobal === true) {
+      throw new BadRequestException(
+        `playerglobalId: ${playerglobalId} with teamglobal.`,
       );
     }
 

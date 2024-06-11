@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -29,7 +30,9 @@ export class PlayerglobalController {
   }
 
   @Get()
-  async findAllPlayerglobal(): Promise<ReturnPlayerglobalDTO[]> {
+  async findAllPlayerglobal(
+    @Query('isWithoutTeamglobal') isWithoutTeamglobal?: boolean,
+  ): Promise<ReturnPlayerglobalDTO[]> {
     const relations = {
       country: true,
       teamglobal: true,
@@ -38,9 +41,12 @@ export class PlayerglobalController {
       },
     };
 
-    return (await this.playerglobalService.findAllPlayerglobal(relations)).map(
-      (playerglobal) => new ReturnPlayerglobalDTO(playerglobal),
-    );
+    return (
+      await this.playerglobalService.findAllPlayerglobal(
+        relations,
+        Boolean(isWithoutTeamglobal),
+      )
+    ).map((playerglobal) => new ReturnPlayerglobalDTO(playerglobal));
   }
 
   @Get('/:playerglobalId')

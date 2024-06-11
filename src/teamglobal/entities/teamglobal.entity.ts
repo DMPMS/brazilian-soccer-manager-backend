@@ -54,6 +54,9 @@ export class TeamglobalEntity {
   )
   competitionsglobalTeamglobal?: CompetitionglobalTeamglobalEntity[];
 
-  @OneToOne(() => PlayerglobalEntity, (playerglobal) => playerglobal.teamglobal)
-  playersglobal?: PlayerglobalEntity;
+  @OneToMany(
+    () => PlayerglobalEntity,
+    (playerglobal) => playerglobal.teamglobal,
+  )
+  playersglobal?: PlayerglobalEntity[];
 }
