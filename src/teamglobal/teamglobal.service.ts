@@ -29,9 +29,11 @@ export class TeamglobalService {
     createTeamglobalDTO: CreateTeamglobalDTO,
   ): Promise<TeamglobalEntity> {
     await this.countryService.findCountryById(createTeamglobalDTO.countryId);
+
+    const relations = { teamglobal: true };
     await this.managerglobalService.findManagerglobalById(
       createTeamglobalDTO.managerglobalId,
-      undefined,
+      relations,
       true,
     );
 
@@ -105,9 +107,10 @@ export class TeamglobalService {
     await this.countryService.findCountryById(updateTeamglobalDTO.countryId);
 
     if (updateTeamglobalDTO.managerglobalId !== teamglobal.managerglobalId) {
+      const relations = { teamglobal: true };
       await this.managerglobalService.findManagerglobalById(
         updateTeamglobalDTO.managerglobalId,
-        undefined,
+        relations,
         true,
       );
     }

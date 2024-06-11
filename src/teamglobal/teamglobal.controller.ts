@@ -53,6 +53,7 @@ export class TeamglobalController {
     const relations = {
       country: true,
       managerglobal: true,
+      playersglobal: true,
     };
 
     return new ReturnTeamglobalDTO(
