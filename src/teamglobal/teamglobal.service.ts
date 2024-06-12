@@ -13,6 +13,7 @@ import { CreateTeamglobalDTO } from './dtos/createTeamglobal.dto';
 import { ManagerglobalService } from 'src/managerglobal/managerglobal.service';
 import { UpdateTeamglobalDTO } from './dtos/updateTeamglobal.dto';
 import { RelationsOptions } from 'src/types/RelationsOptions.type';
+import { PlayerglobalService } from 'src/playerglobal/playerglobal.service';
 
 @Injectable()
 export class TeamglobalService {
@@ -23,6 +24,9 @@ export class TeamglobalService {
 
     @Inject(forwardRef(() => ManagerglobalService))
     private readonly managerglobalService: ManagerglobalService,
+
+    @Inject(forwardRef(() => PlayerglobalService))
+    private readonly playerglobalService: PlayerglobalService,
   ) {}
 
   async createTeamglobal(
@@ -31,13 +35,37 @@ export class TeamglobalService {
     await this.countryService.findCountryById(createTeamglobalDTO.countryId);
 
     const relations = { teamglobal: true };
+
     await this.managerglobalService.findManagerglobalById(
       createTeamglobalDTO.managerglobalId,
       relations,
       true,
     );
 
-    return this.teamglobalRepository.save(createTeamglobalDTO);
+    await Promise.all(
+      createTeamglobalDTO.playerglobalIds.map(async (playerglobalId) => {
+        await this.playerglobalService.findPlayerglobalById(
+          playerglobalId,
+          relations,
+          true,
+        );
+      }),
+    );
+
+    const teamglobal =
+      await this.teamglobalRepository.save(createTeamglobalDTO);
+
+    // Try to accomplish this before creating the teamglobal.
+    await Promise.all(
+      createTeamglobalDTO.playerglobalIds.map(async (playerglobalId) => {
+        await this.playerglobalService.updatePlayerglobalTeamglobalId(
+          teamglobal.id,
+          playerglobalId,
+        );
+      }),
+    );
+
+    return teamglobal;
   }
 
   async findAllTeamglobal(
@@ -102,7 +130,11 @@ export class TeamglobalService {
     updateTeamglobalDTO: UpdateTeamglobalDTO,
     teamglobalId: number,
   ): Promise<TeamglobalEntity> {
-    const teamglobal = await this.findTeamglobalById(teamglobalId);
+    const relationsTeamglobal = { playersglobal: true };
+    const teamglobal = await this.findTeamglobalById(
+      teamglobalId,
+      relationsTeamglobal,
+    );
 
     await this.countryService.findCountryById(updateTeamglobalDTO.countryId);
 
@@ -114,6 +146,46 @@ export class TeamglobalService {
         true,
       );
     }
+
+    const teamglobalPlayersglobalIdsInUpdateDTO: number[] = [];
+
+    await Promise.all(
+      teamglobal.playersglobal.map(async (playerglobal) => {
+        if (!updateTeamglobalDTO.playerglobalIds.includes(playerglobal.id)) {
+          await this.playerglobalService.updatePlayerglobalTeamglobalId(
+            null,
+            playerglobal.id,
+          );
+        } else {
+          teamglobalPlayersglobalIdsInUpdateDTO.push(playerglobal.id);
+        }
+      }),
+    );
+
+    const relations = { teamglobal: true };
+
+    updateTeamglobalDTO.playerglobalIds.map(async (playerglobalId) => {
+      if (!teamglobalPlayersglobalIdsInUpdateDTO.includes(playerglobalId)) {
+        await this.playerglobalService.findPlayerglobalById(
+          playerglobalId,
+          relations,
+          true,
+        );
+      }
+    });
+
+    await Promise.all(
+      updateTeamglobalDTO.playerglobalIds.map(async (playerglobalId) => {
+        if (!teamglobalPlayersglobalIdsInUpdateDTO.includes(playerglobalId)) {
+          await this.playerglobalService.updatePlayerglobalTeamglobalId(
+            teamglobal.id,
+            playerglobalId,
+          );
+        }
+      }),
+    );
+
+    delete teamglobal.playersglobal;
 
     return this.teamglobalRepository.save({
       ...teamglobal,

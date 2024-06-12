@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNumber, IsString } from 'class-validator';
 
 export class CreateTeamglobalDTO {
   @IsNumber()
@@ -6,6 +6,10 @@ export class CreateTeamglobalDTO {
 
   @IsNumber()
   managerglobalId: number;
+
+  @IsArray()
+  @IsNumber({}, { each: true })
+  playerglobalIds: number[];
 
   @IsString()
   name: string;

@@ -1,7 +1,9 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
+  forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PlayerglobalEntity } from './entities/playerglobal.entity';
@@ -27,6 +29,7 @@ export class PlayerglobalService {
     @InjectRepository(PlayerglobalEntity)
     private readonly playerglobalRepository: Repository<PlayerglobalEntity>,
     private readonly countryService: CountryService,
+    @Inject(forwardRef(() => TeamglobalService))
     private readonly teamglobalService: TeamglobalService,
     private readonly positionService: PositionService,
     private readonly playerglobalPositionService: PlayerglobalPositionService,
@@ -258,5 +261,17 @@ export class PlayerglobalService {
     );
 
     return this.playerglobalRepository.delete({ id: playerglobalId });
+  }
+
+  async updatePlayerglobalTeamglobalId(
+    teamglobalId: number | null,
+    playerglobalId: number,
+  ): Promise<PlayerglobalEntity> {
+    const playerglobal = await this.findPlayerglobalById(playerglobalId);
+
+    return this.playerglobalRepository.save({
+      ...playerglobal,
+      teamglobalId: teamglobalId,
+    });
   }
 }

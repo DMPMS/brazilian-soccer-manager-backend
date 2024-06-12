@@ -1,7 +1,9 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
+  forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ManagerglobalEntity } from './entities/managerglobal.entity';
@@ -19,6 +21,7 @@ export class ManagerglobalService {
     @InjectRepository(ManagerglobalEntity)
     private readonly managerglobalRepository: Repository<ManagerglobalEntity>,
     private readonly countryService: CountryService,
+    @Inject(forwardRef(() => TeamglobalService))
     private readonly teamglobalService: TeamglobalService,
   ) {}
 

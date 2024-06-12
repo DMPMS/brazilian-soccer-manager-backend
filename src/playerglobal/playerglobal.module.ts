@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { PlayerglobalService } from './playerglobal.service';
 import { PlayerglobalController } from './playerglobal.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,11 +12,12 @@ import { PlayerglobalPositionModule } from 'src/playerglobal_position/playerglob
   imports: [
     TypeOrmModule.forFeature([PlayerglobalEntity]),
     CountryModule,
-    TeamglobalModule,
+    forwardRef(() => TeamglobalModule),
     PositionModule,
     PlayerglobalPositionModule,
   ],
   providers: [PlayerglobalService],
   controllers: [PlayerglobalController],
+  exports: [PlayerglobalService],
 })
 export class PlayerglobalModule {}
