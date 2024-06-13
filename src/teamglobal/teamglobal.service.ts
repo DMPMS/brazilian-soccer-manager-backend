@@ -46,7 +46,7 @@ export class TeamglobalService {
       createTeamglobalDTO.playerglobalIds.map(async (playerglobalId) => {
         await this.playerglobalService.findPlayerglobalById(
           playerglobalId,
-          relations,
+          undefined,
           true,
         );
       }),
@@ -140,6 +140,22 @@ export class TeamglobalService {
         true,
       );
     }
+
+    await Promise.all(
+      updateTeamglobalDTO.playerglobalIds.map(async (playerglobalId) => {
+        const playerglobal =
+          await this.playerglobalService.findPlayerglobalById(playerglobalId);
+
+        if (
+          playerglobal.teamglobalId &&
+          playerglobal.teamglobalId !== Number(teamglobalId)
+        ) {
+          throw new BadRequestException(
+            `playerglobalId: ${playerglobalId} with teamglobal.`,
+          );
+        }
+      }),
+    );
 
     await this.playerglobalService.updatePlayersglobalAfterUpdateTeamglobal(
       updateTeamglobalDTO.playerglobalIds,

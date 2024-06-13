@@ -179,7 +179,7 @@ export class PlayerglobalService {
       );
     }
 
-    if (playerglobal.teamglobal && withoutTeamglobal === true) {
+    if (playerglobal.teamglobalId && withoutTeamglobal === true) {
       throw new BadRequestException(
         `playerglobalId: ${playerglobalId} with teamglobal.`,
       );
@@ -265,16 +265,9 @@ export class PlayerglobalService {
   }
 
   async deletePlayerglobal(playerglobalId: number): Promise<DeleteResult> {
-    const relations = {
-      teamglobal: true,
-    };
+    const playerglobal = await this.findPlayerglobalById(playerglobalId);
 
-    const playerglobal = await this.findPlayerglobalById(
-      playerglobalId,
-      relations,
-    );
-
-    if (playerglobal.teamglobal) {
+    if (playerglobal.teamglobalId) {
       throw new BadRequestException(
         `playerglobalId: ${playerglobalId} with relations.`,
       );
