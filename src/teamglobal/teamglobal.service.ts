@@ -55,7 +55,6 @@ export class TeamglobalService {
     const teamglobal =
       await this.teamglobalRepository.save(createTeamglobalDTO);
 
-    // Try to accomplish this before creating the teamglobal.
     await Promise.all(
       createTeamglobalDTO.playerglobalIds.map(async (playerglobalId) => {
         await this.playerglobalService.updatePlayerglobalTeamglobalId(
@@ -130,62 +129,22 @@ export class TeamglobalService {
     updateTeamglobalDTO: UpdateTeamglobalDTO,
     teamglobalId: number,
   ): Promise<TeamglobalEntity> {
-    const relationsTeamglobal = { playersglobal: true };
-    const teamglobal = await this.findTeamglobalById(
-      teamglobalId,
-      relationsTeamglobal,
-    );
+    const teamglobal = await this.findTeamglobalById(teamglobalId);
 
     await this.countryService.findCountryById(updateTeamglobalDTO.countryId);
 
     if (updateTeamglobalDTO.managerglobalId !== teamglobal.managerglobalId) {
-      const relations = { teamglobal: true };
       await this.managerglobalService.findManagerglobalById(
         updateTeamglobalDTO.managerglobalId,
-        relations,
+        { teamglobal: true },
         true,
       );
     }
 
-    const teamglobalPlayersglobalIdsInUpdateDTO: number[] = [];
-
-    await Promise.all(
-      teamglobal.playersglobal.map(async (playerglobal) => {
-        if (!updateTeamglobalDTO.playerglobalIds.includes(playerglobal.id)) {
-          await this.playerglobalService.updatePlayerglobalTeamglobalId(
-            null,
-            playerglobal.id,
-          );
-        } else {
-          teamglobalPlayersglobalIdsInUpdateDTO.push(playerglobal.id);
-        }
-      }),
+    await this.playerglobalService.updatePlayersglobalAfterUpdateTeamglobal(
+      updateTeamglobalDTO.playerglobalIds,
+      teamglobalId,
     );
-
-    const relations = { teamglobal: true };
-
-    updateTeamglobalDTO.playerglobalIds.map(async (playerglobalId) => {
-      if (!teamglobalPlayersglobalIdsInUpdateDTO.includes(playerglobalId)) {
-        await this.playerglobalService.findPlayerglobalById(
-          playerglobalId,
-          relations,
-          true,
-        );
-      }
-    });
-
-    await Promise.all(
-      updateTeamglobalDTO.playerglobalIds.map(async (playerglobalId) => {
-        if (!teamglobalPlayersglobalIdsInUpdateDTO.includes(playerglobalId)) {
-          await this.playerglobalService.updatePlayerglobalTeamglobalId(
-            teamglobal.id,
-            playerglobalId,
-          );
-        }
-      }),
-    );
-
-    delete teamglobal.playersglobal;
 
     return this.teamglobalRepository.save({
       ...teamglobal,

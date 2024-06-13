@@ -45,15 +45,18 @@ export class CompetitionglobalService {
         createCompetitionglobalDTO.countryId,
       );
 
+      await Promise.all(
+        createCompetitionglobalDTO.teamglobalIds.map(async (teamglobalId) => {
+          await this.teamglobalService.findTeamglobalById(teamglobalId);
+        }),
+      );
+
       const competitionglobal = await this.competitionglobalRepository.save(
         createCompetitionglobalDTO,
       );
 
-      // Try to accomplish this before creating the competitionglobal.
       await Promise.all(
         createCompetitionglobalDTO.teamglobalIds.map(async (teamglobalId) => {
-          await this.teamglobalService.findTeamglobalById(teamglobalId);
-
           await this.competitionglobalTeamglobalService.createCompetitionglobalTeamglobal(
             competitionglobal.id,
             teamglobalId,
@@ -152,14 +155,18 @@ export class CompetitionglobalService {
       );
     }
 
+    await Promise.all(
+      updateCompetitionglobalDTO.teamglobalIds.map(async (teamglobalId) => {
+        await this.teamglobalService.findTeamglobalById(teamglobalId);
+      }),
+    );
+
     await this.competitionglobalTeamglobalService.deleteCompetitionglobalTeamglobal(
       competitionglobalId,
     );
 
     await Promise.all(
       updateCompetitionglobalDTO.teamglobalIds.map(async (teamglobalId) => {
-        await this.teamglobalService.findTeamglobalById(teamglobalId);
-
         await this.competitionglobalTeamglobalService.createCompetitionglobalTeamglobal(
           competitionglobalId,
           teamglobalId,

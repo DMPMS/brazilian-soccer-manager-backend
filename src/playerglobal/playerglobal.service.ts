@@ -56,12 +56,25 @@ export class PlayerglobalService {
       );
     }
 
+    await Promise.all(
+      createPlayerglobalDTO.primaryPositionIds.map(
+        async (primaryPositionId) => {
+          await this.positionService.findPositionById(primaryPositionId);
+        },
+      ),
+    );
+
+    await Promise.all(
+      createPlayerglobalDTO.secondaryPositionIds.map(
+        async (secondaryPositionId) => {
+          await this.positionService.findPositionById(secondaryPositionId);
+        },
+      ),
+    );
+
     await this.countryService.findCountryById(createPlayerglobalDTO.countryId);
 
-    if (
-      createPlayerglobalDTO.teamglobalId !== undefined &&
-      createPlayerglobalDTO.teamglobalId !== null
-    ) {
+    if (createPlayerglobalDTO.teamglobalId) {
       await this.teamglobalService.findTeamglobalById(
         createPlayerglobalDTO.teamglobalId,
       );
@@ -71,27 +84,28 @@ export class PlayerglobalService {
       createPlayerglobalDTO,
     );
 
-    // Try to accomplish this before creating the playerglobal.
     await Promise.all(
-      createPlayerglobalDTO.primaryPositionIds.map(async (positionId) => {
-        await this.positionService.findPositionById(positionId);
-        await this.playerglobalPositionService.createPlayerglobalPosition(
-          playerglobal.id,
-          positionId,
-          PRIMARY_POSITION_RATING,
-        );
-      }),
+      createPlayerglobalDTO.primaryPositionIds.map(
+        async (primaryPositionId) => {
+          await this.playerglobalPositionService.createPlayerglobalPosition(
+            playerglobal.id,
+            primaryPositionId,
+            PRIMARY_POSITION_RATING,
+          );
+        },
+      ),
     );
 
     await Promise.all(
-      createPlayerglobalDTO.secondaryPositionIds.map(async (positionId) => {
-        await this.positionService.findPositionById(positionId);
-        await this.playerglobalPositionService.createPlayerglobalPosition(
-          playerglobal.id,
-          positionId,
-          SECONDARY_POSITION_RATING,
-        );
-      }),
+      createPlayerglobalDTO.secondaryPositionIds.map(
+        async (secondaryPositionId) => {
+          await this.playerglobalPositionService.createPlayerglobalPosition(
+            playerglobal.id,
+            secondaryPositionId,
+            SECONDARY_POSITION_RATING,
+          );
+        },
+      ),
     );
 
     return playerglobal;
@@ -198,14 +212,26 @@ export class PlayerglobalService {
       );
     }
 
+    await Promise.all(
+      updatePlayerglobalDTO.primaryPositionIds.map(async (positionId) => {
+        await this.positionService.findPositionById(positionId);
+      }),
+    );
+
+    await Promise.all(
+      updatePlayerglobalDTO.secondaryPositionIds.map(async (positionId) => {
+        await this.positionService.findPositionById(positionId);
+      }),
+    );
+
     await this.countryService.findCountryById(updatePlayerglobalDTO.countryId);
 
-    if (updatePlayerglobalDTO.teamglobalId === undefined) {
-      updatePlayerglobalDTO.teamglobalId = null;
-    } else if (updatePlayerglobalDTO.teamglobalId !== null) {
+    if (updatePlayerglobalDTO.teamglobalId) {
       await this.teamglobalService.findTeamglobalById(
         updatePlayerglobalDTO.teamglobalId,
       );
+    } else {
+      updatePlayerglobalDTO.teamglobalId = null;
     }
 
     await this.playerglobalPositionService.deletePlayerglobalPosition(
@@ -214,7 +240,6 @@ export class PlayerglobalService {
 
     await Promise.all(
       updatePlayerglobalDTO.primaryPositionIds.map(async (positionId) => {
-        await this.positionService.findPositionById(positionId);
         await this.playerglobalPositionService.createPlayerglobalPosition(
           playerglobal.id,
           positionId,
@@ -225,7 +250,6 @@ export class PlayerglobalService {
 
     await Promise.all(
       updatePlayerglobalDTO.secondaryPositionIds.map(async (positionId) => {
-        await this.positionService.findPositionById(positionId);
         await this.playerglobalPositionService.createPlayerglobalPosition(
           playerglobal.id,
           positionId,
@@ -273,5 +297,25 @@ export class PlayerglobalService {
       ...playerglobal,
       teamglobalId: teamglobalId,
     });
+  }
+
+  async updatePlayersglobalAfterUpdateTeamglobal(
+    playerglobalIds: number[],
+    teamglobalId: number,
+  ): Promise<void> {
+    await this.playerglobalRepository
+      .createQueryBuilder()
+      .update(PlayerglobalEntity)
+      .set({ teamglobalId: null })
+      .where('teamglobal_id = :teamglobalId', { teamglobalId })
+      .andWhere('id NOT IN (:...playerglobalIds)', { playerglobalIds })
+      .execute();
+
+    await this.playerglobalRepository
+      .createQueryBuilder()
+      .update(PlayerglobalEntity)
+      .set({ teamglobalId: teamglobalId })
+      .where('id IN (:...playerglobalIds)', { playerglobalIds })
+      .execute();
   }
 }
