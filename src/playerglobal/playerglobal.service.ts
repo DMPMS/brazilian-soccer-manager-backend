@@ -15,13 +15,14 @@ import { UpdatePlayerglobalDTO } from './dtos/updatePlayerglobal.dto';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
 import { PositionService } from 'src/position/position.service';
 import { PlayerglobalPositionService } from 'src/playerglobal_position/playerglobal_position.service';
+import {
+  PLAYERGLOBAL_MAX_PRIMARY_POSITIONS,
+  PLAYERGLOBAL_MAX_SECONDARY_POSITIONS,
+  PLAYERGLOBAL_PRIMARY_POSITION_RATING,
+  PLAYERGLOBAL_SECONDARY_POSITION_RATING,
+} from 'src/utils/constants/dtoValidators';
 
 const DEFAULT_WITHOUT_TEAMGLOBAL = false;
-
-const PRIMARY_POSITIONS_MAX = 3;
-const SECONDARY_POSITIONS_MAX = 5;
-const PRIMARY_POSITION_RATING = 1.0;
-const SECONDARY_POSITION_RATING = 0.95;
 
 @Injectable()
 export class PlayerglobalService {
@@ -41,18 +42,18 @@ export class PlayerglobalService {
     const numberOfPrimaryPositions =
       createPlayerglobalDTO.primaryPositionIds.length;
 
-    if (numberOfPrimaryPositions > PRIMARY_POSITIONS_MAX) {
+    if (numberOfPrimaryPositions > PLAYERGLOBAL_MAX_PRIMARY_POSITIONS) {
       throw new BadRequestException(
-        `A playerglobal can have a maximum of ${PRIMARY_POSITIONS_MAX} primary positions, but there are ${numberOfPrimaryPositions}.`,
+        `A playerglobal can have a maximum of ${PLAYERGLOBAL_MAX_PRIMARY_POSITIONS} primary positions, but there are ${numberOfPrimaryPositions}.`,
       );
     }
 
     const numberOfSecondaryPositions =
       createPlayerglobalDTO.secondaryPositionIds.length;
 
-    if (numberOfSecondaryPositions > SECONDARY_POSITIONS_MAX) {
+    if (numberOfSecondaryPositions > PLAYERGLOBAL_MAX_SECONDARY_POSITIONS) {
       throw new BadRequestException(
-        `A playerglobal can have a maximum of ${SECONDARY_POSITIONS_MAX} secondary positions, but there are ${numberOfSecondaryPositions}.`,
+        `A playerglobal can have a maximum of ${PLAYERGLOBAL_MAX_SECONDARY_POSITIONS} secondary positions, but there are ${numberOfSecondaryPositions}.`,
       );
     }
 
@@ -90,7 +91,7 @@ export class PlayerglobalService {
           await this.playerglobalPositionService.createPlayerglobalPosition(
             playerglobal.id,
             primaryPositionId,
-            PRIMARY_POSITION_RATING,
+            PLAYERGLOBAL_PRIMARY_POSITION_RATING,
           );
         },
       ),
@@ -102,7 +103,7 @@ export class PlayerglobalService {
           await this.playerglobalPositionService.createPlayerglobalPosition(
             playerglobal.id,
             secondaryPositionId,
-            SECONDARY_POSITION_RATING,
+            PLAYERGLOBAL_SECONDARY_POSITION_RATING,
           );
         },
       ),
@@ -197,18 +198,18 @@ export class PlayerglobalService {
     const numberOfPrimaryPositions =
       updatePlayerglobalDTO.primaryPositionIds.length;
 
-    if (numberOfPrimaryPositions > PRIMARY_POSITIONS_MAX) {
+    if (numberOfPrimaryPositions > PLAYERGLOBAL_MAX_PRIMARY_POSITIONS) {
       throw new BadRequestException(
-        `A playerglobal can have a maximum of ${PRIMARY_POSITIONS_MAX} primary positions, but there are ${numberOfPrimaryPositions}.`,
+        `A playerglobal can have a maximum of ${PLAYERGLOBAL_MAX_PRIMARY_POSITIONS} primary positions, but there are ${numberOfPrimaryPositions}.`,
       );
     }
 
     const numberOfSecondaryPositions =
       updatePlayerglobalDTO.secondaryPositionIds.length;
 
-    if (numberOfSecondaryPositions > SECONDARY_POSITIONS_MAX) {
+    if (numberOfSecondaryPositions > PLAYERGLOBAL_MAX_SECONDARY_POSITIONS) {
       throw new BadRequestException(
-        `A playerglobal can have a maximum of ${SECONDARY_POSITIONS_MAX} secondary positions, but there are ${numberOfSecondaryPositions}.`,
+        `A playerglobal can have a maximum of ${PLAYERGLOBAL_MAX_SECONDARY_POSITIONS} secondary positions, but there are ${numberOfSecondaryPositions}.`,
       );
     }
 
@@ -243,7 +244,7 @@ export class PlayerglobalService {
         await this.playerglobalPositionService.createPlayerglobalPosition(
           playerglobal.id,
           positionId,
-          PRIMARY_POSITION_RATING,
+          PLAYERGLOBAL_PRIMARY_POSITION_RATING,
         );
       }),
     );
@@ -253,7 +254,7 @@ export class PlayerglobalService {
         await this.playerglobalPositionService.createPlayerglobalPosition(
           playerglobal.id,
           positionId,
-          SECONDARY_POSITION_RATING,
+          PLAYERGLOBAL_SECONDARY_POSITION_RATING,
         );
       }),
     );
