@@ -171,6 +171,7 @@ export class TeamglobalService {
   async deleteTeamglobal(teamglobalId: number): Promise<DeleteResult> {
     const relations = {
       competitionsglobalTeamglobal: true,
+      playersglobal: true,
     };
 
     const teamglobal = await this.findTeamglobalById(teamglobalId, relations);
@@ -180,6 +181,15 @@ export class TeamglobalService {
         `teamglobalId: ${teamglobalId} with relations.`,
       );
     }
+
+    await Promise.all(
+      teamglobal.playersglobal.map(async (playerglobal) => {
+        await this.playerglobalService.updatePlayerglobalTeamglobalId(
+          null,
+          playerglobal.id,
+        );
+      }),
+    );
 
     return this.teamglobalRepository.delete({ id: teamglobalId });
   }
