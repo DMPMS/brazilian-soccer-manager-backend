@@ -57,6 +57,23 @@ export class PlayerglobalService {
       );
     }
 
+    const primaryPositionIdsSet = new Set(
+      createPlayerglobalDTO.primaryPositionIds,
+    );
+    const secondaryPositionIdsSet = new Set(
+      createPlayerglobalDTO.secondaryPositionIds,
+    );
+
+    const intersection = [...primaryPositionIdsSet].filter((x) =>
+      secondaryPositionIdsSet.has(x),
+    );
+
+    if (intersection.length > 0) {
+      throw new BadRequestException(
+        `A playerglobal cannot have the same position as both primary and secondary. Duplicated positionIds: ${intersection.join(', ')}.`,
+      );
+    }
+
     await Promise.all(
       createPlayerglobalDTO.primaryPositionIds.map(
         async (primaryPositionId) => {
@@ -210,6 +227,23 @@ export class PlayerglobalService {
     if (numberOfSecondaryPositions > PLAYERGLOBAL_MAX_SECONDARY_POSITIONS) {
       throw new BadRequestException(
         `A playerglobal can have a maximum of ${PLAYERGLOBAL_MAX_SECONDARY_POSITIONS} secondary positions, but there are ${numberOfSecondaryPositions}.`,
+      );
+    }
+
+    const primaryPositionIdsSet = new Set(
+      updatePlayerglobalDTO.primaryPositionIds,
+    );
+    const secondaryPositionIdsSet = new Set(
+      updatePlayerglobalDTO.secondaryPositionIds,
+    );
+
+    const intersection = [...primaryPositionIdsSet].filter((x) =>
+      secondaryPositionIdsSet.has(x),
+    );
+
+    if (intersection.length > 0) {
+      throw new BadRequestException(
+        `A playerglobal cannot have the same position as both primary and secondary. Duplicated positionIds: ${intersection.join(', ')}.`,
       );
     }
 
