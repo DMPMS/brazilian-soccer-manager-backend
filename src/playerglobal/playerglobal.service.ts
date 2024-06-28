@@ -21,6 +21,7 @@ import {
   PLAYERGLOBAL_PRIMARY_POSITION_RATING,
   PLAYERGLOBAL_SECONDARY_POSITION_RATING,
 } from 'src/utils/constants/dtoValidators';
+import { countPlayerglobalByTeamglobalId } from './dtos/countPlayerglobalByTeamglobalId.dto';
 
 const DEFAULT_WITHOUT_TEAMGLOBAL = false;
 
@@ -345,5 +346,17 @@ export class PlayerglobalService {
       .set({ teamglobalId: teamglobalId })
       .where('id IN (:...playerglobalIds)', { playerglobalIds })
       .execute();
+  }
+
+  async countPlayerglobalByTeamglobalId(): Promise<
+    countPlayerglobalByTeamglobalId[]
+  > {
+    return await this.playerglobalRepository
+      .createQueryBuilder('playerglobal')
+      .select('playerglobal.teamglobal_id')
+      .addSelect('COUNT(*)', 'total')
+      .where('teamglobal_id IS NOT NULL')
+      .groupBy('playerglobal.teamglobal_id')
+      .getRawMany();
   }
 }

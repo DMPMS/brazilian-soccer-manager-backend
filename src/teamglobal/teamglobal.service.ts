@@ -14,6 +14,7 @@ import { ManagerglobalService } from 'src/managerglobal/managerglobal.service';
 import { UpdateTeamglobalDTO } from './dtos/updateTeamglobal.dto';
 import { RelationsOptions } from 'src/types/RelationsOptions.type';
 import { PlayerglobalService } from 'src/playerglobal/playerglobal.service';
+import { countPlayerglobalByTeamglobalId } from 'src/playerglobal/dtos/countPlayerglobalByTeamglobalId.dto';
 
 @Injectable()
 export class TeamglobalService {
@@ -93,7 +94,18 @@ export class TeamglobalService {
       throw new NotFoundException(`Teamsglobal not found.`);
     }
 
-    return teamsglobal;
+    const countPlayersglobalList =
+      await this.playerglobalService.countPlayerglobalByTeamglobalId();
+
+    return teamsglobal.map((teamglobal) => {
+      return {
+        ...teamglobal,
+        playersglobalCount: this.countPlayersglobalInTeamglobal(
+          teamglobal,
+          countPlayersglobalList,
+        ),
+      };
+    });
   }
 
   async findTeamglobalById(
@@ -192,5 +204,20 @@ export class TeamglobalService {
     );
 
     return this.teamglobalRepository.delete({ id: teamglobalId });
+  }
+
+  countPlayersglobalInTeamglobal(
+    teamglobal: TeamglobalEntity,
+    countPlayersglobalList: countPlayerglobalByTeamglobalId[],
+  ): number {
+    const count = countPlayersglobalList.find(
+      (item) => item.teamglobal_id === teamglobal.id,
+    );
+
+    if (count) {
+      return count.total;
+    }
+
+    return 0;
   }
 }

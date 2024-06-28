@@ -12,6 +12,8 @@ export class ReturnTeamglobalDTO {
   managerglobal?: ReturnManagerglobalDTO;
   playersglobal?: ReturnPlayerglobalDTO[];
 
+  playersglobalCount: number;
+
   competitionsglobalTeamglobal?: ReturnCompetitionglobalTeamglobalDTO[];
 
   constructor(teamglobalEntity: TeamglobalEntity) {
@@ -32,6 +34,11 @@ export class ReturnTeamglobalDTO {
           (playerglobal) => new ReturnPlayerglobalDTO(playerglobal),
         )
       : undefined;
+
+    this.playersglobalCount =
+      typeof teamglobalEntity.playersglobalCount === 'string'
+        ? parseInt(teamglobalEntity.playersglobalCount, 10)
+        : teamglobalEntity.playersglobalCount;
 
     this.competitionsglobalTeamglobal =
       teamglobalEntity.competitionsglobalTeamglobal

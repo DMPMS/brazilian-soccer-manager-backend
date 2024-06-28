@@ -59,4 +59,6 @@ export class TeamglobalEntity {
     (playerglobal) => playerglobal.teamglobal,
   )
   playersglobal?: PlayerglobalEntity[];
+
+  playersglobalCount: number;
 }
