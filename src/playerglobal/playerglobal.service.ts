@@ -20,6 +20,7 @@ import {
   PLAYERGLOBAL_MAX_SECONDARY_POSITIONS,
   PLAYERGLOBAL_PRIMARY_POSITION_RATING,
   PLAYERGLOBAL_SECONDARY_POSITION_RATING,
+  TEAMGLOBAL_MAX_PLAYERSGLOBAL,
 } from 'src/utils/constants/dtoValidators';
 import { countPlayerglobalByTeamglobalId } from './dtos/countPlayerglobalByTeamglobalId.dto';
 
@@ -94,9 +95,15 @@ export class PlayerglobalService {
     await this.countryService.findCountryById(createPlayerglobalDTO.countryId);
 
     if (createPlayerglobalDTO.teamglobalId) {
-      await this.teamglobalService.findTeamglobalById(
+      const teamglobal = await this.teamglobalService.findTeamglobalById(
         createPlayerglobalDTO.teamglobalId,
       );
+
+      if (teamglobal.playersglobalCount === TEAMGLOBAL_MAX_PLAYERSGLOBAL) {
+        throw new BadRequestException(
+          `teamglobalId: ${teamglobal.id} has the maximum number of players.`,
+        );
+      }
     }
 
     const playerglobal = await this.playerglobalRepository.save(
@@ -263,9 +270,15 @@ export class PlayerglobalService {
     await this.countryService.findCountryById(updatePlayerglobalDTO.countryId);
 
     if (updatePlayerglobalDTO.teamglobalId) {
-      await this.teamglobalService.findTeamglobalById(
+      const teamglobal = await this.teamglobalService.findTeamglobalById(
         updatePlayerglobalDTO.teamglobalId,
       );
+
+      if (teamglobal.playersglobalCount === TEAMGLOBAL_MAX_PLAYERSGLOBAL) {
+        throw new BadRequestException(
+          `teamglobalId: ${teamglobal.id} has the maximum number of players.`,
+        );
+      }
     } else {
       updatePlayerglobalDTO.teamglobalId = null;
     }

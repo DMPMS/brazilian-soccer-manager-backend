@@ -100,9 +100,11 @@ export class TeamglobalService {
     return teamsglobal.map((teamglobal) => {
       return {
         ...teamglobal,
-        playersglobalCount: this.countPlayersglobalInTeamglobal(
-          teamglobal,
-          countPlayersglobalList,
+        playersglobalCount: Number(
+          this.countPlayersglobalInTeamglobal(
+            teamglobal,
+            countPlayersglobalList,
+          ),
         ),
       };
     });
@@ -134,7 +136,15 @@ export class TeamglobalService {
       throw new NotFoundException(`teamglobalId: ${teamglobalId} not found.`);
     }
 
-    return teamglobal;
+    const countPlayersglobalList =
+      await this.playerglobalService.countPlayerglobalByTeamglobalId();
+
+    return {
+      ...teamglobal,
+      playersglobalCount: Number(
+        this.countPlayersglobalInTeamglobal(teamglobal, countPlayersglobalList),
+      ),
+    };
   }
 
   async updateTeamglobal(

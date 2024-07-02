@@ -35,10 +35,7 @@ export class ReturnTeamglobalDTO {
         )
       : undefined;
 
-    this.playersglobalCount =
-      typeof teamglobalEntity.playersglobalCount === 'string'
-        ? parseInt(teamglobalEntity.playersglobalCount, 10)
-        : teamglobalEntity.playersglobalCount;
+    this.playersglobalCount = teamglobalEntity.playersglobalCount;
 
     this.competitionsglobalTeamglobal =
       teamglobalEntity.competitionsglobalTeamglobal
