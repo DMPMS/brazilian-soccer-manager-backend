@@ -270,14 +270,16 @@ export class PlayerglobalService {
     await this.countryService.findCountryById(updatePlayerglobalDTO.countryId);
 
     if (updatePlayerglobalDTO.teamglobalId) {
-      const teamglobal = await this.teamglobalService.findTeamglobalById(
-        updatePlayerglobalDTO.teamglobalId,
-      );
-
-      if (teamglobal.playersglobalCount === TEAMGLOBAL_MAX_PLAYERSGLOBAL) {
-        throw new BadRequestException(
-          `teamglobalId: ${teamglobal.id} has the maximum number of players.`,
+      if (updatePlayerglobalDTO.teamglobalId != playerglobal.teamglobalId) {
+        const teamglobal = await this.teamglobalService.findTeamglobalById(
+          updatePlayerglobalDTO.teamglobalId,
         );
+
+        if (teamglobal.playersglobalCount === TEAMGLOBAL_MAX_PLAYERSGLOBAL) {
+          throw new BadRequestException(
+            `teamglobalId: ${teamglobal.id} has the maximum number of players.`,
+          );
+        }
       }
     } else {
       updatePlayerglobalDTO.teamglobalId = null;
