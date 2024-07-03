@@ -23,7 +23,27 @@ export class InsertTableTeamglobal1714668069285 implements MigrationInterface {
         ('Vasco da Gama', 'https://i.ibb.co/SPnQN8V/vasco.png', 29, 17),
         ('EC Vitória', 'https://i.ibb.co/jr4800Q/vitoria.png', 29, 18),
         ('Atlético-GO', 'https://i.ibb.co/nPQwpXK/atletico-go.png', 29, 19),
-        ('Cuiabá', 'https://i.ibb.co/XkwPD69/cuiaba.png', 29, 20);
+        ('Cuiabá', 'https://i.ibb.co/XkwPD69/cuiaba.png', 29, 20),
+        ('Avaí', 'https://i.ibb.co/mNsxJgP/avai-sc.png', 29, 21),
+        ('Santos', 'https://i.ibb.co/x6s7Py0/santos-sp.png', 29, 22),
+        ('América-MG', 'https://i.ibb.co/WBL0kBn/america-mg.png', 29, 23),
+        ('Operário-PR', 'https://i.ibb.co/ZTT5hxC/operario-pr.png', 29, 24),
+        ('Goiás', 'https://i.ibb.co/Srk7Skg/goias-go.png', 29, 25),
+        ('Vila Nova', 'https://i.ibb.co/qYZ9h9X/vila-nova-go.png', 29, 26),
+        ('Sport Recife', 'https://i.ibb.co/DgtTkFc/sport-pe.png', 29, 27),
+        ('Coritiba', 'https://i.ibb.co/hZR6sj6/coritiba-pr.png', 29, 28),
+        ('Ceará SC', 'https://i.ibb.co/cJQGc5X/ceara-ce.png', 29, 29),
+        ('Mirassol', 'https://i.ibb.co/NTdLc7f/mirassol-sp.png', 29, 30),
+        ('Novorizontino', 'https://i.ibb.co/LhDPcRZ/novorizontino-sp.png', 29, 31),
+        ('Botafogo-SP', 'https://i.ibb.co/RcSzHdS/botafogo-sp.png', 29, 32),
+        ('Ponte Preta', 'https://i.ibb.co/N62SvWN/ponte-preta-sp.png', 29, 33),
+        ('Amazonas FC', 'https://i.ibb.co/SNP0JY3/amazonas-am.png', 29, 34),
+        ('Paysandu', 'https://i.ibb.co/rpbctJ3/paysandy-pa.png', 29, 35),
+        ('Chapecoense', 'https://i.ibb.co/SNCkk5R/chapecoense-sc.png', 29, 36),
+        ('CRB', 'https://i.ibb.co/y8QcCrH/crb-al.png', 29, 37),
+        ('Brusque', 'https://i.ibb.co/JxTt6fc/brusque-sc.png', 29, 38),
+        ('Ituano', 'https://i.ibb.co/SBfCfY4/ituano-sp.png', 29, 39),
+        ('Guarani', 'https://i.ibb.co/r6nDCW8/guarani-sp.png', 29, 40);
     `);
   }
 
