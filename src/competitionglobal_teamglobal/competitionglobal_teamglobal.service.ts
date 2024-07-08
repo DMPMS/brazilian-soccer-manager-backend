@@ -20,7 +20,7 @@ export class CompetitionglobalTeamglobalService {
     });
   }
 
-  async deleteCompetitionglobalTeamglobal(
+  async deleteCompetitionglobalTeamglobalByCompetitionglobalId(
     competitionglobalId: number,
   ): Promise<DeleteResult> {
     return this.competitionglobalTeamglobalRepository.delete({

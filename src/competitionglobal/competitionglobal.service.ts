@@ -161,7 +161,7 @@ export class CompetitionglobalService {
       }),
     );
 
-    await this.competitionglobalTeamglobalService.deleteCompetitionglobalTeamglobal(
+    await this.competitionglobalTeamglobalService.deleteCompetitionglobalTeamglobalByCompetitionglobalId(
       competitionglobalId,
     );
 
@@ -185,7 +185,7 @@ export class CompetitionglobalService {
   ): Promise<DeleteResult> {
     await this.findCompetitionglobalById(competitionglobalId);
 
-    await this.competitionglobalTeamglobalService.deleteCompetitionglobalTeamglobal(
+    await this.competitionglobalTeamglobalService.deleteCompetitionglobalTeamglobalByCompetitionglobalId(
       competitionglobalId,
     );
 

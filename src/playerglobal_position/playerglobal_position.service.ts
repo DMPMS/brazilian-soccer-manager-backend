@@ -22,7 +22,7 @@ export class PlayerglobalPositionService {
     });
   }
 
-  async deletePlayerglobalPosition(
+  async deletePlayerglobalPositionByPlayerglobalId(
     playerglobalId: number,
   ): Promise<DeleteResult> {
     return this.playerglobalPositionRepository.delete({

@@ -285,7 +285,7 @@ export class PlayerglobalService {
       updatePlayerglobalDTO.teamglobalId = null;
     }
 
-    await this.playerglobalPositionService.deletePlayerglobalPosition(
+    await this.playerglobalPositionService.deletePlayerglobalPositionByPlayerglobalId(
       playerglobalId,
     );
 
@@ -324,7 +324,7 @@ export class PlayerglobalService {
       );
     }
 
-    await this.playerglobalPositionService.deletePlayerglobalPosition(
+    await this.playerglobalPositionService.deletePlayerglobalPositionByPlayerglobalId(
       playerglobalId,
     );
 
