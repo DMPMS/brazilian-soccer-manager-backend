@@ -16,7 +16,10 @@ import { PlayerglobalEntity } from './entities/playerglobal.entity';
 import { ReturnPlayerglobalDTO } from './dtos/returnPlayerglobal.dto';
 import { UpdatePlayerglobalDTO } from './dtos/updatePlayerglobal.dto';
 import { DeleteResult } from 'typeorm';
+import { Roles } from 'src/decorators/roles.decorator';
+import { UserType } from 'src/user/enums/userType.enum';
 
+@Roles(UserType.Admin)
 @Controller('playerglobal')
 export class PlayerglobalController {
   constructor(private readonly playerglobalService: PlayerglobalService) {}

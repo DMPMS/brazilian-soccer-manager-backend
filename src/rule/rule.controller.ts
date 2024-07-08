@@ -4,7 +4,7 @@ import { UserType } from 'src/user/enums/userType.enum';
 import { RuleService } from './rule.service';
 import { ReturnRuleDTO } from './dtos/returnRule.dto';
 
-@Roles(UserType.Admin)
+@Roles(UserType.Admin, UserType.User)
 @Controller('rule')
 export class RuleController {
   constructor(private readonly ruleService: RuleService) {}
