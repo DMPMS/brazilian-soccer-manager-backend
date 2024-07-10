@@ -8,7 +8,7 @@ export class InsertTablePlayerglobalPosition1717011210641
 
     const positionIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
-    for (let i = 0; i < 220; i++) {
+    for (let i = 0; i < 440; i++) {
       const shuffledPositionIds = positionIds.sort(() => 0.5 - Math.random());
 
       const playerPositions = new Set<{ positionId: number; rating: number }>();
