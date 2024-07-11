@@ -5,8 +5,10 @@ export class CreateTableUser1707491422107 implements MigrationInterface {
     queryRunner.query(`
         CREATE TABLE public.user (
             id SERIAL NOT NULL,
+            country_id INTEGER NOT NULL,
             name character varying NOT NULL,
             user_type integer NOT NULL,
+            age INTEGER NOT NULL,
             email character varying NOT NULL,
             password character varying NOT NULL,
 

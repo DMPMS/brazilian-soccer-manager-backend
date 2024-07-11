@@ -21,7 +21,13 @@ export class UserService {
   ) {}
 
   async createUser(createUserDTO: CreateUserDTO): Promise<UserEntity> {
-    const user = await this.findUserByEmail(createUserDTO.email).catch(
+    if (createUserDTO.password !== createUserDTO.confirmPassword) {
+      throw new BadRequestException(`The passwords do not match.`);
+    }
+
+    const emailToLower = createUserDTO.email.toLowerCase();
+
+    const user = await this.findUserByEmail(emailToLower).catch(
       () => undefined,
     );
 
@@ -34,6 +40,7 @@ export class UserService {
     return this.userRepository.save({
       ...createUserDTO,
       userType: UserType.User,
+      email: emailToLower,
       password: passwordHashed,
     });
   }

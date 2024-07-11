@@ -13,7 +13,7 @@ import {
   COMPETITIONGLOBAL_MIN_LENGH_NAME,
   COMPETITIONGLOBAL_MIN_LENGH_SEASON,
 } from 'src/utils/constants/dtoValidators';
-import { UniqueArray } from 'src/validators/customValidators';
+import { UniqueArray } from 'src/validators/uniqueArray';
 
 export class CreateCompetitionglobalDTO {
   @IsInt()

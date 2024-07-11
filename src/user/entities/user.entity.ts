@@ -1,8 +1,11 @@
+import { CountryEntity } from 'src/country/entities/country.entity';
 import { SaveEntity } from 'src/save/entities/save.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -13,11 +16,17 @@ export class UserEntity {
   @PrimaryGeneratedColumn('rowid')
   id: number;
 
+  @Column({ name: 'country_id', nullable: false })
+  countryId: number;
+
   @Column({ name: 'name', nullable: false })
   name: string;
 
   @Column({ name: 'user_type', nullable: false })
   userType: number;
+
+  @Column({ name: 'age', nullable: false })
+  age: number;
 
   @Column({ name: 'email', nullable: false })
   email: string;
@@ -30,6 +39,10 @@ export class UserEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @ManyToOne(() => CountryEntity, (country) => country.users)
+  @JoinColumn({ name: 'country_id', referencedColumnName: 'id' })
+  country?: CountryEntity;
 
   @OneToMany(() => SaveEntity, (save) => save.user)
   saves?: SaveEntity[];

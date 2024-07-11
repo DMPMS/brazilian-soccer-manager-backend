@@ -21,7 +21,7 @@ import {
   PLAYERGLOBAL_MIN_OVERALL,
   PLAYERGLOBAL_MIN_PRIMARY_POSITIONS,
 } from 'src/utils/constants/dtoValidators';
-import { UniqueArray } from 'src/validators/customValidators';
+import { UniqueArray } from 'src/validators/uniqueArray';
 
 export class CreatePlayerglobalDTO {
   @IsInt()

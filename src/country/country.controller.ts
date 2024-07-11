@@ -1,10 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { CountryService } from './country.service';
-import { Roles } from 'src/decorators/roles.decorator';
-import { UserType } from 'src/user/enums/userType.enum';
 import { ReturnCountryDTO } from './dtos/returnCountry.dto';
 
-@Roles(UserType.Admin, UserType.User)
 @Controller('country')
 export class CountryController {
   constructor(private readonly countryService: CountryService) {}

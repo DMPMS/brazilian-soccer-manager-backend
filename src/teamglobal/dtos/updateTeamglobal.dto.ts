@@ -13,7 +13,7 @@ import {
   TEAMGLOBAL_MIN_LENGH_NAME,
   TEAMGLOBAL_MIN_PLAYERSGLOBAL,
 } from 'src/utils/constants/dtoValidators';
-import { UniqueArray } from 'src/validators/customValidators';
+import { UniqueArray } from 'src/validators/uniqueArray';
 
 export class UpdateTeamglobalDTO {
   @IsInt()
