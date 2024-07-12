@@ -35,6 +35,19 @@ export class UserController {
     );
   }
 
+  @Roles(UserType.Admin, UserType.User)
+  @Get('/loggedIn')
+  async findUserLoggedIn(@UserId() userId: number): Promise<ReturnUserDTO> {
+    const relations = {
+      country: true,
+      saves: true,
+    };
+
+    return new ReturnUserDTO(
+      await this.userService.findUserById(userId, relations),
+    );
+  }
+
   @Roles(UserType.Admin)
   @Get('/:userId')
   async findUserById(@Param('userId') userId: number): Promise<ReturnUserDTO> {
