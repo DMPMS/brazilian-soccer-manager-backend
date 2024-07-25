@@ -40,7 +40,6 @@ export class UserController {
   async findUserLoggedIn(@UserId() userId: number): Promise<ReturnUserDTO> {
     const relations = {
       country: true,
-      saves: true,
     };
 
     return new ReturnUserDTO(
@@ -51,13 +50,7 @@ export class UserController {
   @Roles(UserType.Admin)
   @Get('/:userId')
   async findUserById(@Param('userId') userId: number): Promise<ReturnUserDTO> {
-    const relations = {
-      saves: true,
-    };
-
-    return new ReturnUserDTO(
-      await this.userService.findUserById(userId, relations),
-    );
+    return new ReturnUserDTO(await this.userService.findUserById(userId));
   }
 
   @Roles(UserType.Admin, UserType.User)

@@ -1,4 +1,3 @@
-import { ReturnSaveDTO } from 'src/save/dtos/returnSave.dto';
 import { UserEntity } from '../entities/user.entity';
 import { ReturnCountryDTO } from 'src/country/dtos/returnCountry.dto';
 
@@ -9,7 +8,6 @@ export class ReturnUserDTO {
   age: number;
   email: string;
   country?: ReturnCountryDTO;
-  saves?: ReturnSaveDTO[];
 
   constructor(userEntity: UserEntity) {
     this.id = userEntity.id;
@@ -19,10 +17,6 @@ export class ReturnUserDTO {
 
     this.country = userEntity.country
       ? new ReturnCountryDTO(userEntity.country)
-      : undefined;
-
-    this.saves = userEntity.saves
-      ? userEntity.saves.map((save) => new ReturnSaveDTO(save))
       : undefined;
   }
 }
