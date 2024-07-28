@@ -21,6 +21,8 @@ import {
   PLAYERGLOBAL_MIN_OVERALL,
   PLAYERGLOBAL_MIN_PRIMARY_POSITIONS,
 } from 'src/utils/constants/dtoValidators';
+import { IsCustomDate } from 'src/validators/isCustomDate';
+import { IsDateWithinAgeRange } from 'src/validators/isDateWithinAgeRange';
 import { UniqueArray } from 'src/validators/uniqueArray';
 
 export class UpdatePlayerglobalDTO {
@@ -35,10 +37,10 @@ export class UpdatePlayerglobalDTO {
   @Length(PLAYERGLOBAL_MIN_LENGH_NAME, PLAYERGLOBAL_MAX_LENGH_NAME)
   name: string;
 
-  @IsInt()
-  @Min(PLAYERGLOBAL_MIN_AGE)
-  @Max(PLAYERGLOBAL_MAX_AGE)
-  age: number;
+  @IsString()
+  @Validate(IsCustomDate)
+  @Validate(IsDateWithinAgeRange, [PLAYERGLOBAL_MIN_AGE, PLAYERGLOBAL_MAX_AGE])
+  birthdate: string;
 
   @IsInt()
   @Min(PLAYERGLOBAL_MIN_OVERALL)

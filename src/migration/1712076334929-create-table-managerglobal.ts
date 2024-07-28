@@ -9,7 +9,7 @@ export class CreateTableManagerglobal1712076334929
             id SERIAL NOT NULL,
             country_id INTEGER NOT NULL,
             name character varying NOT NULL,
-            age INTEGER NOT NULL,
+            birthdate DATE NOT NULL,
 
             created_at timestamp without time zone DEFAULT now() NOT NULL,
             updated_at timestamp without time zone DEFAULT now() NOT NULL,

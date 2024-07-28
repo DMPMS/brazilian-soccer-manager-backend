@@ -25,8 +25,8 @@ export class UserEntity {
   @Column({ name: 'user_type', nullable: false })
   userType: number;
 
-  @Column({ name: 'age', nullable: false })
-  age: number;
+  @Column({ name: 'birthdate', nullable: false })
+  birthdate: Date;
 
   @Column({ name: 'email', nullable: false })
   email: string;

@@ -22,8 +22,8 @@ export class ManagerglobalEntity {
   @Column({ name: 'name', nullable: false })
   name: string;
 
-  @Column({ name: 'age', nullable: false })
-  age: number;
+  @Column({ name: 'birthdate', nullable: false })
+  birthdate: Date;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

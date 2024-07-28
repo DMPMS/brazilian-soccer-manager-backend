@@ -6,7 +6,7 @@ import { ReturnPlayerglobalPositionDTO } from 'src/playerglobal_position/dtos/re
 export class ReturnPlayerglobalDTO {
   id: number;
   name: string;
-  age: number;
+  birthdate: string;
   overall: number;
   country?: ReturnCountryDTO;
   teamglobal?: ReturnTeamglobalDTO;
@@ -16,7 +16,7 @@ export class ReturnPlayerglobalDTO {
   constructor(playerglobalEntity: PlayerglobalEntity) {
     this.id = playerglobalEntity.id;
     this.name = playerglobalEntity.name;
-    this.age = playerglobalEntity.age;
+    this.birthdate = playerglobalEntity.birthdate.toISOString().split('T')[0];
     this.overall = playerglobalEntity.overall;
 
     this.country = playerglobalEntity.country

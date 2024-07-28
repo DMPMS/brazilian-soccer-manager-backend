@@ -1,4 +1,4 @@
-import { IsInt, IsString, Length, Max, Min, Validate } from 'class-validator';
+import { IsInt, IsString, Length, Validate } from 'class-validator';
 import {
   USER_MAX_AGE,
   USER_MAX_LENGH_NAME,
@@ -7,7 +7,9 @@ import {
   USER_MIN_LENGH_NAME,
   USER_MIN_LENGH_PASSWORD,
 } from 'src/utils/constants/dtoValidators';
+import { IsCustomDate } from 'src/validators/isCustomDate';
 import { IsCustomEmail } from 'src/validators/isCustomEmail';
+import { IsDateWithinAgeRange } from 'src/validators/isDateWithinAgeRange';
 
 export class CreateUserDTO {
   @IsInt()
@@ -17,10 +19,10 @@ export class CreateUserDTO {
   @Length(USER_MIN_LENGH_NAME, USER_MAX_LENGH_NAME)
   name: string;
 
-  @IsInt()
-  @Min(USER_MIN_AGE)
-  @Max(USER_MAX_AGE)
-  age: number;
+  @IsString()
+  @Validate(IsCustomDate)
+  @Validate(IsDateWithinAgeRange, [USER_MIN_AGE, USER_MAX_AGE])
+  birthdate: string;
 
   @IsString()
   @Validate(IsCustomEmail)

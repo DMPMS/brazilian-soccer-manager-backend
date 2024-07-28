@@ -26,8 +26,8 @@ export class PlayerglobalEntity {
   @Column({ name: 'name', nullable: false })
   name: string;
 
-  @Column({ name: 'age', nullable: false })
-  age: number;
+  @Column({ name: 'birthdate', nullable: false })
+  birthdate: Date;
 
   @Column({ name: 'overall', nullable: false })
   overall: number;

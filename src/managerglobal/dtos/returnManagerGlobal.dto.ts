@@ -5,14 +5,14 @@ import { ReturnTeamglobalDTO } from 'src/teamglobal/dtos/returnTeamglobal.dto';
 export class ReturnManagerglobalDTO {
   id: number;
   name: string;
-  age: number;
+  birthdate: string;
   country?: ReturnCountryDTO;
   teamglobal?: ReturnTeamglobalDTO;
 
   constructor(managerglobalEntity: ManagerglobalEntity) {
     this.id = managerglobalEntity.id;
     this.name = managerglobalEntity.name;
-    this.age = managerglobalEntity.age;
+    this.birthdate = managerglobalEntity.birthdate.toISOString().split('T')[0];
 
     this.country = managerglobalEntity.country
       ? new ReturnCountryDTO(managerglobalEntity.country)

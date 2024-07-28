@@ -5,7 +5,7 @@ export class ReturnUserDTO {
   id: number;
   name: string;
   userType: number;
-  age: number;
+  birthdate: string;
   email: string;
   country?: ReturnCountryDTO;
 
@@ -13,6 +13,7 @@ export class ReturnUserDTO {
     this.id = userEntity.id;
     this.name = userEntity.name;
     this.userType = userEntity.userType;
+    this.birthdate = userEntity.birthdate.toISOString().split('T')[0];
     this.email = userEntity.email;
 
     this.country = userEntity.country

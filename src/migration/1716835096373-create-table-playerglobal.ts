@@ -10,7 +10,7 @@ export class CreateTablePlayerglobal1716835096373
             country_id INTEGER NOT NULL,
             teamglobal_id INTEGER,
             name character varying NOT NULL,
-            age INTEGER NOT NULL,
+            birthdate DATE NOT NULL,
             overall INTEGER NOT NULL,
 
             created_at timestamp without time zone DEFAULT now() NOT NULL,
