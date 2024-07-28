@@ -1,7 +1,9 @@
-import { IsEmail, IsString } from 'class-validator';
+import { IsString, Validate } from 'class-validator';
+import { IsCustomEmail } from 'src/validators/isCustomEmail';
 
 export class LoginDTO {
-  @IsEmail()
+  @IsString()
+  @Validate(IsCustomEmail)
   email: string;
 
   @IsString()

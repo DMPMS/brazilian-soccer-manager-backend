@@ -100,17 +100,19 @@ export class UserService {
   async findUserByEmail(email: string): Promise<UserEntity> {
     let findOptions = {};
 
+    const emailToLower = email.toLowerCase();
+
     findOptions = {
       ...findOptions,
       where: {
-        email: email,
+        email: emailToLower,
       },
     };
 
     const user = await this.userRepository.findOne(findOptions);
 
     if (!user) {
-      throw new NotFoundException(`Email: ${email} not found.`);
+      throw new NotFoundException(`Email: ${emailToLower} not found.`);
     }
 
     return user;
