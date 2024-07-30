@@ -1,3 +1,4 @@
+import { ManagersaveEntity } from 'src/managersave/entities/managersave.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import {
   Column,
@@ -5,6 +6,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -29,4 +31,7 @@ export class SaveEntity {
   @ManyToOne(() => UserEntity, (user) => user.saves)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user?: UserEntity;
+
+  @OneToMany(() => ManagersaveEntity, (managersave) => managersave.save)
+  managerssave?: ManagersaveEntity[];
 }

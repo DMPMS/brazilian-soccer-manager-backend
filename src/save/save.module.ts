@@ -3,10 +3,10 @@ import { SaveController } from './save.controller';
 import { SaveService } from './save.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SaveEntity } from './entities/save.entity';
-import { UserModule } from 'src/user/user.module';
+import { ManagerglobalModule } from 'src/managerglobal/managerglobal.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SaveEntity]), UserModule],
+  imports: [TypeOrmModule.forFeature([SaveEntity]), ManagerglobalModule],
   controllers: [SaveController],
   providers: [SaveService],
 })

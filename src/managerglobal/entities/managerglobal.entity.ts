@@ -1,4 +1,5 @@
 import { CountryEntity } from 'src/country/entities/country.entity';
+import { ManagersaveEntity } from 'src/managersave/entities/managersave.entity';
 import { TeamglobalEntity } from 'src/teamglobal/entities/teamglobal.entity';
 import {
   Column,
@@ -6,6 +7,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -37,4 +39,10 @@ export class ManagerglobalEntity {
 
   @OneToOne(() => TeamglobalEntity, (teamglobal) => teamglobal.managerglobal)
   teamglobal?: TeamglobalEntity;
+
+  @OneToMany(
+    () => ManagersaveEntity,
+    (managersave) => managersave.managerglobal,
+  )
+  managerssave?: ManagersaveEntity[];
 }

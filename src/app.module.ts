@@ -16,6 +16,7 @@ import { CompetitionglobalTeamglobalModule } from './competitionglobal_teamgloba
 import { PositionModule } from './position/position.module';
 import { PlayerglobalModule } from './playerglobal/playerglobal.module';
 import { PlayerglobalPositionModule } from './playerglobal_position/playerglobal_position.module';
+import { ManagersaveModule } from './managersave/managersave.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { PlayerglobalPositionModule } from './playerglobal_position/playerglobal
     PositionModule,
     PlayerglobalModule,
     PlayerglobalPositionModule,
+    ManagersaveModule,
   ],
   controllers: [],
   providers: [

@@ -1,5 +1,6 @@
 import { CompetitionglobalEntity } from 'src/competitionglobal/entities/competitionglobal.entity';
 import { ManagerglobalEntity } from 'src/managerglobal/entities/managerglobal.entity';
+import { ManagersaveEntity } from 'src/managersave/entities/managersave.entity';
 import { PlayerglobalEntity } from 'src/playerglobal/entities/playerglobal.entity';
 import { TeamglobalEntity } from 'src/teamglobal/entities/teamglobal.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
@@ -49,4 +50,7 @@ export class CountryEntity {
 
   @OneToMany(() => UserEntity, (user) => user.country)
   users?: PlayerglobalEntity[];
+
+  @OneToMany(() => ManagersaveEntity, (managersave) => managersave.country)
+  managerssave?: ManagersaveEntity[];
 }

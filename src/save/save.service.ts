@@ -3,18 +3,21 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { DataSource, DeleteResult, Repository } from 'typeorm';
 import { SaveEntity } from './entities/save.entity';
 import { CreateSaveDTO } from './dtos/createSave.dto';
-import { UserService } from 'src/user/user.service';
+import { ManagerglobalService } from 'src/managerglobal/managerglobal.service';
+import { ManagersaveEntity } from 'src/managersave/entities/managersave.entity';
 
 @Injectable()
 export class SaveService {
   constructor(
+    @InjectDataSource()
+    private readonly dataSource: DataSource,
     @InjectRepository(SaveEntity)
     private readonly saveRepository: Repository<SaveEntity>,
-    private readonly userService: UserService,
+    private readonly managerglobalService: ManagerglobalService,
   ) {}
 
   async createSave(
@@ -32,10 +35,37 @@ export class SaveService {
       );
     }
 
-    return this.saveRepository.save({
+    const saveCreated = await this.saveRepository.save({
       ...createSaveDTO,
       userId,
     });
+
+    await this.copyGlobalDataToSaveTables(saveCreated.id);
+
+    return saveCreated;
+  }
+
+  async copyGlobalDataToSaveTables(saveId: number): Promise<void> {
+    const managersglobal =
+      await this.managerglobalService.findAllManagerglobal();
+
+    for (const managerglobal of managersglobal) {
+      await this.dataSource
+        .createQueryBuilder()
+        .insert()
+        .into(ManagersaveEntity)
+        .values([
+          {
+            saveId: saveId,
+            managerglobalId: managerglobal.id,
+            countryId: managerglobal.countryId,
+            name: managerglobal.name,
+            birthdate: managerglobal.birthdate,
+            controlled: false,
+          },
+        ])
+        .execute();
+    }
   }
 
   async findSaveByUserId(userId: number): Promise<SaveEntity[]> {
