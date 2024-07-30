@@ -3,6 +3,7 @@ import { ManagerglobalEntity } from 'src/managerglobal/entities/managerglobal.en
 import { ManagersaveEntity } from 'src/managersave/entities/managersave.entity';
 import { PlayerglobalEntity } from 'src/playerglobal/entities/playerglobal.entity';
 import { TeamglobalEntity } from 'src/teamglobal/entities/teamglobal.entity';
+import { TeamsaveEntity } from 'src/teamsave/entities/teamsave.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import {
   Column,
@@ -53,4 +54,7 @@ export class CountryEntity {
 
   @OneToMany(() => ManagersaveEntity, (managersave) => managersave.country)
   managerssave?: ManagersaveEntity[];
+
+  @OneToMany(() => TeamsaveEntity, (teamsave) => teamsave.country)
+  teamssave?: TeamsaveEntity[];
 }

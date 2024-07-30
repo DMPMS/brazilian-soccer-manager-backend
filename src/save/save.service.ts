@@ -9,6 +9,8 @@ import { SaveEntity } from './entities/save.entity';
 import { CreateSaveDTO } from './dtos/createSave.dto';
 import { ManagerglobalService } from 'src/managerglobal/managerglobal.service';
 import { ManagersaveEntity } from 'src/managersave/entities/managersave.entity';
+import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
+import { TeamsaveEntity } from 'src/teamsave/entities/teamsave.entity';
 
 @Injectable()
 export class SaveService {
@@ -18,6 +20,7 @@ export class SaveService {
     @InjectRepository(SaveEntity)
     private readonly saveRepository: Repository<SaveEntity>,
     private readonly managerglobalService: ManagerglobalService,
+    private readonly teamglobalService: TeamglobalService,
   ) {}
 
   async createSave(
@@ -49,8 +52,12 @@ export class SaveService {
     const managersglobal =
       await this.managerglobalService.findAllManagerglobal();
 
+    const teamsglobal = await this.teamglobalService.findAllTeamglobal();
+
+    const globalToSaveManagerIdMap: { [key: number]: number } = {};
+
     for (const managerglobal of managersglobal) {
-      await this.dataSource
+      const managersave = await this.dataSource
         .createQueryBuilder()
         .insert()
         .into(ManagersaveEntity)
@@ -62,6 +69,30 @@ export class SaveService {
             name: managerglobal.name,
             birthdate: managerglobal.birthdate,
             controlled: false,
+          },
+        ])
+        .execute();
+
+      globalToSaveManagerIdMap[managerglobal.id] =
+        managersave.identifiers[0].id;
+    }
+
+    for (const teamglobal of teamsglobal) {
+      const managersaveId =
+        globalToSaveManagerIdMap[teamglobal.managerglobalId];
+
+      await this.dataSource
+        .createQueryBuilder()
+        .insert()
+        .into(TeamsaveEntity)
+        .values([
+          {
+            saveId: saveId,
+            teamglobalId: teamglobal.id,
+            countryId: teamglobal.countryId,
+            managersaveId: managersaveId,
+            name: teamglobal.name,
+            srcImage: teamglobal.srcImage,
           },
         ])
         .execute();

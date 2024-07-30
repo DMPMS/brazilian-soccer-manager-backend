@@ -1,12 +1,14 @@
 import { CountryEntity } from 'src/country/entities/country.entity';
 import { ManagerglobalEntity } from 'src/managerglobal/entities/managerglobal.entity';
 import { SaveEntity } from 'src/save/entities/save.entity';
+import { TeamsaveEntity } from 'src/teamsave/entities/teamsave.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -54,4 +56,7 @@ export class ManagersaveEntity {
   @ManyToOne(() => CountryEntity, (country) => country.managerssave)
   @JoinColumn({ name: 'country_id', referencedColumnName: 'id' })
   country?: CountryEntity;
+
+  @OneToOne(() => TeamsaveEntity, (teamsave) => teamsave.managersave)
+  teamsave?: TeamsaveEntity;
 }
