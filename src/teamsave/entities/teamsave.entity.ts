@@ -1,5 +1,6 @@
 import { CountryEntity } from 'src/country/entities/country.entity';
 import { ManagersaveEntity } from 'src/managersave/entities/managersave.entity';
+import { PlayersaveEntity } from 'src/playersave/entities/playersave.entity';
 import { SaveEntity } from 'src/save/entities/save.entity';
 import { TeamglobalEntity } from 'src/teamglobal/entities/teamglobal.entity';
 import {
@@ -8,6 +9,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -57,6 +59,9 @@ export class TeamsaveEntity {
   @OneToOne(() => ManagersaveEntity, (managersave) => managersave.teamsave)
   @JoinColumn({ name: 'managersave_id', referencedColumnName: 'id' })
   managersave?: ManagersaveEntity;
+
+  @OneToMany(() => PlayersaveEntity, (playersave) => playersave.teamsave)
+  playerssave?: PlayersaveEntity[];
 
   // @OneToMany(
   //   () => CompetitionsaveTeamsaveEntity,

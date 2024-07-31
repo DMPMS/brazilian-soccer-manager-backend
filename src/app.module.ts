@@ -18,6 +18,7 @@ import { PlayerglobalModule } from './playerglobal/playerglobal.module';
 import { PlayerglobalPositionModule } from './playerglobal_position/playerglobal_position.module';
 import { ManagersaveModule } from './managersave/managersave.module';
 import { TeamsaveModule } from './teamsave/teamsave.module';
+import { PlayersaveModule } from './playersave/playersave.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { TeamsaveModule } from './teamsave/teamsave.module';
     PlayerglobalPositionModule,
     ManagersaveModule,
     TeamsaveModule,
+    PlayersaveModule,
   ],
   controllers: [],
   providers: [

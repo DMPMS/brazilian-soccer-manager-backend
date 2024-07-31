@@ -11,6 +11,9 @@ import { ManagerglobalService } from 'src/managerglobal/managerglobal.service';
 import { ManagersaveEntity } from 'src/managersave/entities/managersave.entity';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
 import { TeamsaveEntity } from 'src/teamsave/entities/teamsave.entity';
+import { PlayerglobalService } from 'src/playerglobal/playerglobal.service';
+import { PlayersaveEntity } from 'src/playersave/entities/playersave.entity';
+import { PLAYERSAVE_STAMINA } from 'src/utils/constants/dtoValidators';
 
 @Injectable()
 export class SaveService {
@@ -21,6 +24,7 @@ export class SaveService {
     private readonly saveRepository: Repository<SaveEntity>,
     private readonly managerglobalService: ManagerglobalService,
     private readonly teamglobalService: TeamglobalService,
+    private readonly playerglobalService: PlayerglobalService,
   ) {}
 
   async createSave(
@@ -54,7 +58,10 @@ export class SaveService {
 
     const teamsglobal = await this.teamglobalService.findAllTeamglobal();
 
+    const playersglobal = await this.playerglobalService.findAllPlayerglobal();
+
     const globalToSaveManagerIdMap: { [key: number]: number } = {};
+    const globalToSaveTeamIdMap: { [key: number]: number } = {};
 
     for (const managerglobal of managersglobal) {
       const managersave = await this.dataSource
@@ -81,7 +88,7 @@ export class SaveService {
       const managersaveId =
         globalToSaveManagerIdMap[teamglobal.managerglobalId];
 
-      await this.dataSource
+      const teamsave = await this.dataSource
         .createQueryBuilder()
         .insert()
         .into(TeamsaveEntity)
@@ -93,6 +100,30 @@ export class SaveService {
             managersaveId: managersaveId,
             name: teamglobal.name,
             srcImage: teamglobal.srcImage,
+          },
+        ])
+        .execute();
+
+      globalToSaveTeamIdMap[teamglobal.id] = teamsave.identifiers[0].id;
+    }
+
+    for (const playerglobal of playersglobal) {
+      const teamsaveId = globalToSaveTeamIdMap[playerglobal.teamglobalId];
+
+      await this.dataSource
+        .createQueryBuilder()
+        .insert()
+        .into(PlayersaveEntity)
+        .values([
+          {
+            saveId: saveId,
+            playerglobalId: playerglobal.id,
+            countryId: playerglobal.countryId,
+            teamsaveId: teamsaveId,
+            name: playerglobal.name,
+            birthdate: playerglobal.birthdate,
+            overall: playerglobal.overall,
+            stamina: PLAYERSAVE_STAMINA,
           },
         ])
         .execute();

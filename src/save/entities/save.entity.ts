@@ -1,4 +1,5 @@
 import { ManagersaveEntity } from 'src/managersave/entities/managersave.entity';
+import { PlayersaveEntity } from 'src/playersave/entities/playersave.entity';
 import { TeamsaveEntity } from 'src/teamsave/entities/teamsave.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import {
@@ -38,4 +39,7 @@ export class SaveEntity {
 
   @OneToMany(() => TeamsaveEntity, (teamsave) => teamsave.save)
   teamssave?: TeamsaveEntity[];
+
+  @OneToMany(() => PlayersaveEntity, (playersave) => playersave.save)
+  playerssave?: PlayersaveEntity[];
 }

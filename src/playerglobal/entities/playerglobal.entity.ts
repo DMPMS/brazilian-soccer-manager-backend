@@ -1,5 +1,6 @@
 import { CountryEntity } from 'src/country/entities/country.entity';
 import { PlayerglobalPositionEntity } from 'src/playerglobal_position/entities/playerglobal_position.entity';
+import { PlayersaveEntity } from 'src/playersave/entities/playersave.entity';
 import { TeamglobalEntity } from 'src/teamglobal/entities/teamglobal.entity';
 import {
   Column,
@@ -51,4 +52,7 @@ export class PlayerglobalEntity {
     (playerglobalPosition) => playerglobalPosition.playerglobal,
   )
   playersglobalPosition?: PlayerglobalPositionEntity[];
+
+  @OneToMany(() => PlayersaveEntity, (playersave) => playersave.playerglobal)
+  playerssave?: PlayersaveEntity[];
 }
