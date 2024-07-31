@@ -83,135 +83,147 @@ export class SaveService {
     const globalToSavePlayerIdMap: { [key: number]: number } = {};
     const globalToSaveCompetitionIdMap: { [key: number]: number } = {};
 
-    for (const managerglobal of managersglobal) {
-      const managersave = await this.dataSource
-        .createQueryBuilder()
-        .insert()
-        .into(ManagersaveEntity)
-        .values([
-          {
-            saveId: saveId,
-            managerglobalId: managerglobal.id,
-            countryId: managerglobal.countryId,
-            name: managerglobal.name,
-            birthdate: managerglobal.birthdate,
-            controlled: false,
-          },
-        ])
-        .execute();
+    await Promise.all(
+      managersglobal.map(async (managerglobal) => {
+        const managersave = await this.dataSource
+          .createQueryBuilder()
+          .insert()
+          .into(ManagersaveEntity)
+          .values([
+            {
+              saveId: saveId,
+              managerglobalId: managerglobal.id,
+              countryId: managerglobal.countryId,
+              name: managerglobal.name,
+              birthdate: managerglobal.birthdate,
+              controlled: false,
+            },
+          ])
+          .execute();
 
-      globalToSaveManagerIdMap[managerglobal.id] =
-        managersave.identifiers[0].id;
-    }
+        globalToSaveManagerIdMap[managerglobal.id] =
+          managersave.identifiers[0].id;
+      }),
+    );
 
-    for (const teamglobal of teamsglobal) {
-      const managersaveId =
-        globalToSaveManagerIdMap[teamglobal.managerglobalId];
+    await Promise.all(
+      teamsglobal.map(async (teamglobal) => {
+        const managersaveId =
+          globalToSaveManagerIdMap[teamglobal.managerglobalId];
 
-      const teamsave = await this.dataSource
-        .createQueryBuilder()
-        .insert()
-        .into(TeamsaveEntity)
-        .values([
-          {
-            saveId: saveId,
-            teamglobalId: teamglobal.id,
-            countryId: teamglobal.countryId,
-            managersaveId: managersaveId,
-            name: teamglobal.name,
-            srcImage: teamglobal.srcImage,
-          },
-        ])
-        .execute();
+        const teamsave = await this.dataSource
+          .createQueryBuilder()
+          .insert()
+          .into(TeamsaveEntity)
+          .values([
+            {
+              saveId: saveId,
+              teamglobalId: teamglobal.id,
+              countryId: teamglobal.countryId,
+              managersaveId: managersaveId,
+              name: teamglobal.name,
+              srcImage: teamglobal.srcImage,
+            },
+          ])
+          .execute();
 
-      globalToSaveTeamIdMap[teamglobal.id] = teamsave.identifiers[0].id;
-    }
+        globalToSaveTeamIdMap[teamglobal.id] = teamsave.identifiers[0].id;
+      }),
+    );
 
-    for (const playerglobal of playersglobal) {
-      const teamsaveId = globalToSaveTeamIdMap[playerglobal.teamglobalId];
+    await Promise.all(
+      playersglobal.map(async (playerglobal) => {
+        const teamsaveId = globalToSaveTeamIdMap[playerglobal.teamglobalId];
 
-      const playersave = await this.dataSource
-        .createQueryBuilder()
-        .insert()
-        .into(PlayersaveEntity)
-        .values([
-          {
-            saveId: saveId,
-            playerglobalId: playerglobal.id,
-            countryId: playerglobal.countryId,
-            teamsaveId: teamsaveId,
-            name: playerglobal.name,
-            birthdate: playerglobal.birthdate,
-            overall: playerglobal.overall,
-            stamina: PLAYERSAVE_STAMINA,
-          },
-        ])
-        .execute();
+        const playersave = await this.dataSource
+          .createQueryBuilder()
+          .insert()
+          .into(PlayersaveEntity)
+          .values([
+            {
+              saveId: saveId,
+              playerglobalId: playerglobal.id,
+              countryId: playerglobal.countryId,
+              teamsaveId: teamsaveId,
+              name: playerglobal.name,
+              birthdate: playerglobal.birthdate,
+              overall: playerglobal.overall,
+              stamina: PLAYERSAVE_STAMINA,
+            },
+          ])
+          .execute();
 
-      globalToSavePlayerIdMap[playerglobal.id] = playersave.identifiers[0].id;
-    }
+        globalToSavePlayerIdMap[playerglobal.id] = playersave.identifiers[0].id;
+      }),
+    );
 
-    for (const playerglobalPosition of playersglobalPosition) {
-      const playersaveId =
-        globalToSavePlayerIdMap[playerglobalPosition.playerglobalId];
+    await Promise.all(
+      playersglobalPosition.map(async (playerglobalPosition) => {
+        const playersaveId =
+          globalToSavePlayerIdMap[playerglobalPosition.playerglobalId];
 
-      await this.dataSource
-        .createQueryBuilder()
-        .insert()
-        .into(PlayersavePositionEntity)
-        .values([
-          {
-            playersaveId: playersaveId,
-            positionId: playerglobalPosition.positionId,
-            rating: playerglobalPosition.rating,
-          },
-        ])
-        .execute();
-    }
+        await this.dataSource
+          .createQueryBuilder()
+          .insert()
+          .into(PlayersavePositionEntity)
+          .values([
+            {
+              playersaveId: playersaveId,
+              positionId: playerglobalPosition.positionId,
+              rating: playerglobalPosition.rating,
+            },
+          ])
+          .execute();
+      }),
+    );
 
-    for (const competitionglobal of competitionsglobal) {
-      const competitionsave = await this.dataSource
-        .createQueryBuilder()
-        .insert()
-        .into(CompetitionsaveEntity)
-        .values([
-          {
-            saveId: saveId,
-            competitionglobalId: competitionglobal.id,
-            ruleId: competitionglobal.ruleId,
-            countryId: competitionglobal.countryId,
-            name: competitionglobal.name,
-            season: competitionglobal.season,
-            srcImage: competitionglobal.srcImage,
-          },
-        ])
-        .execute();
+    await Promise.all(
+      competitionsglobal.map(async (competitionglobal) => {
+        const competitionsave = await this.dataSource
+          .createQueryBuilder()
+          .insert()
+          .into(CompetitionsaveEntity)
+          .values([
+            {
+              saveId: saveId,
+              competitionglobalId: competitionglobal.id,
+              ruleId: competitionglobal.ruleId,
+              countryId: competitionglobal.countryId,
+              name: competitionglobal.name,
+              season: competitionglobal.season,
+              srcImage: competitionglobal.srcImage,
+            },
+          ])
+          .execute();
 
-      globalToSaveCompetitionIdMap[competitionglobal.id] =
-        competitionsave.identifiers[0].id;
-    }
+        globalToSaveCompetitionIdMap[competitionglobal.id] =
+          competitionsave.identifiers[0].id;
+      }),
+    );
 
-    for (const competitionglobalTeamglobal of competitionsglobalTeamglobal) {
-      const competitionsaveId =
-        globalToSaveCompetitionIdMap[
-          competitionglobalTeamglobal.competitionglobalId
-        ];
+    await Promise.all(
+      competitionsglobalTeamglobal.map(async (competitionglobalTeamglobal) => {
+        const competitionsaveId =
+          globalToSaveCompetitionIdMap[
+            competitionglobalTeamglobal.competitionglobalId
+          ];
 
-      const teamsaveId =
-        globalToSaveTeamIdMap[competitionglobalTeamglobal.teamglobalId];
+        const teamsaveId =
+          globalToSaveTeamIdMap[competitionglobalTeamglobal.teamglobalId];
 
-      await this.dataSource
-        .createQueryBuilder()
-        .insert()
-        .into(CompetitionsaveTeamsaveEntity)
-        .values([
-          {
-            competitionsaveId: competitionsaveId,
-            teamsaveId: teamsaveId,
-          },
-        ])
-        .execute();
-    }
+        await this.dataSource
+          .createQueryBuilder()
+          .insert()
+          .into(CompetitionsaveTeamsaveEntity)
+          .values([
+            {
+              competitionsaveId: competitionsaveId,
+              teamsaveId: teamsaveId,
+            },
+          ])
+          .execute();
+      }),
+    );
   }
 
   async findSaveByUserId(userId: number): Promise<SaveEntity[]> {
