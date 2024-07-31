@@ -1,3 +1,4 @@
+import { CompetitionsaveEntity } from 'src/competitionsave/entities/competitionsave.entity';
 import { ManagersaveEntity } from 'src/managersave/entities/managersave.entity';
 import { PlayersaveEntity } from 'src/playersave/entities/playersave.entity';
 import { TeamsaveEntity } from 'src/teamsave/entities/teamsave.entity';
@@ -42,4 +43,10 @@ export class SaveEntity {
 
   @OneToMany(() => PlayersaveEntity, (playersave) => playersave.save)
   playerssave?: PlayersaveEntity[];
+
+  @OneToMany(
+    () => CompetitionsaveEntity,
+    (competitionsave) => competitionsave.save,
+  )
+  competitionssave?: CompetitionsaveEntity[];
 }

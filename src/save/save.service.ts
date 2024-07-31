@@ -16,6 +16,8 @@ import { PlayersaveEntity } from 'src/playersave/entities/playersave.entity';
 import { PLAYERSAVE_STAMINA } from 'src/utils/constants/dtoValidators';
 import { PlayerglobalPositionService } from 'src/playerglobal_position/playerglobal_position.service';
 import { PlayersavePositionEntity } from 'src/playersave_position/entities/playersave_position.entity';
+import { CompetitionglobalService } from 'src/competitionglobal/competitionglobal.service';
+import { CompetitionsaveEntity } from 'src/competitionsave/entities/competitionsave.entity';
 
 @Injectable()
 export class SaveService {
@@ -28,6 +30,7 @@ export class SaveService {
     private readonly teamglobalService: TeamglobalService,
     private readonly playerglobalService: PlayerglobalService,
     private readonly playerglobalPositionService: PlayerglobalPositionService,
+    private readonly competitionglobalService: CompetitionglobalService,
   ) {}
 
   async createSave(
@@ -65,6 +68,9 @@ export class SaveService {
 
     const playersglobalPosition =
       await this.playerglobalPositionService.findAllPlayerglobalPosition();
+
+    const competitionsglobal =
+      await this.competitionglobalService.findAllCompetitionglobal();
 
     const globalToSaveManagerIdMap: { [key: number]: number } = {};
     const globalToSaveTeamIdMap: { [key: number]: number } = {};
@@ -151,6 +157,25 @@ export class SaveService {
             playersaveId: playersaveId,
             positionId: playerglobalPosition.positionId,
             rating: playerglobalPosition.rating,
+          },
+        ])
+        .execute();
+    }
+
+    for (const competitionglobal of competitionsglobal) {
+      await this.dataSource
+        .createQueryBuilder()
+        .insert()
+        .into(CompetitionsaveEntity)
+        .values([
+          {
+            saveId: saveId,
+            competitionglobalId: competitionglobal.id,
+            ruleId: competitionglobal.ruleId,
+            countryId: competitionglobal.countryId,
+            name: competitionglobal.name,
+            season: competitionglobal.season,
+            srcImage: competitionglobal.srcImage,
           },
         ])
         .execute();

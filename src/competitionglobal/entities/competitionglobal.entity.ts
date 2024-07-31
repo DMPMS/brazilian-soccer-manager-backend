@@ -1,4 +1,5 @@
 import { CompetitionglobalTeamglobalEntity } from 'src/competitionglobal_teamglobal/entities/competitionglobal_teamglobal.entity';
+import { CompetitionsaveEntity } from 'src/competitionsave/entities/competitionsave.entity';
 import { CountryEntity } from 'src/country/entities/country.entity';
 import { RuleEntity } from 'src/rule/entities/rule.entity';
 import {
@@ -52,4 +53,10 @@ export abstract class CompetitionglobalEntity {
       competitionglobalTeamglobal.competitionglobal,
   )
   competitionsglobalTeamglobal?: CompetitionglobalTeamglobalEntity[];
+
+  @OneToMany(
+    () => CompetitionsaveEntity,
+    (competitionsave) => competitionsave.competitionglobal,
+  )
+  competitionssave?: CompetitionsaveEntity[];
 }

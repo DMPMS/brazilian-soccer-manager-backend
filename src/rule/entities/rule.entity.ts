@@ -1,4 +1,5 @@
 import { CompetitionglobalEntity } from 'src/competitionglobal/entities/competitionglobal.entity';
+import { CompetitionsaveEntity } from 'src/competitionsave/entities/competitionsave.entity';
 import {
   Column,
   CreateDateColumn,
@@ -36,4 +37,10 @@ export class RuleEntity {
     (competitionglobal) => competitionglobal.rule,
   )
   competitionsglobal?: CompetitionglobalEntity[];
+
+  @OneToMany(
+    () => CompetitionsaveEntity,
+    (competitionsave) => competitionsave.rule,
+  )
+  competitionssave?: CompetitionsaveEntity[];
 }

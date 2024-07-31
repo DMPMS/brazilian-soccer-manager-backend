@@ -18,5 +18,6 @@ import { TeamglobalModule } from 'src/teamglobal/teamglobal.module';
   ],
   providers: [CompetitionglobalService],
   controllers: [CompetitionglobalController],
+  exports: [CompetitionglobalService],
 })
 export class CompetitionglobalModule {}
