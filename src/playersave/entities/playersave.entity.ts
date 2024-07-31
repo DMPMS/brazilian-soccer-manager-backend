@@ -1,5 +1,6 @@
 import { CountryEntity } from 'src/country/entities/country.entity';
 import { PlayerglobalEntity } from 'src/playerglobal/entities/playerglobal.entity';
+import { PlayersavePositionEntity } from 'src/playersave_position/entities/playersave_position.entity';
 import { SaveEntity } from 'src/save/entities/save.entity';
 import { TeamsaveEntity } from 'src/teamsave/entities/teamsave.entity';
 import {
@@ -8,6 +9,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -66,9 +68,9 @@ export class PlayersaveEntity {
   @JoinColumn({ name: 'teamsave_id', referencedColumnName: 'id' })
   teamsave?: TeamsaveEntity;
 
-  // @OneToMany(
-  //   () => PlayersavePositionEntity,
-  //   (playersavePosition) => playersavePosition.playersave,
-  // )
-  // playerssavePosition?: PlayersavePositionEntity[];
+  @OneToMany(
+    () => PlayersavePositionEntity,
+    (playersavePosition) => playersavePosition.playersave,
+  )
+  playerssavePosition?: PlayersavePositionEntity[];
 }

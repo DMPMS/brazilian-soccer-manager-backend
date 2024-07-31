@@ -14,6 +14,8 @@ import { TeamsaveEntity } from 'src/teamsave/entities/teamsave.entity';
 import { PlayerglobalService } from 'src/playerglobal/playerglobal.service';
 import { PlayersaveEntity } from 'src/playersave/entities/playersave.entity';
 import { PLAYERSAVE_STAMINA } from 'src/utils/constants/dtoValidators';
+import { PlayerglobalPositionService } from 'src/playerglobal_position/playerglobal_position.service';
+import { PlayersavePositionEntity } from 'src/playersave_position/entities/playersave_position.entity';
 
 @Injectable()
 export class SaveService {
@@ -25,6 +27,7 @@ export class SaveService {
     private readonly managerglobalService: ManagerglobalService,
     private readonly teamglobalService: TeamglobalService,
     private readonly playerglobalService: PlayerglobalService,
+    private readonly playerglobalPositionService: PlayerglobalPositionService,
   ) {}
 
   async createSave(
@@ -60,8 +63,12 @@ export class SaveService {
 
     const playersglobal = await this.playerglobalService.findAllPlayerglobal();
 
+    const playersglobalPosition =
+      await this.playerglobalPositionService.findAllPlayerglobalPosition();
+
     const globalToSaveManagerIdMap: { [key: number]: number } = {};
     const globalToSaveTeamIdMap: { [key: number]: number } = {};
+    const globalToSavePlayerIdMap: { [key: number]: number } = {};
 
     for (const managerglobal of managersglobal) {
       const managersave = await this.dataSource
@@ -110,7 +117,7 @@ export class SaveService {
     for (const playerglobal of playersglobal) {
       const teamsaveId = globalToSaveTeamIdMap[playerglobal.teamglobalId];
 
-      await this.dataSource
+      const playersave = await this.dataSource
         .createQueryBuilder()
         .insert()
         .into(PlayersaveEntity)
@@ -124,6 +131,26 @@ export class SaveService {
             birthdate: playerglobal.birthdate,
             overall: playerglobal.overall,
             stamina: PLAYERSAVE_STAMINA,
+          },
+        ])
+        .execute();
+
+      globalToSavePlayerIdMap[playerglobal.id] = playersave.identifiers[0].id;
+    }
+
+    for (const playerglobalPosition of playersglobalPosition) {
+      const playersaveId =
+        globalToSavePlayerIdMap[playerglobalPosition.playerglobalId];
+
+      await this.dataSource
+        .createQueryBuilder()
+        .insert()
+        .into(PlayersavePositionEntity)
+        .values([
+          {
+            playersaveId: playersaveId,
+            positionId: playerglobalPosition.positionId,
+            rating: playerglobalPosition.rating,
           },
         ])
         .execute();

@@ -1,4 +1,5 @@
 import { PlayerglobalPositionEntity } from 'src/playerglobal_position/entities/playerglobal_position.entity';
+import { PlayersavePositionEntity } from 'src/playersave_position/entities/playersave_position.entity';
 import {
   Column,
   CreateDateColumn,
@@ -33,4 +34,10 @@ export class PositionEntity {
     (playerglobalPosition) => playerglobalPosition.position,
   )
   playersglobalPosition?: PlayerglobalPositionEntity[];
+
+  @OneToMany(
+    () => PlayersavePositionEntity,
+    (playersavePosition) => playersavePosition.position,
+  )
+  playerssavePosition?: PlayersavePositionEntity[];
 }

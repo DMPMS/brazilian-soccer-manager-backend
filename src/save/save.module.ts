@@ -6,6 +6,7 @@ import { SaveEntity } from './entities/save.entity';
 import { ManagerglobalModule } from 'src/managerglobal/managerglobal.module';
 import { TeamglobalModule } from 'src/teamglobal/teamglobal.module';
 import { PlayerglobalModule } from 'src/playerglobal/playerglobal.module';
+import { PlayerglobalPositionModule } from 'src/playerglobal_position/playerglobal_position.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { PlayerglobalModule } from 'src/playerglobal/playerglobal.module';
     ManagerglobalModule,
     TeamglobalModule,
     PlayerglobalModule,
+    PlayerglobalPositionModule,
   ],
   controllers: [SaveController],
   providers: [SaveService],
