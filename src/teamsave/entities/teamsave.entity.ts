@@ -1,3 +1,4 @@
+import { CompetitionsaveTeamsaveEntity } from 'src/competitionsave_teamsave/entities/competitionsave_teamsave.entity';
 import { CountryEntity } from 'src/country/entities/country.entity';
 import { ManagersaveEntity } from 'src/managersave/entities/managersave.entity';
 import { PlayersaveEntity } from 'src/playersave/entities/playersave.entity';
@@ -63,17 +64,11 @@ export class TeamsaveEntity {
   @OneToMany(() => PlayersaveEntity, (playersave) => playersave.teamsave)
   playerssave?: PlayersaveEntity[];
 
-  // @OneToMany(
-  //   () => CompetitionsaveTeamsaveEntity,
-  //   (competitionsaveTeamsave) => competitionsaveTeamsave.teamsave,
-  // )
-  // competitionssaveTeamsave?: CompetitionsaveTeamsaveEntity[];
-
-  // @OneToMany(
-  //   () => PlayersaveEntity,
-  //   (playersave) => playersave.teamsave,
-  // )
-  // playerssave?: PlayersaveEntity[];
+  @OneToMany(
+    () => CompetitionsaveTeamsaveEntity,
+    (competitionsaveTeamsave) => competitionsaveTeamsave.teamsave,
+  )
+  competitionssaveTeamsave?: CompetitionsaveTeamsaveEntity[];
 
   // playerssaveCount: number;
 }

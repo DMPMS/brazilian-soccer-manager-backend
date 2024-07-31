@@ -1,4 +1,5 @@
 import { CompetitionglobalEntity } from 'src/competitionglobal/entities/competitionglobal.entity';
+import { CompetitionsaveTeamsaveEntity } from 'src/competitionsave_teamsave/entities/competitionsave_teamsave.entity';
 import { CountryEntity } from 'src/country/entities/country.entity';
 import { RuleEntity } from 'src/rule/entities/rule.entity';
 import { SaveEntity } from 'src/save/entities/save.entity';
@@ -8,6 +9,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -63,10 +65,9 @@ export abstract class CompetitionsaveEntity {
   @JoinColumn({ name: 'country_id', referencedColumnName: 'id' })
   country?: CountryEntity;
 
-  // @OneToMany(
-  //   () => CompetitionsaveTeamsaveEntity,
-  //   (competitionsaveTeamsave) =>
-  //     competitionsaveTeamsave.competitionsave,
-  // )
-  // competitionssaveTeamsave?: CompetitionsaveTeamsaveEntity[];
+  @OneToMany(
+    () => CompetitionsaveTeamsaveEntity,
+    (competitionsaveTeamsave) => competitionsaveTeamsave.competitionsave,
+  )
+  competitionssaveTeamsave?: CompetitionsaveTeamsaveEntity[];
 }

@@ -8,6 +8,7 @@ import { TeamglobalModule } from 'src/teamglobal/teamglobal.module';
 import { PlayerglobalModule } from 'src/playerglobal/playerglobal.module';
 import { PlayerglobalPositionModule } from 'src/playerglobal_position/playerglobal_position.module';
 import { CompetitionglobalModule } from 'src/competitionglobal/competitionglobal.module';
+import { CompetitionglobalTeamglobalModule } from 'src/competitionglobal_teamglobal/competitionglobal_teamglobal.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CompetitionglobalModule } from 'src/competitionglobal/competitionglobal
     PlayerglobalModule,
     PlayerglobalPositionModule,
     CompetitionglobalModule,
+    CompetitionglobalTeamglobalModule,
   ],
   controllers: [SaveController],
   providers: [SaveService],

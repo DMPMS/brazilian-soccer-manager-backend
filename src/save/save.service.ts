@@ -18,6 +18,8 @@ import { PlayerglobalPositionService } from 'src/playerglobal_position/playerglo
 import { PlayersavePositionEntity } from 'src/playersave_position/entities/playersave_position.entity';
 import { CompetitionglobalService } from 'src/competitionglobal/competitionglobal.service';
 import { CompetitionsaveEntity } from 'src/competitionsave/entities/competitionsave.entity';
+import { CompetitionglobalTeamglobalService } from 'src/competitionglobal_teamglobal/competitionglobal_teamglobal.service';
+import { CompetitionsaveTeamsaveEntity } from 'src/competitionsave_teamsave/entities/competitionsave_teamsave.entity';
 
 @Injectable()
 export class SaveService {
@@ -31,6 +33,7 @@ export class SaveService {
     private readonly playerglobalService: PlayerglobalService,
     private readonly playerglobalPositionService: PlayerglobalPositionService,
     private readonly competitionglobalService: CompetitionglobalService,
+    private readonly competitionglobalTeamglobalService: CompetitionglobalTeamglobalService,
   ) {}
 
   async createSave(
@@ -72,9 +75,13 @@ export class SaveService {
     const competitionsglobal =
       await this.competitionglobalService.findAllCompetitionglobal();
 
+    const competitionsglobalTeamglobal =
+      await this.competitionglobalTeamglobalService.findAllCompetitionglobalTeamglobal();
+
     const globalToSaveManagerIdMap: { [key: number]: number } = {};
     const globalToSaveTeamIdMap: { [key: number]: number } = {};
     const globalToSavePlayerIdMap: { [key: number]: number } = {};
+    const globalToSaveCompetitionIdMap: { [key: number]: number } = {};
 
     for (const managerglobal of managersglobal) {
       const managersave = await this.dataSource
@@ -163,7 +170,7 @@ export class SaveService {
     }
 
     for (const competitionglobal of competitionsglobal) {
-      await this.dataSource
+      const competitionsave = await this.dataSource
         .createQueryBuilder()
         .insert()
         .into(CompetitionsaveEntity)
@@ -176,6 +183,31 @@ export class SaveService {
             name: competitionglobal.name,
             season: competitionglobal.season,
             srcImage: competitionglobal.srcImage,
+          },
+        ])
+        .execute();
+
+      globalToSaveCompetitionIdMap[competitionglobal.id] =
+        competitionsave.identifiers[0].id;
+    }
+
+    for (const competitionglobalTeamglobal of competitionsglobalTeamglobal) {
+      const competitionsaveId =
+        globalToSaveCompetitionIdMap[
+          competitionglobalTeamglobal.competitionglobalId
+        ];
+
+      const teamsaveId =
+        globalToSaveTeamIdMap[competitionglobalTeamglobal.teamglobalId];
+
+      await this.dataSource
+        .createQueryBuilder()
+        .insert()
+        .into(CompetitionsaveTeamsaveEntity)
+        .values([
+          {
+            competitionsaveId: competitionsaveId,
+            teamsaveId: teamsaveId,
           },
         ])
         .execute();

@@ -21,6 +21,7 @@ import { TeamsaveModule } from './teamsave/teamsave.module';
 import { PlayersaveModule } from './playersave/playersave.module';
 import { PlayersavePositionModule } from './playersave_position/playersave_position.module';
 import { CompetitionsaveModule } from './competitionsave/competitionsave.module';
+import { CompetitionsaveTeamsaveModule } from './competitionsave_teamsave/competitionsave_teamsave.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { CompetitionsaveModule } from './competitionsave/competitionsave.module'
     PlayersaveModule,
     PlayersavePositionModule,
     CompetitionsaveModule,
+    CompetitionsaveTeamsaveModule,
   ],
   controllers: [],
   providers: [

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CompetitionglobalTeamglobalEntity } from './entities/competitionglobal_teamglobal.entity';
 import { DeleteResult, Repository } from 'typeorm';
@@ -18,6 +18,28 @@ export class CompetitionglobalTeamglobalService {
       competitionglobalId,
       teamglobalId,
     });
+  }
+
+  async findAllCompetitionglobalTeamglobal(): Promise<
+    CompetitionglobalTeamglobalEntity[]
+  > {
+    let findOptions = {};
+
+    findOptions = {
+      ...findOptions,
+      order: {
+        id: 'ASC',
+      },
+    };
+
+    const competitionsglobalTeamglobal =
+      await this.competitionglobalTeamglobalRepository.find(findOptions);
+
+    if (!competitionsglobalTeamglobal) {
+      throw new NotFoundException(`CompetitionsglobalTeamglobal not found.`);
+    }
+
+    return competitionsglobalTeamglobal;
   }
 
   async deleteCompetitionglobalTeamglobalByCompetitionglobalId(
