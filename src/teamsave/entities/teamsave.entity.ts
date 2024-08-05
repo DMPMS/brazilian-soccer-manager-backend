@@ -70,5 +70,5 @@ export class TeamsaveEntity {
   )
   competitionssaveTeamsave?: CompetitionsaveTeamsaveEntity[];
 
-  // playerssaveCount: number;
+  playerssaveCount: number;
 }
