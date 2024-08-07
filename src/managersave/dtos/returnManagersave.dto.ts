@@ -6,7 +6,6 @@ export class ReturnManagersaveDTO {
   id: number;
   name: string;
   birthdate: string;
-  controlled: boolean;
   country?: ReturnCountryDTO;
   teamsave?: ReturnTeamsaveDTO;
 
@@ -14,7 +13,6 @@ export class ReturnManagersaveDTO {
     this.id = managersaveEntity.id;
     this.name = managersaveEntity.name;
     this.birthdate = managersaveEntity.birthdate.toISOString().split('T')[0];
-    this.controlled = managersaveEntity.controlled;
 
     this.country = managersaveEntity.country
       ? new ReturnCountryDTO(managersaveEntity.country)

@@ -41,7 +41,13 @@ export class SaveController {
 
   @Get()
   async findSaveByUserId(@UserId() userId: number): Promise<ReturnSaveDTO[]> {
-    return (await this.saveService.findSaveByUserId(userId)).map(
+    const relations = {
+      controllerManagersave: {
+        teamsave: true,
+      },
+    };
+
+    return (await this.saveService.findSaveByUserId(userId, relations)).map(
       (save) => new ReturnSaveDTO(save),
     );
   }

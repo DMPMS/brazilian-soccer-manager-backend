@@ -33,9 +33,6 @@ export class ManagersaveEntity {
   @Column({ name: 'birthdate', nullable: false })
   birthdate: Date;
 
-  @Column({ name: 'controlled', nullable: false })
-  controlled: boolean;
-
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
@@ -59,4 +56,7 @@ export class ManagersaveEntity {
 
   @OneToOne(() => TeamsaveEntity, (teamsave) => teamsave.managersave)
   teamsave?: TeamsaveEntity;
+
+  @OneToOne(() => SaveEntity, (save) => save.controllerManagersave)
+  controledSave?: SaveEntity;
 }

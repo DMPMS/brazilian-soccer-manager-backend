@@ -10,6 +10,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -22,8 +23,14 @@ export class SaveEntity {
   @Column({ name: 'user_id', nullable: false })
   userId: number;
 
+  @Column({ name: 'controller_managersave_id', nullable: true })
+  controllerManagersaveId: number;
+
   @Column({ name: 'name', nullable: false })
   name: string;
+
+  @Column({ name: 'datetime', nullable: false })
+  datetime: Date;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
@@ -34,6 +41,10 @@ export class SaveEntity {
   @ManyToOne(() => UserEntity, (user) => user.saves)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user?: UserEntity;
+
+  @OneToOne(() => ManagersaveEntity, (managersave) => managersave.controledSave)
+  @JoinColumn({ name: 'controller_managersave_id', referencedColumnName: 'id' })
+  controllerManagersave?: ManagersaveEntity;
 
   @OneToMany(() => ManagersaveEntity, (managersave) => managersave.save)
   managerssave?: ManagersaveEntity[];

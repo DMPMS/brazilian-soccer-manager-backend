@@ -13,13 +13,24 @@ import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
 import { TeamsaveEntity } from 'src/teamsave/entities/teamsave.entity';
 import { PlayerglobalService } from 'src/playerglobal/playerglobal.service';
 import { PlayersaveEntity } from 'src/playersave/entities/playersave.entity';
-import { PLAYERSAVE_STAMINA } from 'src/utils/constants/dtoValidators';
+import {
+  PLAYERSAVE_STAMINA,
+  SAVE_DATETIME,
+} from 'src/utils/constants/dtoValidators';
 import { PlayerglobalPositionService } from 'src/playerglobal_position/playerglobal_position.service';
 import { PlayersavePositionEntity } from 'src/playersave_position/entities/playersave_position.entity';
 import { CompetitionglobalService } from 'src/competitionglobal/competitionglobal.service';
 import { CompetitionsaveEntity } from 'src/competitionsave/entities/competitionsave.entity';
 import { CompetitionglobalTeamglobalService } from 'src/competitionglobal_teamglobal/competitionglobal_teamglobal.service';
 import { CompetitionsaveTeamsaveEntity } from 'src/competitionsave_teamsave/entities/competitionsave_teamsave.entity';
+import { CountryService } from 'src/country/country.service';
+import { RelationsOptions } from 'src/types/RelationsOptions.type';
+
+interface CustomManager {
+  countryId: number;
+  name: string;
+  birthdate: string;
+}
 
 @Injectable()
 export class SaveService {
@@ -34,12 +45,29 @@ export class SaveService {
     private readonly playerglobalPositionService: PlayerglobalPositionService,
     private readonly competitionglobalService: CompetitionglobalService,
     private readonly competitionglobalTeamglobalService: CompetitionglobalTeamglobalService,
+    private readonly countryService: CountryService,
   ) {}
 
   async createSave(
     createSaveDTO: CreateSaveDTO,
     userId: number,
   ): Promise<SaveEntity> {
+    if (createSaveDTO.isCustomManager === true) {
+      if (!createSaveDTO.managerCountryId) {
+        throw new BadRequestException('managerCountryId not specified.');
+      }
+
+      if (!createSaveDTO.managerName) {
+        throw new BadRequestException('managerName not specified.');
+      }
+
+      if (!createSaveDTO.managerBirthdate) {
+        throw new BadRequestException('managerBirthdate not specified.');
+      }
+    }
+
+    await this.teamglobalService.findTeamglobalById(createSaveDTO.teamglobalId);
+
     const save = await this.findUserSaveByName(
       userId,
       createSaveDTO.name,
@@ -53,15 +81,40 @@ export class SaveService {
 
     const saveCreated = await this.saveRepository.save({
       ...createSaveDTO,
-      userId,
+      userId: userId,
+      controllerManagersaveId: null,
+      datetime: SAVE_DATETIME,
     });
 
-    await this.copyGlobalDataToSaveTables(saveCreated.id);
+    if (createSaveDTO.isCustomManager === true) {
+      await this.countryService.findCountryById(createSaveDTO.managerCountryId);
+
+      const customManager: CustomManager = {
+        countryId: createSaveDTO.managerCountryId,
+        name: createSaveDTO.managerName,
+        birthdate: createSaveDTO.managerBirthdate,
+      };
+
+      await this.copyGlobalDataToSaveTables(
+        saveCreated.id,
+        createSaveDTO.teamglobalId,
+        customManager,
+      );
+    } else {
+      await this.copyGlobalDataToSaveTables(
+        saveCreated.id,
+        createSaveDTO.teamglobalId,
+      );
+    }
 
     return saveCreated;
   }
 
-  async copyGlobalDataToSaveTables(saveId: number): Promise<void> {
+  async copyGlobalDataToSaveTables(
+    saveId: number,
+    saveTeamglobalId: number,
+    customManager?: CustomManager,
+  ): Promise<void> {
     const managersglobal =
       await this.managerglobalService.findAllManagerglobal();
 
@@ -83,6 +136,27 @@ export class SaveService {
     const globalToSavePlayerIdMap: { [key: number]: number } = {};
     const globalToSaveCompetitionIdMap: { [key: number]: number } = {};
 
+    const CUSTOM_MANAGER_GLOBAL_ID = 0;
+    if (customManager) {
+      const managersave = await this.dataSource
+        .createQueryBuilder()
+        .insert()
+        .into(ManagersaveEntity)
+        .values([
+          {
+            saveId: saveId,
+            managerglobalId: null,
+            countryId: customManager.countryId,
+            name: customManager.name,
+            birthdate: customManager.birthdate,
+          },
+        ])
+        .execute();
+
+      globalToSaveManagerIdMap[CUSTOM_MANAGER_GLOBAL_ID] =
+        managersave.identifiers[0].id;
+    }
+
     await Promise.all(
       managersglobal.map(async (managerglobal) => {
         const managersave = await this.dataSource
@@ -96,7 +170,6 @@ export class SaveService {
               countryId: managerglobal.countryId,
               name: managerglobal.name,
               birthdate: managerglobal.birthdate,
-              controlled: false,
             },
           ])
           .execute();
@@ -109,7 +182,11 @@ export class SaveService {
     await Promise.all(
       teamsglobal.map(async (teamglobal) => {
         const managersaveId =
-          globalToSaveManagerIdMap[teamglobal.managerglobalId];
+          teamglobal.id === saveTeamglobalId
+            ? customManager
+              ? globalToSaveManagerIdMap[CUSTOM_MANAGER_GLOBAL_ID]
+              : globalToSaveManagerIdMap[teamglobal.managerglobalId]
+            : globalToSaveManagerIdMap[teamglobal.managerglobalId];
 
         const teamsave = await this.dataSource
           .createQueryBuilder()
@@ -126,6 +203,15 @@ export class SaveService {
             },
           ])
           .execute();
+
+        if (teamglobal.id === saveTeamglobalId) {
+          await this.dataSource
+            .createQueryBuilder()
+            .update(SaveEntity)
+            .set({ controllerManagersaveId: managersaveId })
+            .where('id = :saveId', { saveId })
+            .execute();
+        }
 
         globalToSaveTeamIdMap[teamglobal.id] = teamsave.identifiers[0].id;
       }),
@@ -226,7 +312,10 @@ export class SaveService {
     );
   }
 
-  async findSaveByUserId(userId: number): Promise<SaveEntity[]> {
+  async findSaveByUserId(
+    userId: number,
+    relations?: RelationsOptions,
+  ): Promise<SaveEntity[]> {
     let findOptions = {};
 
     findOptions = {
@@ -239,6 +328,13 @@ export class SaveService {
         id: 'DESC',
       },
     };
+
+    if (relations && Object.keys(relations).length > 0) {
+      findOptions = {
+        ...findOptions,
+        relations,
+      };
+    }
 
     const saves = await this.saveRepository.find(findOptions);
 
