@@ -19,11 +19,11 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { UpdateManagerglobalDTO } from './dtos/updateManagerglobal.dto';
 import { DeleteResult } from 'typeorm';
 
-@Roles(UserType.Admin)
 @Controller('managerglobal')
 export class ManagerglobalController {
   constructor(private readonly managerglobalService: ManagerglobalService) {}
 
+  @Roles(UserType.Admin)
   @UsePipes(ValidationPipe)
   @Post()
   async createManagerglobal(
@@ -34,6 +34,7 @@ export class ManagerglobalController {
     );
   }
 
+  @Roles(UserType.Admin, UserType.User)
   @Get()
   async findAllManagerglobal(
     @Query('isWithoutTeamglobal') isWithoutTeamglobal?: boolean,
@@ -51,6 +52,7 @@ export class ManagerglobalController {
     ).map((managerglobal) => new ReturnManagerglobalDTO(managerglobal));
   }
 
+  @Roles(UserType.Admin)
   @Get('/:managerglobalId')
   async findManagerglobalById(
     @Param('managerglobalId') managerglobalId,
@@ -67,6 +69,7 @@ export class ManagerglobalController {
     );
   }
 
+  @Roles(UserType.Admin)
   @UsePipes(ValidationPipe)
   @Put('/:managerglobalId')
   async updateManagerglobal(
@@ -79,6 +82,7 @@ export class ManagerglobalController {
     );
   }
 
+  @Roles(UserType.Admin)
   @Delete('/:managerglobalId')
   async deleteManagerglobal(
     @Param('managerglobalId') managerglobalId: number,

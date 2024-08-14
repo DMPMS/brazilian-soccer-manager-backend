@@ -18,13 +18,13 @@ import { UserType } from 'src/user/enums/userType.enum';
 import { UpdateCompetitionglobalDTO } from './dtos/updateCompetitionglobal.dto';
 import { DeleteResult } from 'typeorm';
 
-@Roles(UserType.Admin)
 @Controller('competitionglobal')
 export class CompetitionglobalController {
   constructor(
     private readonly competitionglobalService: CompetitionglobalService,
   ) {}
 
+  @Roles(UserType.Admin)
   @UsePipes(ValidationPipe)
   @Post()
   async createCompetitionglobal(
@@ -35,6 +35,7 @@ export class CompetitionglobalController {
     );
   }
 
+  @Roles(UserType.Admin, UserType.User)
   @Get()
   async findAllCompetitionglobal(): Promise<ReturnCompetitionglobalDTO[]> {
     const relations = {
@@ -49,6 +50,7 @@ export class CompetitionglobalController {
     );
   }
 
+  @Roles(UserType.Admin)
   @Get('/:competitionglobalId')
   async findCompetitionglobalById(
     @Param('competitionglobalId') competitionglobalId,
@@ -69,6 +71,7 @@ export class CompetitionglobalController {
     );
   }
 
+  @Roles(UserType.Admin)
   @UsePipes(ValidationPipe)
   @Put('/:competitionglobalId')
   async updateCompetitionglobal(
@@ -81,6 +84,7 @@ export class CompetitionglobalController {
     );
   }
 
+  @Roles(UserType.Admin)
   @Delete('/:competitionglobalId')
   async deleteCompetitionglobal(
     @Param('competitionglobalId') competitionglobalId: number,

@@ -18,11 +18,11 @@ import { ReturnTeamglobalDTO } from './dtos/returnTeamglobal.dto';
 import { UpdateTeamglobalDTO } from './dtos/updateTeamglobal.dto';
 import { DeleteResult } from 'typeorm';
 
-@Roles(UserType.Admin)
 @Controller('teamglobal')
 export class TeamglobalController {
   constructor(private readonly teamglobalService: TeamglobalService) {}
 
+  @Roles(UserType.Admin)
   @UsePipes(ValidationPipe)
   @Post()
   async createTeamglobal(
@@ -31,6 +31,7 @@ export class TeamglobalController {
     return this.teamglobalService.createTeamglobal(createTeamglobalDTO);
   }
 
+  @Roles(UserType.Admin, UserType.User)
   @Get()
   async findAllTeamglobal(): Promise<ReturnTeamglobalDTO[]> {
     const relations = {
@@ -46,6 +47,7 @@ export class TeamglobalController {
     );
   }
 
+  @Roles(UserType.Admin)
   @Get('/:teamglobalId')
   async findTeamglobalById(
     @Param('teamglobalId') teamglobalId,
@@ -61,6 +63,7 @@ export class TeamglobalController {
     );
   }
 
+  @Roles(UserType.Admin)
   @UsePipes(ValidationPipe)
   @Put('/:teamglobalId')
   async updateTeamglobal(
@@ -73,6 +76,7 @@ export class TeamglobalController {
     );
   }
 
+  @Roles(UserType.Admin)
   @Delete('/:teamglobalId')
   async deleteTeamglobal(
     @Param('teamglobalId') teamglobalId: number,
