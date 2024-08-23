@@ -9,9 +9,9 @@ export class ReturnPlayersaveDTO {
   birthdate: string;
   overall: number;
   stamina: number;
+
   country?: ReturnCountryDTO;
   teamsave?: ReturnTeamsaveDTO;
-
   playerssavePosition?: ReturnPlayersavePositionDTO[];
 
   constructor(playersaveEntity: PlayersaveEntity) {

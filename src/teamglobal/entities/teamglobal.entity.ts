@@ -49,6 +49,8 @@ export class TeamglobalEntity {
   @JoinColumn({ name: 'managerglobal_id', referencedColumnName: 'id' })
   managerglobal?: ManagerglobalEntity;
 
+  playersglobalCount: number;
+
   @OneToMany(
     () => CompetitionglobalTeamglobalEntity,
     (competitionglobalTeamglobal) => competitionglobalTeamglobal.teamglobal,
@@ -60,8 +62,6 @@ export class TeamglobalEntity {
     (playerglobal) => playerglobal.teamglobal,
   )
   playersglobal?: PlayerglobalEntity[];
-
-  playersglobalCount: number;
 
   @OneToMany(() => TeamsaveEntity, (teamsave) => teamsave.teamglobal)
   teamssave?: TeamsaveEntity[];

@@ -1,8 +1,8 @@
 import { ReturnCountryDTO } from 'src/country/dtos/returnCountry.dto';
 import { TeamglobalEntity } from '../entities/teamglobal.entity';
-import { ReturnManagerglobalDTO } from 'src/managerglobal/dtos/returnManagerglobal.dto';
 import { ReturnCompetitionglobalTeamglobalDTO } from 'src/competitionglobal_teamglobal/dtos/returnCompetitionglobalTeamglobal.dto';
 import { ReturnPlayerglobalDTO } from 'src/playerglobal/dtos/returnPlayerglobal.dto';
+import { ReturnManagerglobalDTO } from 'src/managerglobal/dtos/returnManagerglobal.dto';
 
 export class ReturnTeamglobalDTO {
   id: number;

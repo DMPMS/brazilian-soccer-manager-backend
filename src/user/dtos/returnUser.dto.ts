@@ -6,6 +6,7 @@ export class ReturnUserDTO {
   name: string;
   birthdate: string;
   email: string;
+
   country?: ReturnCountryDTO;
 
   constructor(userEntity: UserEntity) {

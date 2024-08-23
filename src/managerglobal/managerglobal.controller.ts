@@ -13,17 +13,17 @@ import {
 import { ManagerglobalService } from './managerglobal.service';
 import { CreateManagerglobalDTO } from './dtos/createManagerglobal.dto';
 import { ManagerglobalEntity } from './entities/managerglobal.entity';
-import { ReturnManagerglobalDTO } from './dtos/returnManagerglobal.dto';
-import { UserType } from 'src/user/enums/userType.enum';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UpdateManagerglobalDTO } from './dtos/updateManagerglobal.dto';
 import { DeleteResult } from 'typeorm';
+import { ReturnManagerglobalDTO } from './dtos/returnManagerglobal.dto';
+import { UserUserTypeEnum } from 'src/shared/enums/UserUserType.enum';
 
 @Controller('managerglobal')
 export class ManagerglobalController {
   constructor(private readonly managerglobalService: ManagerglobalService) {}
 
-  @Roles(UserType.Admin)
+  @Roles(UserUserTypeEnum.Admin)
   @UsePipes(ValidationPipe)
   @Post()
   async createManagerglobal(
@@ -34,7 +34,7 @@ export class ManagerglobalController {
     );
   }
 
-  @Roles(UserType.Admin, UserType.User)
+  @Roles(UserUserTypeEnum.Admin, UserUserTypeEnum.User)
   @Get()
   async findAllManagerglobal(
     @Query('isWithoutTeamglobal') isWithoutTeamglobal?: boolean,
@@ -52,7 +52,7 @@ export class ManagerglobalController {
     ).map((managerglobal) => new ReturnManagerglobalDTO(managerglobal));
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserUserTypeEnum.Admin)
   @Get('/:managerglobalId')
   async findManagerglobalById(
     @Param('managerglobalId') managerglobalId,
@@ -69,7 +69,7 @@ export class ManagerglobalController {
     );
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserUserTypeEnum.Admin)
   @UsePipes(ValidationPipe)
   @Put('/:managerglobalId')
   async updateManagerglobal(
@@ -82,7 +82,7 @@ export class ManagerglobalController {
     );
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserUserTypeEnum.Admin)
   @Delete('/:managerglobalId')
   async deleteManagerglobal(
     @Param('managerglobalId') managerglobalId: number,

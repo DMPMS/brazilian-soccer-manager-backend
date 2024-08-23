@@ -1,10 +1,10 @@
 import { Controller, Get } from '@nestjs/common';
 import { Roles } from 'src/decorators/roles.decorator';
-import { UserType } from 'src/user/enums/userType.enum';
 import { RuleService } from './rule.service';
 import { ReturnRuleDTO } from './dtos/returnRule.dto';
+import { UserUserTypeEnum } from 'src/shared/enums/UserUserType.enum';
 
-@Roles(UserType.Admin, UserType.User)
+@Roles(UserUserTypeEnum.Admin, UserUserTypeEnum.User)
 @Controller('rule')
 export class RuleController {
   constructor(private readonly ruleService: RuleService) {}

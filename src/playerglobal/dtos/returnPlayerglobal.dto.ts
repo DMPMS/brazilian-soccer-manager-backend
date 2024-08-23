@@ -1,16 +1,16 @@
 import { ReturnCountryDTO } from 'src/country/dtos/returnCountry.dto';
 import { ReturnTeamglobalDTO } from 'src/teamglobal/dtos/returnTeamglobal.dto';
 import { PlayerglobalEntity } from '../entities/playerglobal.entity';
-import { ReturnPlayerglobalPositionDTO } from 'src/playerglobal_position/dtos/returnCompetitionglobalTeamglobal.dto';
+import { ReturnPlayerglobalPositionDTO } from 'src/playerglobal_position/dtos/returnPlayerglobalPosition.dto';
 
 export class ReturnPlayerglobalDTO {
   id: number;
   name: string;
   birthdate: string;
   overall: number;
+
   country?: ReturnCountryDTO;
   teamglobal?: ReturnTeamglobalDTO;
-
   playersglobalPosition?: ReturnPlayerglobalPositionDTO[];
 
   constructor(playerglobalEntity: PlayerglobalEntity) {

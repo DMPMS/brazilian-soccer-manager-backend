@@ -8,10 +8,10 @@ import { CreateUserDTO } from './dtos/createUser.dto';
 import { UserEntity } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserType } from './enums/userType.enum';
 import { UpdatePasswordDTO } from './dtos/updatePassword.dto';
 import { createPasswordHashed, validatePassword } from 'src/utils/password';
-import { RelationsOptions } from 'src/types/RelationsOptions.type';
+import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
+import { UserUserTypeEnum } from 'src/shared/enums/UserUserType.enum';
 
 @Injectable()
 export class UserService {
@@ -39,7 +39,7 @@ export class UserService {
 
     return this.userRepository.save({
       ...createUserDTO,
-      userType: UserType.User,
+      userType: UserUserTypeEnum.User,
       email: emailToLower,
       password: passwordHashed,
     });
@@ -51,7 +51,7 @@ export class UserService {
     findOptions = {
       ...findOptions,
       where: {
-        userType: UserType.User,
+        userType: UserUserTypeEnum.User,
       },
       order: {
         updatedAt: 'DESC',
@@ -70,7 +70,7 @@ export class UserService {
 
   async findUserById(
     userId: number,
-    relations?: RelationsOptions,
+    relations?: RelationsOptionsType,
   ): Promise<UserEntity> {
     let findOptions = {};
 

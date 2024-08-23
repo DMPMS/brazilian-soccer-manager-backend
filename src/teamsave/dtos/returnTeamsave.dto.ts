@@ -8,12 +8,11 @@ export class ReturnTeamsaveDTO {
   id: number;
   name: string;
   srcImage: string;
+  playerssaveCount: number;
+
   country?: ReturnCountryDTO;
   managersave?: ReturnManagersaveDTO;
   playerssave?: ReturnPlayersaveDTO[];
-
-  playerssaveCount: number;
-
   competitionssaveTeamsave?: ReturnCompetitionsaveTeamsaveDTO[];
 
   constructor(teamsaveEntity: TeamsaveEntity) {

@@ -10,7 +10,7 @@ import { PlayerglobalEntity } from './entities/playerglobal.entity';
 import { DeleteResult, IsNull, Repository } from 'typeorm';
 import { CountryService } from 'src/country/country.service';
 import { CreatePlayerglobalDTO } from './dtos/createPlayerglobal.dto';
-import { RelationsOptions } from 'src/types/RelationsOptions.type';
+import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
 import { UpdatePlayerglobalDTO } from './dtos/updatePlayerglobal.dto';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
 import { PositionService } from 'src/position/position.service';
@@ -138,7 +138,7 @@ export class PlayerglobalService {
   }
 
   async findAllPlayerglobal(
-    relations?: RelationsOptions,
+    relations?: RelationsOptionsType,
     isWithoutTeamglobal = DEFAULT_WITHOUT_TEAMGLOBAL,
   ): Promise<PlayerglobalEntity[]> {
     let findOptions = {};
@@ -178,7 +178,7 @@ export class PlayerglobalService {
 
   async findPlayerglobalById(
     playerglobalId: number,
-    relations?: RelationsOptions,
+    relations?: RelationsOptionsType,
     withoutTeamglobal = DEFAULT_WITHOUT_TEAMGLOBAL,
   ): Promise<PlayerglobalEntity> {
     let findOptions = {};

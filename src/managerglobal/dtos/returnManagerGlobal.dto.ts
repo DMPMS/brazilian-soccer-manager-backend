@@ -6,6 +6,7 @@ export class ReturnManagerglobalDTO {
   id: number;
   name: string;
   birthdate: string;
+
   country?: ReturnCountryDTO;
   teamglobal?: ReturnTeamglobalDTO;
 

@@ -9,7 +9,6 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { UserType } from 'src/user/enums/userType.enum';
 import { Roles } from 'src/decorators/roles.decorator';
 import { TeamglobalService } from './teamglobal.service';
 import { CreateTeamglobalDTO } from './dtos/createTeamglobal.dto';
@@ -17,12 +16,13 @@ import { TeamglobalEntity } from './entities/teamglobal.entity';
 import { ReturnTeamglobalDTO } from './dtos/returnTeamglobal.dto';
 import { UpdateTeamglobalDTO } from './dtos/updateTeamglobal.dto';
 import { DeleteResult } from 'typeorm';
+import { UserUserTypeEnum } from 'src/shared/enums/UserUserType.enum';
 
 @Controller('teamglobal')
 export class TeamglobalController {
   constructor(private readonly teamglobalService: TeamglobalService) {}
 
-  @Roles(UserType.Admin)
+  @Roles(UserUserTypeEnum.Admin)
   @UsePipes(ValidationPipe)
   @Post()
   async createTeamglobal(
@@ -31,7 +31,7 @@ export class TeamglobalController {
     return this.teamglobalService.createTeamglobal(createTeamglobalDTO);
   }
 
-  @Roles(UserType.Admin, UserType.User)
+  @Roles(UserUserTypeEnum.Admin, UserUserTypeEnum.User)
   @Get()
   async findAllTeamglobal(): Promise<ReturnTeamglobalDTO[]> {
     const relations = {
@@ -47,7 +47,7 @@ export class TeamglobalController {
     );
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserUserTypeEnum.Admin)
   @Get('/:teamglobalId')
   async findTeamglobalById(
     @Param('teamglobalId') teamglobalId,
@@ -63,7 +63,7 @@ export class TeamglobalController {
     );
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserUserTypeEnum.Admin)
   @UsePipes(ValidationPipe)
   @Put('/:teamglobalId')
   async updateTeamglobal(
@@ -76,7 +76,7 @@ export class TeamglobalController {
     );
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserUserTypeEnum.Admin)
   @Delete('/:teamglobalId')
   async deleteTeamglobal(
     @Param('teamglobalId') teamglobalId: number,

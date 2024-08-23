@@ -8,6 +8,7 @@ export class ReturnCompetitionglobalDTO {
   name: string;
   season: string;
   srcImage: string;
+
   rule?: ReturnRuleDTO;
   country?: ReturnCountryDTO;
   competitionsglobalTeamglobal?: ReturnCompetitionglobalTeamglobalDTO[];

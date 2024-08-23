@@ -12,7 +12,7 @@ import { CreateCompetitionglobalDTO } from './dtos/createCompetitionglobal.dto';
 import { UpdateCompetitionglobalDTO } from './dtos/updateCompetitionglobal.dto';
 import { CompetitionglobalTeamglobalService } from 'src/competitionglobal_teamglobal/competitionglobal_teamglobal.service';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
-import { RelationsOptions } from 'src/types/RelationsOptions.type';
+import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
 
 @Injectable()
 export class CompetitionglobalService {
@@ -71,7 +71,7 @@ export class CompetitionglobalService {
   }
 
   async findAllCompetitionglobal(
-    relations?: RelationsOptions,
+    relations?: RelationsOptionsType,
   ): Promise<CompetitionglobalEntity[]> {
     let findOptions = {};
 
@@ -102,7 +102,7 @@ export class CompetitionglobalService {
 
   async findCompetitionglobalById(
     competitionglobalId: number,
-    relations?: RelationsOptions,
+    relations?: RelationsOptionsType,
   ): Promise<CompetitionglobalEntity> {
     let findOptions = {};
 

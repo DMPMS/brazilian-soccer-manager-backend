@@ -1,9 +1,10 @@
+import { RuleCompetitionTypeEnum } from 'src/shared/enums/RuleCompetitionType.enum';
 import { RuleEntity } from '../entities/rule.entity';
 
 export class ReturnRuleDTO {
   id: number;
   name: string;
-  competitionType: number;
+  competitionType: RuleCompetitionTypeEnum;
   numberOfTeams: number;
   yellowCardsMax: number;
 

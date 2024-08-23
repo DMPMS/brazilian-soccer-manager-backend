@@ -7,6 +7,7 @@ export class InsertTablePlayerglobalPosition1717011210641
     let inserts = '';
 
     const positionIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+    const goalkeeperPositionId = 13;
 
     for (let i = 0; i < 440; i++) {
       const shuffledPositionIds = positionIds.sort(() => 0.5 - Math.random());
@@ -14,14 +15,14 @@ export class InsertTablePlayerglobalPosition1717011210641
       const playerPositions = new Set<{ positionId: number; rating: number }>();
 
       // If the first position is goalkeeper, the player can only have this primary position.
-      if (shuffledPositionIds[0] === 13) {
+      if (shuffledPositionIds[0] === goalkeeperPositionId) {
         playerPositions.add({
           positionId: 13,
           rating: 1.0,
         });
       } else {
         const filteredPositionIds = shuffledPositionIds.filter(
-          (positionId) => positionId !== 13,
+          (positionId) => positionId !== goalkeeperPositionId,
         );
 
         const primaryPositionsCount = Math.floor(Math.random() * 3) + 1;

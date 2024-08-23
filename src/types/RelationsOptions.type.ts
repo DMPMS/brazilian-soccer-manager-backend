@@ -1,3 +1,3 @@
-export interface RelationsOptions {
-  [key: string]: boolean | RelationsOptions;
+export interface RelationsOptionsType {
+  [key: string]: boolean | RelationsOptionsType;
 }

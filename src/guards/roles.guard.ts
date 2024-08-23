@@ -3,7 +3,7 @@ import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { LoginPayload } from 'src/auth/dtos/loginPayload.dto';
 import { ROLES_KEY } from 'src/decorators/roles.decorator';
-import { UserType } from 'src/user/enums/userType.enum';
+import { UserUserTypeEnum } from 'src/shared/enums/UserUserType.enum';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -13,7 +13,7 @@ export class RolesGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const requiredRoles = this.reflector.getAllAndOverride<UserType[]>(
+    const requiredRoles = this.reflector.getAllAndOverride<UserUserTypeEnum[]>(
       ROLES_KEY,
       [context.getHandler(), context.getClass()],
     );

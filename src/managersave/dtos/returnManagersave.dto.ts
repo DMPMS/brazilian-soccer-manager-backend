@@ -6,6 +6,7 @@ export class ReturnManagersaveDTO {
   id: number;
   name: string;
   birthdate: string;
+
   country?: ReturnCountryDTO;
   teamsave?: ReturnTeamsaveDTO;
 

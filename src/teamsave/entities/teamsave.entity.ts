@@ -61,6 +61,8 @@ export class TeamsaveEntity {
   @JoinColumn({ name: 'managersave_id', referencedColumnName: 'id' })
   managersave?: ManagersaveEntity;
 
+  playerssaveCount: number;
+
   @OneToMany(() => PlayersaveEntity, (playersave) => playersave.teamsave)
   playerssave?: PlayersaveEntity[];
 
@@ -69,6 +71,4 @@ export class TeamsaveEntity {
     (competitionsaveTeamsave) => competitionsaveTeamsave.teamsave,
   )
   competitionssaveTeamsave?: CompetitionsaveTeamsaveEntity[];
-
-  playerssaveCount: number;
 }

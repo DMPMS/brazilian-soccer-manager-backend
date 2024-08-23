@@ -5,6 +5,7 @@ import { PlayersavePositionEntity } from '../entities/playersave_position.entity
 export class ReturnPlayersavePositionDTO {
   id: number;
   rating: number;
+
   playersave?: ReturnPlayersaveDTO;
   position?: ReturnPositionDTO;
 

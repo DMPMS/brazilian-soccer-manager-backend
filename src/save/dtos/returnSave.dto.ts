@@ -5,9 +5,10 @@ export class ReturnSaveDTO {
   id: number;
   name: string;
   datetime: string;
-  controllerManagersave?: ReturnManagersaveDTO;
   createdAt: string;
   updatedAt: string;
+
+  controllerManagersave?: ReturnManagersaveDTO;
 
   constructor(saveEntity: SaveEntity) {
     this.id = saveEntity.id;

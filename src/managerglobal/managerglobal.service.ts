@@ -12,7 +12,7 @@ import { CreateManagerglobalDTO } from './dtos/createManagerglobal.dto';
 import { CountryService } from 'src/country/country.service';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
 import { UpdateManagerglobalDTO } from './dtos/updateManagerglobal.dto';
-import { RelationsOptions } from 'src/types/RelationsOptions.type';
+import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
 
 const DEFAULT_WITHOUT_TEAMGLOBAL = false;
 @Injectable()
@@ -34,7 +34,7 @@ export class ManagerglobalService {
   }
 
   async findAllManagerglobal(
-    relations?: RelationsOptions,
+    relations?: RelationsOptionsType,
     isWithoutTeamglobal = DEFAULT_WITHOUT_TEAMGLOBAL,
   ): Promise<ManagerglobalEntity[]> {
     let findOptions = {};
@@ -89,7 +89,7 @@ export class ManagerglobalService {
 
   async findManagerglobalById(
     managerglobalId: number,
-    relations?: RelationsOptions,
+    relations?: RelationsOptionsType,
     withoutTeamglobal = DEFAULT_WITHOUT_TEAMGLOBAL,
   ): Promise<ManagerglobalEntity> {
     let findOptions = {};

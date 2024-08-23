@@ -14,8 +14,8 @@ import { UserEntity } from './entities/user.entity';
 import { ReturnUserDTO } from './dtos/returnUser.dto';
 import { UserId } from 'src/decorators/userId.decorator';
 import { Roles } from 'src/decorators/roles.decorator';
-import { UserType } from './enums/userType.enum';
 import { UpdatePasswordDTO } from './dtos/updatePassword.dto';
+import { UserUserTypeEnum } from 'src/shared/enums/UserUserType.enum';
 
 @Controller('user')
 export class UserController {
@@ -27,7 +27,7 @@ export class UserController {
     return this.userService.createUser(createUserDTO);
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserUserTypeEnum.Admin)
   @Get()
   async findAllUser(): Promise<ReturnUserDTO[]> {
     return (await this.userService.findAllUser()).map(
@@ -35,7 +35,7 @@ export class UserController {
     );
   }
 
-  @Roles(UserType.Admin, UserType.User)
+  @Roles(UserUserTypeEnum.Admin, UserUserTypeEnum.User)
   @Get('/loggedIn')
   async findUserLoggedIn(@UserId() userId: number): Promise<ReturnUserDTO> {
     const relations = {
@@ -47,13 +47,13 @@ export class UserController {
     );
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserUserTypeEnum.Admin)
   @Get('/:userId')
   async findUserById(@Param('userId') userId: number): Promise<ReturnUserDTO> {
     return new ReturnUserDTO(await this.userService.findUserById(userId));
   }
 
-  @Roles(UserType.Admin, UserType.User)
+  @Roles(UserUserTypeEnum.Admin, UserUserTypeEnum.User)
   @Patch()
   @UsePipes(ValidationPipe)
   async updatePasswordUser(

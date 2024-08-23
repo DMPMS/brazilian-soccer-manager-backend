@@ -1,5 +1,6 @@
 import { CountryEntity } from 'src/country/entities/country.entity';
 import { SaveEntity } from 'src/save/entities/save.entity';
+import { UserUserTypeEnum } from 'src/shared/enums/UserUserType.enum';
 import {
   Column,
   CreateDateColumn,
@@ -23,7 +24,7 @@ export class UserEntity {
   name: string;
 
   @Column({ name: 'user_type', nullable: false })
-  userType: number;
+  userType: UserUserTypeEnum;
 
   @Column({ name: 'birthdate', nullable: false })
   birthdate: Date;

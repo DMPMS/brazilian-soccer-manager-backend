@@ -5,6 +5,7 @@ import { PlayerglobalPositionEntity } from '../entities/playerglobal_position.en
 export class ReturnPlayerglobalPositionDTO {
   id: number;
   rating: number;
+
   playerglobal?: ReturnPlayerglobalDTO;
   position?: ReturnPositionDTO;
 

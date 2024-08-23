@@ -4,6 +4,7 @@ import { CompetitionsaveTeamsaveEntity } from '../entities/competitionsave_teams
 
 export class ReturnCompetitionsaveTeamsaveDTO {
   id: number;
+
   competitionsave?: ReturnCompetitionsaveDTO;
   teamsave?: ReturnTeamsaveDTO;
 

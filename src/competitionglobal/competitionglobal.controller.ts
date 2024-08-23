@@ -14,9 +14,9 @@ import { CompetitionglobalEntity } from './entities/competitionglobal.entity';
 import { CreateCompetitionglobalDTO } from './dtos/createCompetitionglobal.dto';
 import { ReturnCompetitionglobalDTO } from './dtos/returnCompetitionglobal.dto';
 import { Roles } from 'src/decorators/roles.decorator';
-import { UserType } from 'src/user/enums/userType.enum';
 import { UpdateCompetitionglobalDTO } from './dtos/updateCompetitionglobal.dto';
 import { DeleteResult } from 'typeorm';
+import { UserUserTypeEnum } from 'src/shared/enums/UserUserType.enum';
 
 @Controller('competitionglobal')
 export class CompetitionglobalController {
@@ -24,7 +24,7 @@ export class CompetitionglobalController {
     private readonly competitionglobalService: CompetitionglobalService,
   ) {}
 
-  @Roles(UserType.Admin)
+  @Roles(UserUserTypeEnum.Admin)
   @UsePipes(ValidationPipe)
   @Post()
   async createCompetitionglobal(
@@ -35,7 +35,7 @@ export class CompetitionglobalController {
     );
   }
 
-  @Roles(UserType.Admin, UserType.User)
+  @Roles(UserUserTypeEnum.Admin, UserUserTypeEnum.User)
   @Get()
   async findAllCompetitionglobal(): Promise<ReturnCompetitionglobalDTO[]> {
     const relations = {
@@ -50,7 +50,7 @@ export class CompetitionglobalController {
     );
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserUserTypeEnum.Admin)
   @Get('/:competitionglobalId')
   async findCompetitionglobalById(
     @Param('competitionglobalId') competitionglobalId,
@@ -71,7 +71,7 @@ export class CompetitionglobalController {
     );
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserUserTypeEnum.Admin)
   @UsePipes(ValidationPipe)
   @Put('/:competitionglobalId')
   async updateCompetitionglobal(
@@ -84,7 +84,7 @@ export class CompetitionglobalController {
     );
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserUserTypeEnum.Admin)
   @Delete('/:competitionglobalId')
   async deleteCompetitionglobal(
     @Param('competitionglobalId') competitionglobalId: number,

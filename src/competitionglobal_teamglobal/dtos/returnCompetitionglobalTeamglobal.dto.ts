@@ -4,6 +4,7 @@ import { CompetitionglobalTeamglobalEntity } from '../entities/competitionglobal
 
 export class ReturnCompetitionglobalTeamglobalDTO {
   id: number;
+
   competitionglobal?: ReturnCompetitionglobalDTO;
   teamglobal?: ReturnTeamglobalDTO;
 

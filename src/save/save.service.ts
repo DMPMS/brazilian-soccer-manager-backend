@@ -24,7 +24,7 @@ import { CompetitionsaveEntity } from 'src/competitionsave/entities/competitions
 import { CompetitionglobalTeamglobalService } from 'src/competitionglobal_teamglobal/competitionglobal_teamglobal.service';
 import { CompetitionsaveTeamsaveEntity } from 'src/competitionsave_teamsave/entities/competitionsave_teamsave.entity';
 import { CountryService } from 'src/country/country.service';
-import { RelationsOptions } from 'src/types/RelationsOptions.type';
+import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
 
 interface CustomManager {
   countryId: number;
@@ -314,7 +314,7 @@ export class SaveService {
 
   async findSaveByUserId(
     userId: number,
-    relations?: RelationsOptions,
+    relations?: RelationsOptionsType,
   ): Promise<SaveEntity[]> {
     let findOptions = {};
 

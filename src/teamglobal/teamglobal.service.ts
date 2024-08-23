@@ -12,7 +12,7 @@ import { TeamglobalEntity } from './entities/teamglobal.entity';
 import { CreateTeamglobalDTO } from './dtos/createTeamglobal.dto';
 import { ManagerglobalService } from 'src/managerglobal/managerglobal.service';
 import { UpdateTeamglobalDTO } from './dtos/updateTeamglobal.dto';
-import { RelationsOptions } from 'src/types/RelationsOptions.type';
+import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
 import { PlayerglobalService } from 'src/playerglobal/playerglobal.service';
 import { countPlayerglobalByTeamglobalId } from 'src/playerglobal/dtos/countPlayerglobalByTeamglobalId.dto';
 
@@ -69,7 +69,7 @@ export class TeamglobalService {
   }
 
   async findAllTeamglobal(
-    relations?: RelationsOptions,
+    relations?: RelationsOptionsType,
   ): Promise<TeamglobalEntity[]> {
     let findOptions = {};
 
@@ -112,7 +112,7 @@ export class TeamglobalService {
 
   async findTeamglobalById(
     teamglobalId: number,
-    relations?: RelationsOptions,
+    relations?: RelationsOptionsType,
   ): Promise<TeamglobalEntity> {
     let findOptions = {};
 
