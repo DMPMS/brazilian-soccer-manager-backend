@@ -5,19 +5,23 @@ import {
   NotFoundException,
   forwardRef,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { ManagerglobalEntity } from './entities/managerglobal.entity';
-import { DeleteResult, In, Not, Repository } from 'typeorm';
+import { DataSource, DeleteResult, In, Not, Repository } from 'typeorm';
 import { CreateManagerglobalDTO } from './dtos/createManagerglobal.dto';
 import { CountryService } from 'src/country/country.service';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
 import { UpdateManagerglobalDTO } from './dtos/updateManagerglobal.dto';
 import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
+import { TeamglobalEntity } from 'src/teamglobal/entities/teamglobal.entity';
+import { PlayerglobalEntity } from 'src/playerglobal/entities/playerglobal.entity';
 
 const DEFAULT_WITHOUT_TEAMGLOBAL = false;
 @Injectable()
 export class ManagerglobalService {
   constructor(
+    @InjectDataSource()
+    private readonly dataSource: DataSource,
     @InjectRepository(ManagerglobalEntity)
     private readonly managerglobalRepository: Repository<ManagerglobalEntity>,
     private readonly countryService: CountryService,
@@ -76,13 +80,17 @@ export class ManagerglobalService {
   }
 
   async findManagerglobalWithTeamglobalIds(): Promise<number[]> {
-    const teamsglobal = await this.teamglobalService.findAllTeamglobal();
-
-    const managerglobalWithTeamglobalIds: number[] = [];
-
-    teamsglobal.forEach((teamglobal) => {
-      managerglobalWithTeamglobalIds.push(teamglobal.managerglobalId);
-    });
+    const managerglobalWithTeamglobalIds = await this.dataSource
+      .createQueryBuilder()
+      .select('DISTINCT teamglobal.id')
+      .from(TeamglobalEntity, 'teamglobal')
+      .innerJoin(
+        PlayerglobalEntity,
+        'playerglobal',
+        'playerglobal.teamglobal_id = teamglobal.id',
+      )
+      .getRawMany()
+      .then((results) => results.map((result) => result.id));
 
     return managerglobalWithTeamglobalIds;
   }

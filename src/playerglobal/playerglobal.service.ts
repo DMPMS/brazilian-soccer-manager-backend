@@ -5,9 +5,9 @@ import {
   NotFoundException,
   forwardRef,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { PlayerglobalEntity } from './entities/playerglobal.entity';
-import { DeleteResult, IsNull, Repository } from 'typeorm';
+import { DataSource, DeleteResult, IsNull, Repository } from 'typeorm';
 import { CountryService } from 'src/country/country.service';
 import { CreatePlayerglobalDTO } from './dtos/createPlayerglobal.dto';
 import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
@@ -29,6 +29,8 @@ const DEFAULT_WITHOUT_TEAMGLOBAL = false;
 @Injectable()
 export class PlayerglobalService {
   constructor(
+    @InjectDataSource()
+    private readonly dataSource: DataSource,
     @InjectRepository(PlayerglobalEntity)
     private readonly playerglobalRepository: Repository<PlayerglobalEntity>,
     private readonly countryService: CountryService,
@@ -347,7 +349,7 @@ export class PlayerglobalService {
     playerglobalIds: number[],
     teamglobalId: number,
   ): Promise<void> {
-    await this.playerglobalRepository
+    await this.dataSource
       .createQueryBuilder()
       .update(PlayerglobalEntity)
       .set({ teamglobalId: null })
@@ -355,7 +357,7 @@ export class PlayerglobalService {
       .andWhere('id NOT IN (:...playerglobalIds)', { playerglobalIds })
       .execute();
 
-    await this.playerglobalRepository
+    await this.dataSource
       .createQueryBuilder()
       .update(PlayerglobalEntity)
       .set({ teamglobalId: teamglobalId })
@@ -366,11 +368,12 @@ export class PlayerglobalService {
   async countPlayerglobalByTeamglobalId(): Promise<
     countPlayerglobalByTeamglobalId[]
   > {
-    return await this.playerglobalRepository
-      .createQueryBuilder('playerglobal')
+    return await this.dataSource
+      .createQueryBuilder()
       .select('playerglobal.teamglobal_id')
       .addSelect('COUNT(*)', 'total')
-      .where('teamglobal_id IS NOT NULL')
+      .from(PlayerglobalEntity, 'playerglobal')
+      .where('playerglobal.teamglobal_id IS NOT NULL')
       .groupBy('playerglobal.teamglobal_id')
       .getRawMany();
   }
