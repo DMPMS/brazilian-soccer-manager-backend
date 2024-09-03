@@ -25,6 +25,7 @@ import { CompetitionglobalTeamglobalService } from 'src/competitionglobal_teamgl
 import { CompetitionsaveTeamsaveEntity } from 'src/competitionsave_teamsave/entities/competitionsave_teamsave.entity';
 import { CountryService } from 'src/country/country.service';
 import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
+import { CompetitionsaveService } from 'src/competitionsave/competitionsave.service';
 
 interface CustomManager {
   countryId: number;
@@ -46,6 +47,7 @@ export class SaveService {
     private readonly competitionglobalService: CompetitionglobalService,
     private readonly competitionglobalTeamglobalService: CompetitionglobalTeamglobalService,
     private readonly countryService: CountryService,
+    private readonly competitionsaveService: CompetitionsaveService,
   ) {}
 
   async createSave(
@@ -135,6 +137,8 @@ export class SaveService {
     const globalToSaveTeamIdMap: { [key: number]: number } = {};
     const globalToSavePlayerIdMap: { [key: number]: number } = {};
     const globalToSaveCompetitionIdMap: { [key: number]: number } = {};
+
+    const competitionsaveToTeamsaveMap: { [key: number]: number[] } = {};
 
     const CUSTOM_MANAGER_GLOBAL_ID = 0;
     if (customManager) {
@@ -297,6 +301,12 @@ export class SaveService {
         const teamsaveId =
           globalToSaveTeamIdMap[competitionglobalTeamglobal.teamglobalId];
 
+        if (!competitionsaveToTeamsaveMap[competitionsaveId]) {
+          competitionsaveToTeamsaveMap[competitionsaveId] = [];
+        }
+
+        competitionsaveToTeamsaveMap[competitionsaveId].push(teamsaveId);
+
         await this.dataSource
           .createQueryBuilder()
           .insert()
@@ -309,6 +319,16 @@ export class SaveService {
           ])
           .execute();
       }),
+    );
+
+    await Promise.all(
+      Object.entries(competitionsaveToTeamsaveMap).map(
+        async ([competitionsaveId, teamsaveIds]) =>
+          this.competitionsaveService.generateCompetitionsaveCalendar(
+            Number(competitionsaveId),
+            teamsaveIds,
+          ),
+      ),
     );
   }
 

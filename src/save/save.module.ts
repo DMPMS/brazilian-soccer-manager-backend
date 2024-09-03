@@ -10,6 +10,7 @@ import { PlayerglobalPositionModule } from 'src/playerglobal_position/playerglob
 import { CompetitionglobalModule } from 'src/competitionglobal/competitionglobal.module';
 import { CompetitionglobalTeamglobalModule } from 'src/competitionglobal_teamglobal/competitionglobal_teamglobal.module';
 import { CountryModule } from 'src/country/country.module';
+import { CompetitionsaveModule } from 'src/competitionsave/competitionsave.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { CountryModule } from 'src/country/country.module';
     CompetitionglobalModule,
     CompetitionglobalTeamglobalModule,
     CountryModule,
+    CompetitionsaveModule,
   ],
   controllers: [SaveController],
   providers: [SaveService],
