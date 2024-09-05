@@ -31,7 +31,10 @@ export class CompetitionsaveService {
       return;
     }
 
-    const roundsAndMatches = generateRoundsAndMatches(teamsaveIds);
+    const roundsAndMatches = generateRoundsAndMatches(
+      competitionsave.rule.competitionType,
+      teamsaveIds,
+    );
 
     for (const [index, roundMatches] of roundsAndMatches.entries()) {
       const roundName = `Rodada ${index + 1}`;
@@ -46,6 +49,7 @@ export class CompetitionsaveService {
             roundId: round.id,
             teamsaveHomeId: match.teamsaveHomeId,
             teamsaveAwayId: match.teamsaveAwayId,
+            date: match.date,
           }),
         ),
       );

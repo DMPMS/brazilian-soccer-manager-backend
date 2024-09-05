@@ -7,8 +7,7 @@ export class InsertTableCompetitionglobal1715038185883
     queryRunner.query(`
         INSERT INTO public.competitionglobal(name, season, src_image, rule_id, country_id) VALUES
         ('Campeonato Brasileiro Série A', '2024', 'https://i.ibb.co/C5rXGpy/brasileirao.png', 1, 29),
-        ('Campeonato Brasileiro Série B', '2024', 'https://i.ibb.co/Q6Zfp4m/brasileiro-b.png', 1, 29),
-        ('Copa do Brasil', '2024', 'https://i.ibb.co/Xtr6p5s/copa-do-brasil.png', 4, 29);
+        ('Campeonato Brasileiro Série B', '2024', 'https://i.ibb.co/Q6Zfp4m/brasileiro-b.png', 1, 29);
     `);
   }
 
