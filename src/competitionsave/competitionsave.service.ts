@@ -6,7 +6,6 @@ import { generateRoundsAndMatches } from 'src/utils/generateRoundsAndMatches';
 import { RoundService } from 'src/round/round.service';
 import { MatchService } from 'src/match/match.service';
 import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
-import { RuleCompetitionTypeEnum } from 'src/shared/enums/RuleCompetitionType.enum';
 
 @Injectable()
 export class CompetitionsaveService {
@@ -26,10 +25,6 @@ export class CompetitionsaveService {
       competitionsaveId,
       relations,
     );
-
-    if (competitionsave.rule.competitionType === RuleCompetitionTypeEnum.Cup) {
-      return;
-    }
 
     const roundsAndMatches = generateRoundsAndMatches(
       competitionsave.rule.competitionType,

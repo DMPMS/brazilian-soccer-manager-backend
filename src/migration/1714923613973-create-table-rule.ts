@@ -8,7 +8,7 @@ export class CreateTableRule1714923613973 implements MigrationInterface {
             name character varying NOT NULL,
             competition_type integer NOT NULL,
             number_of_teams integer NOT NULL,
-            yellow_cards_max integer NOT NULL,
+            description TEXT NOT NULL,
 
             created_at timestamp without time zone DEFAULT now() NOT NULL,
             updated_at timestamp without time zone DEFAULT now() NOT NULL,

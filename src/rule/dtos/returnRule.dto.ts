@@ -6,13 +6,13 @@ export class ReturnRuleDTO {
   name: string;
   competitionType: RuleCompetitionTypeEnum;
   numberOfTeams: number;
-  yellowCardsMax: number;
+  description: string;
 
   constructor(ruleEntity: RuleEntity) {
     this.id = ruleEntity.id;
     this.name = ruleEntity.name;
     this.competitionType = ruleEntity.competitionType;
     this.numberOfTeams = ruleEntity.numberOfTeams;
-    this.yellowCardsMax = ruleEntity.yellowCardsMax;
+    this.description = ruleEntity.description;
   }
 }

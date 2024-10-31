@@ -1,4 +1,8 @@
 export enum RuleCompetitionTypeEnum {
-  League = 1,
-  Cup = 2,
+  BrazilianLeagueA = 1,
+  BrazilianLeagueB = 2,
+  BrazilianLeagueC = 3,
+  BrazilianLeagueD = 4,
+  BrazilianCup = 5,
+  BrazilianSuperCup = 6,
 }

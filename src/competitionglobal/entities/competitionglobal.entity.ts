@@ -9,6 +9,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -39,7 +40,7 @@ export abstract class CompetitionglobalEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToOne(() => RuleEntity, (rule) => rule.competitionsglobal)
+  @OneToOne(() => RuleEntity, (rule) => rule.competitionglobal)
   @JoinColumn({ name: 'rule_id', referencedColumnName: 'id' })
   rule?: RuleEntity;
 

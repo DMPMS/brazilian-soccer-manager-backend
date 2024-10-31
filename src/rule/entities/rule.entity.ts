@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -24,8 +25,8 @@ export class RuleEntity {
   @Column({ name: 'number_of_teams', nullable: false })
   numberOfTeams: number;
 
-  @Column({ name: 'yellow_cards_max', nullable: false })
-  yellowCardsMax: number;
+  @Column({ name: 'description', nullable: false })
+  description: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
@@ -33,11 +34,11 @@ export class RuleEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @OneToMany(
+  @OneToOne(
     () => CompetitionglobalEntity,
     (competitionglobal) => competitionglobal.rule,
   )
-  competitionsglobal?: CompetitionglobalEntity[];
+  competitionglobal?: CompetitionglobalEntity;
 
   @OneToMany(
     () => CompetitionsaveEntity,

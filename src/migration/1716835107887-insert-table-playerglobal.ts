@@ -13,7 +13,7 @@ export class InsertTablePlayerglobal1716835107887
 
     const currentYear = CURRENT_DATE_UTC.year();
 
-    for (let i = 0; i < 440; i++) {
+    for (let i = 0; i < 748; i++) {
       const name = `Jogador ${i + 1}`;
 
       const minYear = currentYear - PLAYERGLOBAL_MAX_AGE;
@@ -29,7 +29,7 @@ export class InsertTablePlayerglobal1716835107887
       const countryId = 29;
       const teamglobalId = Math.floor(i / 11) + 1;
 
-      players += `('${name}', '${birthDate}', ${overall}, ${countryId}, ${teamglobalId})${i < 439 ? ',' : ';'}\n`;
+      players += `('${name}', '${birthDate}', ${overall}, ${countryId}, ${teamglobalId})${i < 747 ? ',' : ';'}\n`;
     }
 
     await queryRunner.query(`

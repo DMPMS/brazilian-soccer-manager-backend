@@ -15,9 +15,6 @@ import {
 import { UniqueArray } from 'src/validators/uniqueArray';
 
 export class UpdateCompetitionglobalDTO {
-  @IsInt()
-  ruleId: number;
-
   @IsString()
   @Length(COMPETITIONGLOBAL_MIN_LENGH_NAME, COMPETITIONGLOBAL_MAX_LENGH_NAME)
   name: string;
