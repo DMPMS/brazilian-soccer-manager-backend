@@ -16,8 +16,12 @@ export class AuthService {
   ) {}
 
   async login(loginDTO: LoginDTO): Promise<ReturnLogin> {
+    const relations = {
+      country: true,
+    };
+
     const user: UserEntity | undefined = await this.userService
-      .findUserByEmail(loginDTO.email)
+      .findUserByEmail(loginDTO.email, relations)
       .catch(() => undefined);
 
     const isMatch = await validatePassword(

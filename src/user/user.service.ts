@@ -97,7 +97,10 @@ export class UserService {
     return user;
   }
 
-  async findUserByEmail(email: string): Promise<UserEntity> {
+  async findUserByEmail(
+    email: string,
+    relations?: RelationsOptionsType,
+  ): Promise<UserEntity> {
     let findOptions = {};
 
     const emailToLower = email.toLowerCase();
@@ -108,6 +111,13 @@ export class UserService {
         email: emailToLower,
       },
     };
+
+    if (relations && Object.keys(relations).length > 0) {
+      findOptions = {
+        ...findOptions,
+        relations,
+      };
+    }
 
     const user = await this.userRepository.findOne(findOptions);
 
