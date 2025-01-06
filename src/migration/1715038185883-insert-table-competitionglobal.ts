@@ -6,10 +6,10 @@ export class InsertTableCompetitionglobal1715038185883
   public async up(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(`
         INSERT INTO public.competitionglobal(name, season, src_image, rule_id, country_id) VALUES
-        ('Campeonato Brasileiro Série A', '2024', 'https://i.ibb.co/C5rXGpy/brasileirao.png', 1, 29),
-        ('Campeonato Brasileiro Série B', '2024', 'https://i.ibb.co/Q6Zfp4m/brasileiro-b.png', 2, 29),
-        ('Campeonato Brasileiro Série C', '2024', 'https://i.ibb.co/1dxg4TR/brazil-league-c.png', 3, 29),
-        ('Campeonato Brasileiro Série D', '2024', 'https://i.ibb.co/jDmgKsS/brazil-league-d.png', 4, 29);
+        ('Brasileirão Série A', '2024', 'https://i.ibb.co/gynW091/brazil-league-a.png', 1, 29),
+        ('Brasileirão Série B', '2024', 'https://i.ibb.co/MPLsZ0q/brazil-league-b.png', 2, 29),
+        ('Brasileirão Série C', '2024', 'https://i.ibb.co/DY16F97/brazil-league-c.png', 3, 29),
+        ('Brasileirão Série D', '2024', 'https://i.ibb.co/RP9DVCc/brazil-league-d.png', 4, 29);
     `);
   }
 

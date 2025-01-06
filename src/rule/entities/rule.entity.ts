@@ -28,6 +28,12 @@ export class RuleEntity {
   @Column({ name: 'description', nullable: false })
   description: string;
 
+  @Column({ name: 'default_competition_name', nullable: false })
+  default_competition_name: string;
+
+  @Column({ name: 'default_competition_src_image', nullable: false })
+  default_competition_src_image: string;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
