@@ -181,7 +181,7 @@ export class PlayerglobalService {
   async findPlayerglobalById(
     playerglobalId: number,
     relations?: RelationsOptionsType,
-    withoutTeamglobal = DEFAULT_WITHOUT_TEAMGLOBAL,
+    isWithoutTeamglobal = DEFAULT_WITHOUT_TEAMGLOBAL,
   ): Promise<PlayerglobalEntity> {
     let findOptions = {};
 
@@ -207,7 +207,7 @@ export class PlayerglobalService {
       );
     }
 
-    if (playerglobal.teamglobalId && withoutTeamglobal === true) {
+    if (playerglobal.teamglobalId && isWithoutTeamglobal === true) {
       throw new BadRequestException(
         `playerglobalId: ${playerglobalId} with teamglobal.`,
       );

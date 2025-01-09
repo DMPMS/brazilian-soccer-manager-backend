@@ -5,8 +5,8 @@ import {
   NotFoundException,
   forwardRef,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { DataSource, DeleteResult, In, Not, Repository } from 'typeorm';
 import { CountryService } from 'src/country/country.service';
 import { TeamglobalEntity } from './entities/teamglobal.entity';
 import { CreateTeamglobalDTO } from './dtos/createTeamglobal.dto';
@@ -15,10 +15,19 @@ import { UpdateTeamglobalDTO } from './dtos/updateTeamglobal.dto';
 import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
 import { PlayerglobalService } from 'src/playerglobal/playerglobal.service';
 import { countPlayerglobalByTeamglobalId } from 'src/playerglobal/dtos/countPlayerglobalByTeamglobalId.dto';
+import { CompetitionglobalTeamglobalEntity } from 'src/competitionglobal_teamglobal/entities/competitionglobal_teamglobal.entity';
+import { CompetitionglobalEntity } from 'src/competitionglobal/entities/competitionglobal.entity';
+import { RuleCompetitionTypeEnum } from 'src/shared/enums/RuleCompetitionType.enum';
+
+const DEFAULT_WITHOUT_COMPETITIONGLOBAL_RULETYPE_LEAGUE = false;
+const DEFAULT_WITHOUT_COMPETITIONGLOBAL_RULETYPE_CUP = false;
 
 @Injectable()
 export class TeamglobalService {
   constructor(
+    @InjectDataSource()
+    private readonly dataSource: DataSource,
+
     @InjectRepository(TeamglobalEntity)
     private readonly teamglobalRepository: Repository<TeamglobalEntity>,
     private readonly countryService: CountryService,
@@ -70,6 +79,8 @@ export class TeamglobalService {
 
   async findAllTeamglobal(
     relations?: RelationsOptionsType,
+    isWithoutCompetitionglobalRuleTypeLeague = DEFAULT_WITHOUT_COMPETITIONGLOBAL_RULETYPE_LEAGUE,
+    isWithoutCompetitionglobalRuleTypeCup = DEFAULT_WITHOUT_COMPETITIONGLOBAL_RULETYPE_CUP,
   ): Promise<TeamglobalEntity[]> {
     let findOptions = {};
 
@@ -80,6 +91,35 @@ export class TeamglobalService {
         id: 'DESC',
       },
     };
+
+    if (isWithoutCompetitionglobalRuleTypeLeague === true) {
+      const teamglobalWithCompetitionglobalRuleTypeLeague =
+        await this.findTeamglobalWithCompetitionglobalRuleType([
+          RuleCompetitionTypeEnum.BrazilianLeagueA,
+          RuleCompetitionTypeEnum.BrazilianLeagueB,
+          RuleCompetitionTypeEnum.BrazilianLeagueC,
+          RuleCompetitionTypeEnum.BrazilianLeagueD,
+        ]);
+
+      findOptions = {
+        ...findOptions,
+        where: {
+          id: Not(In(teamglobalWithCompetitionglobalRuleTypeLeague)),
+        },
+      };
+    } else if (isWithoutCompetitionglobalRuleTypeCup === true) {
+      const teamglobalWithCompetitionglobalRuleTypeCup =
+        await this.findTeamglobalWithCompetitionglobalRuleType([
+          RuleCompetitionTypeEnum.BrazilianCup,
+        ]);
+
+      findOptions = {
+        ...findOptions,
+        where: {
+          id: Not(In(teamglobalWithCompetitionglobalRuleTypeCup)),
+        },
+      };
+    }
 
     if (relations && Object.keys(relations).length > 0) {
       findOptions = {
@@ -110,9 +150,38 @@ export class TeamglobalService {
     });
   }
 
+  async findTeamglobalWithCompetitionglobalRuleType(
+    RuleCompetitionTypeIds: RuleCompetitionTypeEnum[],
+  ): Promise<number[]> {
+    const teamglobalWithCompetitionglobalRuleTypeLeagueIds =
+      await this.dataSource
+        .createQueryBuilder()
+        .select('DISTINCT teamglobal.id')
+        .from(TeamglobalEntity, 'teamglobal')
+        .innerJoin(
+          CompetitionglobalTeamglobalEntity,
+          'competitionglobal_teamglobal',
+          'competitionglobal_teamglobal.teamglobal_id = teamglobal.id',
+        )
+        .innerJoin(
+          CompetitionglobalEntity,
+          'competitionglobal',
+          'competitionglobal_teamglobal.competitionglobal_id = competitionglobal.id AND competitionglobal.rule_id IN (:...ruleIds)',
+          {
+            ruleIds: RuleCompetitionTypeIds,
+          },
+        )
+        .getRawMany()
+        .then((results) => results.map((result) => result.id));
+
+    return teamglobalWithCompetitionglobalRuleTypeLeagueIds;
+  }
+
   async findTeamglobalById(
     teamglobalId: number,
     relations?: RelationsOptionsType,
+    isWithoutCompetitionglobalRuleTypeLeague = DEFAULT_WITHOUT_COMPETITIONGLOBAL_RULETYPE_LEAGUE,
+    isWithoutCompetitionglobalRuleTypeCup = DEFAULT_WITHOUT_COMPETITIONGLOBAL_RULETYPE_CUP,
   ): Promise<TeamglobalEntity> {
     let findOptions = {};
 
@@ -134,6 +203,43 @@ export class TeamglobalService {
 
     if (!teamglobal) {
       throw new NotFoundException(`teamglobalId: ${teamglobalId} not found.`);
+    }
+
+    if (isWithoutCompetitionglobalRuleTypeLeague) {
+      const hasCompetitionglobalRuleTypeLeague =
+        teamglobal.competitionsglobalTeamglobal?.some(
+          (competitionglobalTeamglobal) =>
+            [
+              RuleCompetitionTypeEnum.BrazilianLeagueA,
+              RuleCompetitionTypeEnum.BrazilianLeagueB,
+              RuleCompetitionTypeEnum.BrazilianLeagueC,
+              RuleCompetitionTypeEnum.BrazilianLeagueD,
+            ].includes(
+              competitionglobalTeamglobal.competitionglobal?.rule
+                ?.competitionType,
+            ),
+        );
+
+      if (hasCompetitionglobalRuleTypeLeague) {
+        throw new BadRequestException(
+          `teamglobalId: ${teamglobalId} with competitionglobal with rule competition type league.`,
+        );
+      }
+    } else if (isWithoutCompetitionglobalRuleTypeCup) {
+      const hasCompetitionglobalRuleTypeCup =
+        teamglobal.competitionsglobalTeamglobal?.some(
+          (competitionglobalTeamglobal) =>
+            [RuleCompetitionTypeEnum.BrazilianCup].includes(
+              competitionglobalTeamglobal.competitionglobal?.rule
+                ?.competitionType,
+            ),
+        );
+
+      if (hasCompetitionglobalRuleTypeCup) {
+        throw new BadRequestException(
+          `teamglobalId: ${teamglobalId} with competitionglobal with rule competition type cup.`,
+        );
+      }
     }
 
     const countPlayersglobalList =

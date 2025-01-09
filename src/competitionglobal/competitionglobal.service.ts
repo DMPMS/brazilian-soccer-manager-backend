@@ -131,9 +131,40 @@ export class CompetitionglobalService {
         createCompetitionglobalDTO.countryId,
       );
 
+      const ruleCompetitionType = rule.competitionType;
+      const relations = {
+        competitionsglobalTeamglobal: {
+          competitionglobal: {
+            rule: true,
+          },
+        },
+      };
+
       await Promise.all(
         createCompetitionglobalDTO.teamglobalIds.map(async (teamglobalId) => {
-          await this.teamglobalService.findTeamglobalById(teamglobalId);
+          if (
+            [
+              RuleCompetitionTypeEnum.BrazilianLeagueA,
+              RuleCompetitionTypeEnum.BrazilianLeagueB,
+              RuleCompetitionTypeEnum.BrazilianLeagueC,
+              RuleCompetitionTypeEnum.BrazilianLeagueD,
+            ].includes(ruleCompetitionType)
+          ) {
+            await this.teamglobalService.findTeamglobalById(
+              teamglobalId,
+              relations,
+              true,
+            );
+          } else if (
+            [RuleCompetitionTypeEnum.BrazilianCup].includes(ruleCompetitionType)
+          ) {
+            await this.teamglobalService.findTeamglobalById(
+              teamglobalId,
+              relations,
+              false,
+              true,
+            );
+          }
         }),
       );
 
@@ -243,9 +274,76 @@ export class CompetitionglobalService {
       );
     }
 
+    const ruleCompetitionType = competitionglobal.rule.competitionType;
+    const relations = {
+      competitionsglobalTeamglobal: {
+        competitionglobal: {
+          rule: true,
+        },
+      },
+    };
+
     await Promise.all(
       updateCompetitionglobalDTO.teamglobalIds.map(async (teamglobalId) => {
-        await this.teamglobalService.findTeamglobalById(teamglobalId);
+        if (
+          [
+            RuleCompetitionTypeEnum.BrazilianLeagueA,
+            RuleCompetitionTypeEnum.BrazilianLeagueB,
+            RuleCompetitionTypeEnum.BrazilianLeagueC,
+            RuleCompetitionTypeEnum.BrazilianLeagueD,
+          ].includes(ruleCompetitionType)
+        ) {
+          const teamglobal = await this.teamglobalService.findTeamglobalById(
+            teamglobalId,
+            relations,
+          );
+
+          const hasCompetitionglobalRuleTypeLeague =
+            teamglobal.competitionsglobalTeamglobal?.some(
+              (competitionglobalTeamglobal) =>
+                [
+                  RuleCompetitionTypeEnum.BrazilianLeagueA,
+                  RuleCompetitionTypeEnum.BrazilianLeagueB,
+                  RuleCompetitionTypeEnum.BrazilianLeagueC,
+                  RuleCompetitionTypeEnum.BrazilianLeagueD,
+                ].includes(
+                  competitionglobalTeamglobal.competitionglobal?.rule
+                    ?.competitionType,
+                ) &&
+                competitionglobalTeamglobal.competitionglobal.id !==
+                  competitionglobal.id,
+            );
+
+          if (hasCompetitionglobalRuleTypeLeague) {
+            throw new BadRequestException(
+              `teamglobalId: ${teamglobalId} with competitionglobal with rule competition type league.`,
+            );
+          }
+        } else if (
+          [RuleCompetitionTypeEnum.BrazilianCup].includes(ruleCompetitionType)
+        ) {
+          const teamglobal = await this.teamglobalService.findTeamglobalById(
+            teamglobalId,
+            relations,
+          );
+
+          const hasCompetitionglobalRuleTypeCup =
+            teamglobal.competitionsglobalTeamglobal?.some(
+              (competitionglobalTeamglobal) =>
+                [RuleCompetitionTypeEnum.BrazilianCup].includes(
+                  competitionglobalTeamglobal.competitionglobal?.rule
+                    ?.competitionType,
+                ) &&
+                competitionglobalTeamglobal.competitionglobal.id !==
+                  competitionglobal.id,
+            );
+
+          if (hasCompetitionglobalRuleTypeCup) {
+            throw new BadRequestException(
+              `teamglobalId: ${teamglobalId} with competitionglobal with rule competition type cup.`,
+            );
+          }
+        }
       }),
     );
 

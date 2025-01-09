@@ -98,7 +98,7 @@ export class ManagerglobalService {
   async findManagerglobalById(
     managerglobalId: number,
     relations?: RelationsOptionsType,
-    withoutTeamglobal = DEFAULT_WITHOUT_TEAMGLOBAL,
+    isWithoutTeamglobal = DEFAULT_WITHOUT_TEAMGLOBAL,
   ): Promise<ManagerglobalEntity> {
     let findOptions = {};
 
@@ -125,7 +125,7 @@ export class ManagerglobalService {
       );
     }
 
-    if (managerglobal.teamglobal && withoutTeamglobal === true) {
+    if (managerglobal.teamglobal && isWithoutTeamglobal === true) {
       throw new BadRequestException(
         `managerglobalId: ${managerglobalId} with teamglobal.`,
       );
