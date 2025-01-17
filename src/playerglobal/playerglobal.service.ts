@@ -21,6 +21,7 @@ import {
   PLAYERGLOBAL_PRIMARY_POSITION_RATING,
   PLAYERGLOBAL_SECONDARY_POSITION_RATING,
   TEAMGLOBAL_MAX_PLAYERSGLOBAL,
+  TEAMGLOBAL_MIN_PLAYERSGLOBAL,
 } from 'src/utils/constants/dtoValidators';
 import { countPlayerglobalByTeamglobalId } from './dtos/countPlayerglobalByTeamglobalId.dto';
 
@@ -101,7 +102,7 @@ export class PlayerglobalService {
         createPlayerglobalDTO.teamglobalId,
       );
 
-      if (teamglobal.playersglobalCount === TEAMGLOBAL_MAX_PLAYERSGLOBAL) {
+      if (teamglobal.playersglobalCount >= TEAMGLOBAL_MAX_PLAYERSGLOBAL) {
         throw new BadRequestException(
           `teamglobalId: ${teamglobal.id} has the maximum number of players.`,
         );
@@ -175,7 +176,21 @@ export class PlayerglobalService {
       throw new NotFoundException(`Playersglobal not found.`);
     }
 
-    return playersglobal;
+    const countPlayersglobalList = await this.countPlayerglobalByTeamglobalId();
+
+    return playersglobal.map((playerglobal) => {
+      if (playerglobal.teamglobal) {
+        const playersglobalCount =
+          this.teamglobalService.countPlayersglobalInTeamglobal(
+            playerglobal.teamglobal.id,
+            countPlayersglobalList,
+          );
+
+        playerglobal.teamglobal.playersglobalCount = Number(playersglobalCount);
+      }
+
+      return playerglobal;
+    });
   }
 
   async findPlayerglobalById(
@@ -211,6 +226,19 @@ export class PlayerglobalService {
       throw new BadRequestException(
         `playerglobalId: ${playerglobalId} with teamglobal.`,
       );
+    }
+
+    if (playerglobal.teamglobal) {
+      const countPlayersglobalList =
+        await this.countPlayerglobalByTeamglobalId();
+
+      const playersglobalCount =
+        this.teamglobalService.countPlayersglobalInTeamglobal(
+          playerglobal.teamglobal.id,
+          countPlayersglobalList,
+        );
+
+      playerglobal.teamglobal.playersglobalCount = Number(playersglobalCount);
     }
 
     return playerglobal;
@@ -277,13 +305,23 @@ export class PlayerglobalService {
           updatePlayerglobalDTO.teamglobalId,
         );
 
-        if (teamglobal.playersglobalCount === TEAMGLOBAL_MAX_PLAYERSGLOBAL) {
+        if (teamglobal.playersglobalCount >= TEAMGLOBAL_MAX_PLAYERSGLOBAL) {
           throw new BadRequestException(
             `teamglobalId: ${teamglobal.id} has the maximum number of players.`,
           );
         }
       }
     } else {
+      const teamglobal = await this.teamglobalService.findTeamglobalById(
+        playerglobal.teamglobalId,
+      );
+
+      if (teamglobal.playersglobalCount <= TEAMGLOBAL_MIN_PLAYERSGLOBAL) {
+        throw new BadRequestException(
+          `playerglobalId: ${playerglobalId} is in a teamglobal with the minimum number of playerglobals.`,
+        );
+      }
+
       updatePlayerglobalDTO.teamglobalId = null;
     }
 
@@ -321,9 +359,20 @@ export class PlayerglobalService {
     const playerglobal = await this.findPlayerglobalById(playerglobalId);
 
     if (playerglobal.teamglobalId) {
-      throw new BadRequestException(
-        `playerglobalId: ${playerglobalId} with relations.`,
-      );
+      const countPlayersglobalList =
+        await this.countPlayerglobalByTeamglobalId();
+
+      const countPlayersglobalInTeamglobal =
+        await this.teamglobalService.countPlayersglobalInTeamglobal(
+          playerglobal.teamglobalId,
+          countPlayersglobalList,
+        );
+
+      if (countPlayersglobalInTeamglobal <= TEAMGLOBAL_MIN_PLAYERSGLOBAL) {
+        throw new BadRequestException(
+          `playerglobalId: ${playerglobalId} is in a teamglobal with the minimum number of playerglobals.`,
+        );
+      }
     }
 
     await this.playerglobalPositionService.deletePlayerglobalPositionByPlayerglobalId(

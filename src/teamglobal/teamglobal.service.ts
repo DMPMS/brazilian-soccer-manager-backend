@@ -142,7 +142,7 @@ export class TeamglobalService {
         ...teamglobal,
         playersglobalCount: Number(
           this.countPlayersglobalInTeamglobal(
-            teamglobal,
+            teamglobal.id,
             countPlayersglobalList,
           ),
         ),
@@ -248,7 +248,10 @@ export class TeamglobalService {
     return {
       ...teamglobal,
       playersglobalCount: Number(
-        this.countPlayersglobalInTeamglobal(teamglobal, countPlayersglobalList),
+        this.countPlayersglobalInTeamglobal(
+          Number(teamglobalId),
+          countPlayersglobalList,
+        ),
       ),
     };
   }
@@ -323,11 +326,11 @@ export class TeamglobalService {
   }
 
   countPlayersglobalInTeamglobal(
-    teamglobal: TeamglobalEntity,
+    teamglobalId: number,
     countPlayersglobalList: countPlayerglobalByTeamglobalId[],
   ): number {
     const count = countPlayersglobalList.find(
-      (item) => item.teamglobal_id === teamglobal.id,
+      (item) => item.teamglobal_id === teamglobalId,
     );
 
     if (count) {
