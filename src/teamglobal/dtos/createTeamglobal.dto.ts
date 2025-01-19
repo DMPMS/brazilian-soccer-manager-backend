@@ -13,6 +13,7 @@ import {
   TEAMGLOBAL_MIN_LENGH_NAME,
   TEAMGLOBAL_MIN_PLAYERSGLOBAL,
 } from 'src/utils/constants/dtoValidators';
+import { isValidImage } from 'src/validators/isValidImage';
 import { UniqueArray } from 'src/validators/uniqueArray';
 
 export class CreateTeamglobalDTO {
@@ -34,5 +35,6 @@ export class CreateTeamglobalDTO {
   name: string;
 
   @IsString()
+  @Validate(isValidImage)
   srcImage: string;
 }

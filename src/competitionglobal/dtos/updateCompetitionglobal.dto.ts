@@ -12,6 +12,7 @@ import {
   COMPETITIONGLOBAL_MIN_LENGH_NAME,
   COMPETITIONGLOBAL_MIN_LENGH_SEASON,
 } from 'src/utils/constants/dtoValidators';
+import { isValidImage } from 'src/validators/isValidImage';
 import { UniqueArray } from 'src/validators/uniqueArray';
 
 export class UpdateCompetitionglobalDTO {
@@ -27,6 +28,7 @@ export class UpdateCompetitionglobalDTO {
   season: string;
 
   @IsString()
+  @Validate(isValidImage)
   srcImage: string;
 
   @IsArray()
