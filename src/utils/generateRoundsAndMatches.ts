@@ -1,4 +1,4 @@
-import { RuleCompetitionTypeEnum } from 'src/shared/enums/RuleCompetitionType.enum';
+import { RuleEnum } from 'src/shared/enums/Rule.enum';
 import { MatchType } from 'src/types/Match.type';
 import {
   availableDateMatchIndicesByCompetition,
@@ -8,30 +8,30 @@ import { getWeekdayDates } from './getWeekdayDates';
 import { SAVE_DATETIME } from './constants/dtoValidators';
 
 export function generateRoundsAndMatches(
-  competitionType: RuleCompetitionTypeEnum,
+  ruleId: RuleEnum,
   teamsaveIds: number[],
 ): MatchType[][] {
-  if (competitionType === RuleCompetitionTypeEnum.BrazilianLeagueA) {
+  if (ruleId === RuleEnum.BrazilianLeagueA) {
     return generateForBrazilianLeagueA(teamsaveIds);
   }
 
-  if (competitionType === RuleCompetitionTypeEnum.BrazilianLeagueB) {
+  if (ruleId === RuleEnum.BrazilianLeagueB) {
     return generateForBrazilianLeagueB(teamsaveIds);
   }
 
-  if (competitionType === RuleCompetitionTypeEnum.BrazilianLeagueC) {
+  if (ruleId === RuleEnum.BrazilianLeagueC) {
     return generateForBrazilianLeagueC(teamsaveIds);
   }
 
-  if (competitionType === RuleCompetitionTypeEnum.BrazilianLeagueD) {
+  if (ruleId === RuleEnum.BrazilianLeagueD) {
     return generateForBrazilianLeagueD(teamsaveIds);
   }
 
-  // if (competitionType === RuleCompetitionTypeEnum.BrazilianCup) {
+  // if (ruleId === RuleEnum.BrazilianCup) {
   //   return generateForBrazilianCup(teamsaveIds);
   // }
 
-  // if (competitionType === RuleCompetitionTypeEnum.BrazilianSuperCup) {
+  // if (ruleId === RuleEnum.BrazilianSuperCup) {
   //   return generateForBrazilianSuperCup(teamsaveIds);
   // }
 }
@@ -46,9 +46,7 @@ function generateForBrazilianLeagueA(teamsaveIds: number[]): MatchType[][] {
   const saveYear = Number(SAVE_DATETIME.split('-')[0]);
   const dates = getWeekdayDates(saveYear);
   const availableDateMatchIndices =
-    availableDateMatchIndicesByCompetition[
-      RuleCompetitionTypeEnum.BrazilianLeagueA
-    ];
+    availableDateMatchIndicesByCompetition[RuleEnum.BrazilianLeagueA];
 
   let dateIndex = 0;
 
@@ -117,9 +115,7 @@ function generateForBrazilianLeagueB(teamsaveIds: number[]): MatchType[][] {
   const saveYear = Number(SAVE_DATETIME.split('-')[0]);
   const dates = getWeekdayDates(saveYear);
   const availableDateMatchIndices =
-    availableDateMatchIndicesByCompetition[
-      RuleCompetitionTypeEnum.BrazilianLeagueB
-    ];
+    availableDateMatchIndicesByCompetition[RuleEnum.BrazilianLeagueB];
 
   let dateIndex = 0;
 
@@ -188,9 +184,7 @@ function generateForBrazilianLeagueC(teamsaveIds: number[]): MatchType[][] {
   const saveYear = Number(SAVE_DATETIME.split('-')[0]);
   const dates = getWeekdayDates(saveYear);
   const availableDateMatchIndices =
-    availableDateMatchIndicesByCompetition[
-      RuleCompetitionTypeEnum.BrazilianLeagueC
-    ];
+    availableDateMatchIndicesByCompetition[RuleEnum.BrazilianLeagueC];
 
   let dateIndex = 0;
 
@@ -259,9 +253,7 @@ function generateForBrazilianLeagueD(teamsaveIds: number[]): MatchType[][] {
   const saveYear = Number(SAVE_DATETIME.split('-')[0]);
   const dates = getWeekdayDates(saveYear);
   const availableDateMatchIndices =
-    availableDateMatchIndicesByCompetition[
-      RuleCompetitionTypeEnum.BrazilianLeagueD
-    ];
+    availableDateMatchIndicesByCompetition[RuleEnum.BrazilianLeagueD];
 
   let dateIndex = 0;
 

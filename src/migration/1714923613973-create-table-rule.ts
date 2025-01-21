@@ -6,7 +6,6 @@ export class CreateTableRule1714923613973 implements MigrationInterface {
         CREATE TABLE public.rule (
             id SERIAL NOT NULL,
             name character varying NOT NULL,
-            competition_type integer NOT NULL,
             number_of_teams integer NOT NULL,
             description TEXT NOT NULL,
             default_competition_name TEXT NOT NULL,

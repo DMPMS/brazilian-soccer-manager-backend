@@ -27,7 +27,7 @@ export class CompetitionsaveService {
     );
 
     const roundsAndMatches = generateRoundsAndMatches(
-      competitionsave.rule.competitionType,
+      competitionsave.rule.id,
       teamsaveIds,
     );
 

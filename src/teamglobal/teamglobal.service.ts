@@ -17,7 +17,7 @@ import { PlayerglobalService } from 'src/playerglobal/playerglobal.service';
 import { countPlayerglobalByTeamglobalId } from 'src/playerglobal/dtos/countPlayerglobalByTeamglobalId.dto';
 import { CompetitionglobalTeamglobalEntity } from 'src/competitionglobal_teamglobal/entities/competitionglobal_teamglobal.entity';
 import { CompetitionglobalEntity } from 'src/competitionglobal/entities/competitionglobal.entity';
-import { RuleCompetitionTypeEnum } from 'src/shared/enums/RuleCompetitionType.enum';
+import { RuleEnum } from 'src/shared/enums/Rule.enum';
 
 const DEFAULT_WITHOUT_COMPETITIONGLOBAL_RULETYPE_LEAGUE = false;
 const DEFAULT_WITHOUT_COMPETITIONGLOBAL_RULETYPE_CUP = false;
@@ -94,11 +94,11 @@ export class TeamglobalService {
 
     if (isWithoutCompetitionglobalRuleTypeLeague === true) {
       const teamglobalWithCompetitionglobalRuleTypeLeague =
-        await this.findTeamglobalWithCompetitionglobalRuleType([
-          RuleCompetitionTypeEnum.BrazilianLeagueA,
-          RuleCompetitionTypeEnum.BrazilianLeagueB,
-          RuleCompetitionTypeEnum.BrazilianLeagueC,
-          RuleCompetitionTypeEnum.BrazilianLeagueD,
+        await this.findTeamglobalWithCompetitionglobalRuleId([
+          RuleEnum.BrazilianLeagueA,
+          RuleEnum.BrazilianLeagueB,
+          RuleEnum.BrazilianLeagueC,
+          RuleEnum.BrazilianLeagueD,
         ]);
 
       findOptions = {
@@ -109,8 +109,8 @@ export class TeamglobalService {
       };
     } else if (isWithoutCompetitionglobalRuleTypeCup === true) {
       const teamglobalWithCompetitionglobalRuleTypeCup =
-        await this.findTeamglobalWithCompetitionglobalRuleType([
-          RuleCompetitionTypeEnum.BrazilianCup,
+        await this.findTeamglobalWithCompetitionglobalRuleId([
+          RuleEnum.BrazilianCup,
         ]);
 
       findOptions = {
@@ -150,8 +150,8 @@ export class TeamglobalService {
     });
   }
 
-  async findTeamglobalWithCompetitionglobalRuleType(
-    RuleCompetitionTypeIds: RuleCompetitionTypeEnum[],
+  async findTeamglobalWithCompetitionglobalRuleId(
+    RuleIds: RuleEnum[],
   ): Promise<number[]> {
     const teamglobalWithCompetitionglobalRuleTypeLeagueIds =
       await this.dataSource
@@ -168,7 +168,7 @@ export class TeamglobalService {
           'competitionglobal',
           'competitionglobal_teamglobal.competitionglobal_id = competitionglobal.id AND competitionglobal.rule_id IN (:...ruleIds)',
           {
-            ruleIds: RuleCompetitionTypeIds,
+            ruleIds: RuleIds,
           },
         )
         .getRawMany()
@@ -210,14 +210,11 @@ export class TeamglobalService {
         teamglobal.competitionsglobalTeamglobal?.some(
           (competitionglobalTeamglobal) =>
             [
-              RuleCompetitionTypeEnum.BrazilianLeagueA,
-              RuleCompetitionTypeEnum.BrazilianLeagueB,
-              RuleCompetitionTypeEnum.BrazilianLeagueC,
-              RuleCompetitionTypeEnum.BrazilianLeagueD,
-            ].includes(
-              competitionglobalTeamglobal.competitionglobal?.rule
-                ?.competitionType,
-            ),
+              RuleEnum.BrazilianLeagueA,
+              RuleEnum.BrazilianLeagueB,
+              RuleEnum.BrazilianLeagueC,
+              RuleEnum.BrazilianLeagueD,
+            ].includes(competitionglobalTeamglobal.competitionglobal?.rule?.id),
         );
 
       if (hasCompetitionglobalRuleTypeLeague) {
@@ -229,9 +226,8 @@ export class TeamglobalService {
       const hasCompetitionglobalRuleTypeCup =
         teamglobal.competitionsglobalTeamglobal?.some(
           (competitionglobalTeamglobal) =>
-            [RuleCompetitionTypeEnum.BrazilianCup].includes(
-              competitionglobalTeamglobal.competitionglobal?.rule
-                ?.competitionType,
+            [RuleEnum.BrazilianCup].includes(
+              competitionglobalTeamglobal.competitionglobal?.rule?.id,
             ),
         );
 

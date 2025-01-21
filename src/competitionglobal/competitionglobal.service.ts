@@ -13,7 +13,7 @@ import { UpdateCompetitionglobalDTO } from './dtos/updateCompetitionglobal.dto';
 import { CompetitionglobalTeamglobalService } from 'src/competitionglobal_teamglobal/competitionglobal_teamglobal.service';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
 import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
-import { RuleCompetitionTypeEnum } from 'src/shared/enums/RuleCompetitionType.enum';
+import { RuleEnum } from 'src/shared/enums/Rule.enum';
 
 @Injectable()
 export class CompetitionglobalService {
@@ -38,75 +38,69 @@ export class CompetitionglobalService {
         rule: true,
       });
 
-      const competitionglobalWithRuleExists = competitionsglobal.find(
-        (competitionglobal) =>
-          competitionglobal.rule.competitionType === rule.competitionType,
+      const competitionglobalWithRuleIdExists = competitionsglobal.find(
+        (competitionglobal) => competitionglobal.rule.id === rule.id,
       );
 
-      if (competitionglobalWithRuleExists) {
+      if (competitionglobalWithRuleIdExists) {
         throw new BadRequestException(
-          `A competitionglobal with ruleCompetitionType ${rule.competitionType} already exists`,
+          `A competitionglobal with ruleId ${rule.id} already exists`,
         );
       }
 
-      if (rule.competitionType === RuleCompetitionTypeEnum.BrazilianLeagueD) {
+      if (rule.id === RuleEnum.BrazilianLeagueD) {
         const competitionglobalWithRuleBrazilianLeagueCExists =
           competitionsglobal.find(
             (competitionglobal) =>
-              competitionglobal.rule.competitionType ===
-              RuleCompetitionTypeEnum.BrazilianLeagueC,
+              competitionglobal.rule.id === RuleEnum.BrazilianLeagueC,
           );
 
         if (!competitionglobalWithRuleBrazilianLeagueCExists) {
           throw new BadRequestException(
-            `A competitionglobal with ruleCompetitionType ${RuleCompetitionTypeEnum.BrazilianLeagueD} must exist before creating a competitionglobal with ruleCompetitionType ${RuleCompetitionTypeEnum.BrazilianLeagueC}.`,
+            `A competitionglobal with ruleId ${RuleEnum.BrazilianLeagueD} must exist before creating a competitionglobal with ruleId ${RuleEnum.BrazilianLeagueC}.`,
           );
         }
       }
 
-      if (rule.competitionType === RuleCompetitionTypeEnum.BrazilianLeagueC) {
+      if (rule.id === RuleEnum.BrazilianLeagueC) {
         const competitionglobalWithRuleBrazilianLeagueBExists =
           competitionsglobal.find(
             (competitionglobal) =>
-              competitionglobal.rule.competitionType ===
-              RuleCompetitionTypeEnum.BrazilianLeagueB,
+              competitionglobal.rule.id === RuleEnum.BrazilianLeagueB,
           );
 
         if (!competitionglobalWithRuleBrazilianLeagueBExists) {
           throw new BadRequestException(
-            `A competitionglobal with ruleCompetitionType ${RuleCompetitionTypeEnum.BrazilianLeagueC} must exist before creating a competitionglobal with ruleCompetitionType ${RuleCompetitionTypeEnum.BrazilianLeagueB}.`,
+            `A competitionglobal with ruleId ${RuleEnum.BrazilianLeagueC} must exist before creating a competitionglobal with ruleId ${RuleEnum.BrazilianLeagueB}.`,
           );
         }
       }
 
-      if (rule.competitionType === RuleCompetitionTypeEnum.BrazilianLeagueB) {
+      if (rule.id === RuleEnum.BrazilianLeagueB) {
         const competitionglobalWithRuleBrazilianLeagueAExists =
           competitionsglobal.find(
             (competitionglobal) =>
-              competitionglobal.rule.competitionType ===
-              RuleCompetitionTypeEnum.BrazilianLeagueA,
+              competitionglobal.rule.id === RuleEnum.BrazilianLeagueA,
           );
 
         if (!competitionglobalWithRuleBrazilianLeagueAExists) {
           throw new BadRequestException(
-            `A competitionglobal with ruleCompetitionType ${RuleCompetitionTypeEnum.BrazilianLeagueB} must exist before creating a competitionglobal with ruleCompetitionType ${RuleCompetitionTypeEnum.BrazilianLeagueA}.`,
+            `A competitionglobal with ruleId ${RuleEnum.BrazilianLeagueB} must exist before creating a competitionglobal with ruleId ${RuleEnum.BrazilianLeagueA}.`,
           );
         }
       }
 
-      if (rule.competitionType === RuleCompetitionTypeEnum.BrazilianSuperCup) {
+      if (rule.id === RuleEnum.BrazilianSuperCup) {
         const competitionglobalWithRuleBrazilianLeagueAExists =
           competitionsglobal.find(
             (competitionglobal) =>
-              competitionglobal.rule.competitionType ===
-              RuleCompetitionTypeEnum.BrazilianLeagueA,
+              competitionglobal.rule.id === RuleEnum.BrazilianLeagueA,
           );
 
         const competitionglobalWithRuleBrazilianCupExists =
           competitionsglobal.find(
             (competitionglobal) =>
-              competitionglobal.rule.competitionType ===
-              RuleCompetitionTypeEnum.BrazilianCup,
+              competitionglobal.rule.id === RuleEnum.BrazilianCup,
           );
 
         if (
@@ -114,7 +108,7 @@ export class CompetitionglobalService {
           !competitionglobalWithRuleBrazilianCupExists
         ) {
           throw new BadRequestException(
-            `Competitions with ruleCompetitionType ${RuleCompetitionTypeEnum.BrazilianLeagueA} and ${RuleCompetitionTypeEnum.BrazilianCup} must exist before creating a competitionglobal with ruleCompetitionType ${RuleCompetitionTypeEnum.BrazilianSuperCup}.`,
+            `Competitions with ruleId ${RuleEnum.BrazilianLeagueA} and ${RuleEnum.BrazilianCup} must exist before creating a competitionglobal with ruleId ${RuleEnum.BrazilianSuperCup}.`,
           );
         }
       }
@@ -131,7 +125,7 @@ export class CompetitionglobalService {
         createCompetitionglobalDTO.countryId,
       );
 
-      const ruleCompetitionType = rule.competitionType;
+      const ruleId = rule.id;
       const relations = {
         competitionsglobalTeamglobal: {
           competitionglobal: {
@@ -144,20 +138,18 @@ export class CompetitionglobalService {
         createCompetitionglobalDTO.teamglobalIds.map(async (teamglobalId) => {
           if (
             [
-              RuleCompetitionTypeEnum.BrazilianLeagueA,
-              RuleCompetitionTypeEnum.BrazilianLeagueB,
-              RuleCompetitionTypeEnum.BrazilianLeagueC,
-              RuleCompetitionTypeEnum.BrazilianLeagueD,
-            ].includes(ruleCompetitionType)
+              RuleEnum.BrazilianLeagueA,
+              RuleEnum.BrazilianLeagueB,
+              RuleEnum.BrazilianLeagueC,
+              RuleEnum.BrazilianLeagueD,
+            ].includes(ruleId)
           ) {
             await this.teamglobalService.findTeamglobalById(
               teamglobalId,
               relations,
               true,
             );
-          } else if (
-            [RuleCompetitionTypeEnum.BrazilianCup].includes(ruleCompetitionType)
-          ) {
+          } else if ([RuleEnum.BrazilianCup].includes(ruleId)) {
             await this.teamglobalService.findTeamglobalById(
               teamglobalId,
               relations,
@@ -274,7 +266,7 @@ export class CompetitionglobalService {
       );
     }
 
-    const ruleCompetitionType = competitionglobal.rule.competitionType;
+    const ruleId = competitionglobal.rule.id;
     const relations = {
       competitionsglobalTeamglobal: {
         competitionglobal: {
@@ -287,11 +279,11 @@ export class CompetitionglobalService {
       updateCompetitionglobalDTO.teamglobalIds.map(async (teamglobalId) => {
         if (
           [
-            RuleCompetitionTypeEnum.BrazilianLeagueA,
-            RuleCompetitionTypeEnum.BrazilianLeagueB,
-            RuleCompetitionTypeEnum.BrazilianLeagueC,
-            RuleCompetitionTypeEnum.BrazilianLeagueD,
-          ].includes(ruleCompetitionType)
+            RuleEnum.BrazilianLeagueA,
+            RuleEnum.BrazilianLeagueB,
+            RuleEnum.BrazilianLeagueC,
+            RuleEnum.BrazilianLeagueD,
+          ].includes(ruleId)
         ) {
           const teamglobal = await this.teamglobalService.findTeamglobalById(
             teamglobalId,
@@ -302,13 +294,12 @@ export class CompetitionglobalService {
             teamglobal.competitionsglobalTeamglobal?.some(
               (competitionglobalTeamglobal) =>
                 [
-                  RuleCompetitionTypeEnum.BrazilianLeagueA,
-                  RuleCompetitionTypeEnum.BrazilianLeagueB,
-                  RuleCompetitionTypeEnum.BrazilianLeagueC,
-                  RuleCompetitionTypeEnum.BrazilianLeagueD,
+                  RuleEnum.BrazilianLeagueA,
+                  RuleEnum.BrazilianLeagueB,
+                  RuleEnum.BrazilianLeagueC,
+                  RuleEnum.BrazilianLeagueD,
                 ].includes(
-                  competitionglobalTeamglobal.competitionglobal?.rule
-                    ?.competitionType,
+                  competitionglobalTeamglobal.competitionglobal?.rule?.id,
                 ) &&
                 competitionglobalTeamglobal.competitionglobal.id !==
                   competitionglobal.id,
@@ -319,9 +310,7 @@ export class CompetitionglobalService {
               `teamglobalId: ${teamglobalId} with competitionglobal with rule competition type league.`,
             );
           }
-        } else if (
-          [RuleCompetitionTypeEnum.BrazilianCup].includes(ruleCompetitionType)
-        ) {
+        } else if ([RuleEnum.BrazilianCup].includes(ruleId)) {
           const teamglobal = await this.teamglobalService.findTeamglobalById(
             teamglobalId,
             relations,
@@ -330,9 +319,8 @@ export class CompetitionglobalService {
           const hasCompetitionglobalRuleTypeCup =
             teamglobal.competitionsglobalTeamglobal?.some(
               (competitionglobalTeamglobal) =>
-                [RuleCompetitionTypeEnum.BrazilianCup].includes(
-                  competitionglobalTeamglobal.competitionglobal?.rule
-                    ?.competitionType,
+                [RuleEnum.BrazilianCup].includes(
+                  competitionglobalTeamglobal.competitionglobal?.rule?.id,
                 ) &&
                 competitionglobalTeamglobal.competitionglobal.id !==
                   competitionglobal.id,
@@ -378,65 +366,50 @@ export class CompetitionglobalService {
       rule: true,
     });
 
-    if (
-      competitionglobal.rule.competitionType ===
-      RuleCompetitionTypeEnum.BrazilianLeagueA
-    ) {
+    if (competitionglobal.rule.id === RuleEnum.BrazilianLeagueA) {
       throw new BadRequestException(
-        `A competitionglobal with ruleCompetitionType ${RuleCompetitionTypeEnum.BrazilianLeagueA} cannot be deleted.`,
+        `A competitionglobal with ruleId ${RuleEnum.BrazilianLeagueA} cannot be deleted.`,
       );
     }
 
-    if (
-      competitionglobal.rule.competitionType ===
-      RuleCompetitionTypeEnum.BrazilianLeagueC
-    ) {
+    if (competitionglobal.rule.id === RuleEnum.BrazilianLeagueC) {
       const competitionglobalWithRuleBrazilianLeagueDExists =
         competitionsglobal.find(
           (competitionglobal) =>
-            competitionglobal.rule.competitionType ===
-            RuleCompetitionTypeEnum.BrazilianLeagueD,
+            competitionglobal.rule.id === RuleEnum.BrazilianLeagueD,
         );
 
       if (competitionglobalWithRuleBrazilianLeagueDExists) {
         throw new BadRequestException(
-          `To delete a competitionglobal with ruleCompetitionType ${RuleCompetitionTypeEnum.BrazilianLeagueC}, it is necessary to first delete the competitionglobal with ruleCompetitionType ${RuleCompetitionTypeEnum.BrazilianLeagueD}.`,
+          `To delete a competitionglobal with ruleId ${RuleEnum.BrazilianLeagueC}, it is necessary to first delete the competitionglobal with ruleId ${RuleEnum.BrazilianLeagueD}.`,
         );
       }
     }
 
-    if (
-      competitionglobal.rule.competitionType ===
-      RuleCompetitionTypeEnum.BrazilianLeagueB
-    ) {
+    if (competitionglobal.rule.id === RuleEnum.BrazilianLeagueB) {
       const competitionglobalWithRuleBrazilianLeagueCExists =
         competitionsglobal.find(
           (competitionglobal) =>
-            competitionglobal.rule.competitionType ===
-            RuleCompetitionTypeEnum.BrazilianLeagueC,
+            competitionglobal.rule.id === RuleEnum.BrazilianLeagueC,
         );
 
       if (competitionglobalWithRuleBrazilianLeagueCExists) {
         throw new BadRequestException(
-          `To delete a competitionglobal with ruleCompetitionType ${RuleCompetitionTypeEnum.BrazilianLeagueB}, it is necessary to first delete the competitionglobal with ruleCompetitionType ${RuleCompetitionTypeEnum.BrazilianLeagueC}.`,
+          `To delete a competitionglobal with ruleId ${RuleEnum.BrazilianLeagueB}, it is necessary to first delete the competitionglobal with ruleId ${RuleEnum.BrazilianLeagueC}.`,
         );
       }
     }
 
-    if (
-      competitionglobal.rule.competitionType ===
-      RuleCompetitionTypeEnum.BrazilianCup
-    ) {
+    if (competitionglobal.rule.id === RuleEnum.BrazilianCup) {
       const competitionglobalWithRuleBrazilianSupercupExists =
         competitionsglobal.find(
           (competitionglobal) =>
-            competitionglobal.rule.competitionType ===
-            RuleCompetitionTypeEnum.BrazilianSuperCup,
+            competitionglobal.rule.id === RuleEnum.BrazilianSuperCup,
         );
 
       if (competitionglobalWithRuleBrazilianSupercupExists) {
         throw new BadRequestException(
-          `To delete a competitionglobal with ruleCompetitionType ${RuleCompetitionTypeEnum.BrazilianCup}, it is necessary to first delete the competitionglobal with ruleCompetitionType ${RuleCompetitionTypeEnum.BrazilianSuperCup}.`,
+          `To delete a competitionglobal with ruleId ${RuleEnum.BrazilianCup}, it is necessary to first delete the competitionglobal with ruleId ${RuleEnum.BrazilianSuperCup}.`,
         );
       }
     }

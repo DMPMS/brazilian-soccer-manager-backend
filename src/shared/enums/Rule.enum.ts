@@ -1,4 +1,4 @@
-export enum RuleCompetitionTypeEnum {
+export enum RuleEnum {
   BrazilianLeagueA = 1,
   BrazilianLeagueB = 2,
   BrazilianLeagueC = 3,
