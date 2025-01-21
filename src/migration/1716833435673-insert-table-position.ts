@@ -4,19 +4,19 @@ export class InsertTablePosition1716833435673 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(`
         INSERT INTO public.position(name, abbreviation, area) VALUES
-        ('Centroavante', 'CA', 'Ataque'),
-        ('Segundo Atacante', 'SA', 'Ataque'),
-        ('Ponta Esquerda', 'PE', 'Ataque'),
-        ('Ponta Direita', 'PD', 'Ataque'),
-        ('Meio-Campista Ofensivo', 'MO', 'Meio-Campo'),
-        ('Meio-Campista Esquerdo', 'ME', 'Meio-Campo'),
-        ('Meio-Campista Direito', 'MD', 'Meio-Campo'),
-        ('Meio-Campista Central', 'MC', 'Meio-Campo'),
-        ('Volante', 'VOL', 'Meio-Campo'),
-        ('Lateral Esquerdo', 'LE', 'Defesa'),
-        ('Lateral Direito', 'LD', 'Defesa'),
-        ('Zagueiro', 'ZAG', 'Defesa'),
-        ('Goleiro', 'GOL', 'Goleiro');
+        ('Centroavante', 'CA', 1),
+        ('Segundo Atacante', 'SA', 1),
+        ('Ponta Esquerda', 'PE', 1),
+        ('Ponta Direita', 'PD', 1),
+        ('Meio-Campista Ofensivo', 'MO', 2),
+        ('Meio-Campista Esquerdo', 'ME', 2),
+        ('Meio-Campista Direito', 'MD', 2),
+        ('Meio-Campista Central', 'MC', 2),
+        ('Volante', 'VOL', 2),
+        ('Lateral Esquerdo', 'LE', 3),
+        ('Lateral Direito', 'LD', 3),
+        ('Zagueiro', 'ZAG', 3),
+        ('Goleiro', 'GOL', 4);
     `);
   }
 

@@ -7,7 +7,7 @@ export class CreateTablePosition1716832715612 implements MigrationInterface {
             id SERIAL NOT NULL,
             name character varying NOT NULL,
             abbreviation character varying NOT NULL,
-            area character varying NOT NULL,
+            area INTEGER NOT NULL,
 
             created_at timestamp without time zone DEFAULT now() NOT NULL,
             updated_at timestamp without time zone DEFAULT now() NOT NULL,

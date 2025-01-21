@@ -1,0 +1,15 @@
+export enum PositionEnum {
+  CF = 1,
+  SS = 2,
+  LW = 3,
+  RW = 4,
+  AM = 5,
+  LM = 6,
+  RM = 7,
+  CM = 8,
+  DM = 9,
+  LB = 10,
+  RB = 11,
+  CB = 12,
+  GK = 13,
+}

@@ -79,22 +79,6 @@ export class PlayerglobalService {
       );
     }
 
-    await Promise.all(
-      createPlayerglobalDTO.primaryPositionIds.map(
-        async (primaryPositionId) => {
-          await this.positionService.findPositionById(primaryPositionId);
-        },
-      ),
-    );
-
-    await Promise.all(
-      createPlayerglobalDTO.secondaryPositionIds.map(
-        async (secondaryPositionId) => {
-          await this.positionService.findPositionById(secondaryPositionId);
-        },
-      ),
-    );
-
     await this.countryService.findCountryById(createPlayerglobalDTO.countryId);
 
     if (createPlayerglobalDTO.teamglobalId) {
@@ -284,18 +268,6 @@ export class PlayerglobalService {
         `A playerglobal cannot have the same position as both primary and secondary. Duplicated positionIds: ${intersection.join(', ')}.`,
       );
     }
-
-    await Promise.all(
-      updatePlayerglobalDTO.primaryPositionIds.map(async (positionId) => {
-        await this.positionService.findPositionById(positionId);
-      }),
-    );
-
-    await Promise.all(
-      updatePlayerglobalDTO.secondaryPositionIds.map(async (positionId) => {
-        await this.positionService.findPositionById(positionId);
-      }),
-    );
 
     await this.countryService.findCountryById(updatePlayerglobalDTO.countryId);
 

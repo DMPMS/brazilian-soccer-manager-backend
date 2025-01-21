@@ -1,5 +1,6 @@
 import { PlayerglobalPositionEntity } from 'src/playerglobal_position/entities/playerglobal_position.entity';
 import { PlayersavePositionEntity } from 'src/playersave_position/entities/playersave_position.entity';
+import { PositionAreaEnum } from 'src/shared/enums/PositionArea.enum';
 import {
   Column,
   CreateDateColumn,
@@ -21,7 +22,7 @@ export class PositionEntity {
   abbreviation: string;
 
   @Column({ name: 'area', nullable: false })
-  area: string;
+  area: PositionAreaEnum;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

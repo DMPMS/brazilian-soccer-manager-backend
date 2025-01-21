@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PositionEntity } from './entities/position.entity';
+import { PositionEnum } from 'src/shared/enums/Position.enum';
 
 @Injectable()
 export class PositionService {
@@ -29,7 +30,7 @@ export class PositionService {
     return positions;
   }
 
-  async findPositionById(positionId: number): Promise<PositionEntity> {
+  async findPositionById(positionId: PositionEnum): Promise<PositionEntity> {
     let findOptions = {};
 
     findOptions = {

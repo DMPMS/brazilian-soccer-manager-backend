@@ -1,3 +1,4 @@
+import { PositionEnum } from 'src/shared/enums/Position.enum';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class InsertTablePlayerglobalPosition1717011210641
@@ -6,23 +7,39 @@ export class InsertTablePlayerglobalPosition1717011210641
   public async up(queryRunner: QueryRunner): Promise<void> {
     let inserts = '';
 
-    const positionIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-    const goalkeeperPositionId = 13;
+    const positionIds = [
+      PositionEnum.CF,
+      PositionEnum.SS,
+      PositionEnum.LW,
+      PositionEnum.RW,
+      PositionEnum.AM,
+      PositionEnum.LM,
+      PositionEnum.RM,
+      PositionEnum.CM,
+      PositionEnum.DM,
+      PositionEnum.LB,
+      PositionEnum.RB,
+      PositionEnum.CB,
+      PositionEnum.GK,
+    ];
 
     for (let i = 0; i < 440; i++) {
       const shuffledPositionIds = positionIds.sort(() => 0.5 - Math.random());
 
-      const playerPositions = new Set<{ positionId: number; rating: number }>();
+      const playerPositions = new Set<{
+        positionId: PositionEnum;
+        rating: number;
+      }>();
 
       // If the first position is goalkeeper, the player can only have this primary position.
-      if (shuffledPositionIds[0] === goalkeeperPositionId) {
+      if (shuffledPositionIds[0] === PositionEnum.GK) {
         playerPositions.add({
           positionId: 13,
           rating: 1.0,
         });
       } else {
         const filteredPositionIds = shuffledPositionIds.filter(
-          (positionId) => positionId !== goalkeeperPositionId,
+          (positionId) => positionId !== PositionEnum.GK,
         );
 
         const primaryPositionsCount = Math.floor(Math.random() * 3) + 1;

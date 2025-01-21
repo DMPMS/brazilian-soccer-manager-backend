@@ -1,5 +1,6 @@
 import { PlayersaveEntity } from 'src/playersave/entities/playersave.entity';
 import { PositionEntity } from 'src/position/entities/position.entity';
+import { PositionEnum } from 'src/shared/enums/Position.enum';
 import {
   Column,
   CreateDateColumn,
@@ -19,7 +20,7 @@ export class PlayersavePositionEntity {
   playersaveId: number;
 
   @Column({ name: 'position_id', nullable: false })
-  positionId: number;
+  positionId: PositionEnum;
 
   @Column({ name: 'rating', type: 'decimal', nullable: false })
   rating: number;

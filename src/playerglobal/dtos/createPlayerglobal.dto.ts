@@ -2,6 +2,7 @@ import {
   ArrayMaxSize,
   ArrayMinSize,
   IsArray,
+  IsEnum,
   IsInt,
   IsOptional,
   IsString,
@@ -10,6 +11,7 @@ import {
   Min,
   Validate,
 } from 'class-validator';
+import { PositionEnum } from 'src/shared/enums/Position.enum';
 import {
   PLAYERGLOBAL_MAX_AGE,
   PLAYERGLOBAL_MAX_LENGH_NAME,
@@ -48,15 +50,15 @@ export class CreatePlayerglobalDTO {
   overall: number;
 
   @IsArray()
-  @IsInt({ each: true })
+  @IsEnum(PositionEnum, { each: true })
   @Validate(UniqueArray)
   @ArrayMinSize(PLAYERGLOBAL_MIN_PRIMARY_POSITIONS)
   @ArrayMaxSize(PLAYERGLOBAL_MAX_PRIMARY_POSITIONS)
-  primaryPositionIds: number[];
+  primaryPositionIds: PositionEnum[];
 
   @IsArray()
   @Validate(UniqueArray)
-  @IsInt({ each: true })
+  @IsEnum(PositionEnum, { each: true })
   @ArrayMaxSize(PLAYERGLOBAL_MAX_SECONDARY_POSITIONS)
-  secondaryPositionIds: number[];
+  secondaryPositionIds: PositionEnum[];
 }

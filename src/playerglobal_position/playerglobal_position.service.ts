@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PlayerglobalPositionEntity } from './entities/playerglobal_position.entity';
 import { DeleteResult, Repository } from 'typeorm';
+import { PositionEnum } from 'src/shared/enums/Position.enum';
 
 @Injectable()
 export class PlayerglobalPositionService {
@@ -12,7 +13,7 @@ export class PlayerglobalPositionService {
 
   async createPlayerglobalPosition(
     playerglobalId: number,
-    positionId: number,
+    positionId: PositionEnum,
     rating: number,
   ): Promise<PlayerglobalPositionEntity> {
     return this.playerglobalPositionRepository.save({
