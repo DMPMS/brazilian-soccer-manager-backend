@@ -1,12 +1,14 @@
 import {
   ArrayNotEmpty,
   IsArray,
+  IsEnum,
   IsInt,
   IsOptional,
   IsString,
   Length,
   Validate,
 } from 'class-validator';
+import { RuleEnum } from 'src/shared/enums/Rule.enum';
 import {
   COMPETITIONGLOBAL_MAX_LENGH_NAME,
   COMPETITIONGLOBAL_MAX_LENGH_SEASON,
@@ -17,8 +19,8 @@ import { isValidImage } from 'src/validators/isValidImage';
 import { UniqueArray } from 'src/validators/uniqueArray';
 
 export class CreateCompetitionglobalDTO {
-  @IsInt()
-  ruleId: number;
+  @IsEnum(RuleEnum)
+  ruleId: RuleEnum;
 
   @IsOptional()
   @IsInt()

@@ -4,6 +4,7 @@ import { CountryEntity } from 'src/country/entities/country.entity';
 import { RoundEntity } from 'src/round/entities/round.entity';
 import { RuleEntity } from 'src/rule/entities/rule.entity';
 import { SaveEntity } from 'src/save/entities/save.entity';
+import { RuleEnum } from 'src/shared/enums/Rule.enum';
 import {
   Column,
   CreateDateColumn,
@@ -27,7 +28,7 @@ export abstract class CompetitionsaveEntity {
   competitionglobalId: number;
 
   @Column({ name: 'rule_id', nullable: false })
-  ruleId: number;
+  ruleId: RuleEnum;
 
   @Column({ name: 'country_id', nullable: true })
   countryId: number;

@@ -2,6 +2,7 @@ import { CompetitionglobalTeamglobalEntity } from 'src/competitionglobal_teamglo
 import { CompetitionsaveEntity } from 'src/competitionsave/entities/competitionsave.entity';
 import { CountryEntity } from 'src/country/entities/country.entity';
 import { RuleEntity } from 'src/rule/entities/rule.entity';
+import { RuleEnum } from 'src/shared/enums/Rule.enum';
 import {
   Column,
   CreateDateColumn,
@@ -20,7 +21,7 @@ export abstract class CompetitionglobalEntity {
   id: number;
 
   @Column({ name: 'rule_id', nullable: false })
-  ruleId: number;
+  ruleId: RuleEnum;
 
   @Column({ name: 'country_id', nullable: true })
   countryId: number;

@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RuleEntity } from './entities/rule.entity';
+import { RuleEnum } from 'src/shared/enums/Rule.enum';
 
 @Injectable()
 export class RuleService {
@@ -29,7 +30,7 @@ export class RuleService {
     return rules;
   }
 
-  async findRuleById(ruleId: number): Promise<RuleEntity> {
+  async findRuleById(ruleId: RuleEnum): Promise<RuleEntity> {
     let findOptions = {};
 
     findOptions = {
