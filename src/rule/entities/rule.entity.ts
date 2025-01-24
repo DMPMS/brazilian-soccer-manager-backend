@@ -25,10 +25,10 @@ export class RuleEntity {
   description: string;
 
   @Column({ name: 'default_competition_name', nullable: false })
-  default_competition_name: string;
+  defaultCompetitionName: string;
 
   @Column({ name: 'default_competition_src_image', nullable: false })
-  default_competition_src_image: string;
+  defaultCompetitionSrcImage: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

@@ -26,5 +26,6 @@ import { CompetitionsaveModule } from 'src/competitionsave/competitionsave.modul
   ],
   controllers: [SaveController],
   providers: [SaveService],
+  exports: [SaveService],
 })
 export class SaveModule {}

@@ -33,7 +33,7 @@ export class ReturnPlayerglobalDTO {
             (playerglobalPosition) =>
               new ReturnPlayerglobalPositionDTO(playerglobalPosition),
           )
-          .sort((a, b) => a.position.id - b.position.id)
+          .sort((a, b) => b.position.id - a.position.id)
       : undefined;
   }
 }

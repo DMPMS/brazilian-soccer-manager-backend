@@ -14,7 +14,7 @@ export class ReturnMatchDTO {
 
   constructor(matchEntity: MatchEntity) {
     this.id = matchEntity.id;
-    this.date = matchEntity.date.toISOString().split('T')[0];
+    this.date = matchEntity.date.toISOString().replace('T', ' ').slice(0, 19);
     this.teamsaveHomeGoals = matchEntity.teamsaveHomeGoals;
     this.teamsaveAwayGoals = matchEntity.teamsaveAwayGoals;
 

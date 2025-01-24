@@ -3,6 +3,7 @@ import { TeamsaveEntity } from '../entities/teamsave.entity';
 import { ReturnManagersaveDTO } from 'src/managersave/dtos/returnManagersave.dto';
 import { ReturnPlayersaveDTO } from 'src/playersave/dtos/returnPlayersave.dto';
 import { ReturnCompetitionsaveTeamsaveDTO } from 'src/competitionsave_teamsave/dtos/returnCompetitionsaveTeamsave.dto';
+import { ReturnMatchDTO } from 'src/match/dtos/returnMatch.dto';
 
 export class ReturnTeamsaveDTO {
   id: number;
@@ -14,6 +15,9 @@ export class ReturnTeamsaveDTO {
   managersave?: ReturnManagersaveDTO;
   playerssave?: ReturnPlayersaveDTO[];
   competitionssaveTeamsave?: ReturnCompetitionsaveTeamsaveDTO[];
+
+  homeMatches?: ReturnMatchDTO[];
+  awayMatches?: ReturnMatchDTO[];
 
   constructor(teamsaveEntity: TeamsaveEntity) {
     this.id = teamsaveEntity.id;
@@ -40,6 +44,18 @@ export class ReturnTeamsaveDTO {
       ? teamsaveEntity.competitionssaveTeamsave.map(
           (competitionsaveTeamsave) =>
             new ReturnCompetitionsaveTeamsaveDTO(competitionsaveTeamsave),
+        )
+      : undefined;
+
+    this.homeMatches = teamsaveEntity.homeMatches
+      ? teamsaveEntity.homeMatches.map(
+          (homeMatche) => new ReturnMatchDTO(homeMatche),
+        )
+      : undefined;
+
+    this.awayMatches = teamsaveEntity.awayMatches
+      ? teamsaveEntity.awayMatches.map(
+          (awayMatche) => new ReturnMatchDTO(awayMatche),
         )
       : undefined;
   }

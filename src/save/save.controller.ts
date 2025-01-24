@@ -51,4 +51,41 @@ export class SaveController {
       (save) => new ReturnSaveDTO(save),
     );
   }
+
+  @Get('/:saveId')
+  async findUserSaveById(
+    @UserId() userId: number,
+    @Param('saveId') saveId,
+  ): Promise<ReturnSaveDTO> {
+    const relations = {
+      controllerManagersave: {
+        teamsave: {
+          playerssave: {
+            country: true,
+            playerssavePosition: {
+              position: true,
+            },
+          },
+          homeMatches: {
+            teamsaveHome: true,
+            teamsaveAway: true,
+            round: {
+              competitionsave: true,
+            },
+          },
+          awayMatches: {
+            teamsaveHome: true,
+            teamsaveAway: true,
+            round: {
+              competitionsave: true,
+            },
+          },
+        },
+      },
+    };
+
+    return new ReturnSaveDTO(
+      await this.saveService.findUserSaveById(userId, saveId, relations),
+    );
+  }
 }

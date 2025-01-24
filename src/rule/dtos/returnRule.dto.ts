@@ -5,16 +5,15 @@ export class ReturnRuleDTO {
   name: string;
   numberOfTeams: number;
   description: string;
-  default_competition_name: string;
-  default_competition_src_image: string;
+  defaultCompetitionName: string;
+  defaultCompetitionSrcImage: string;
 
   constructor(ruleEntity: RuleEntity) {
     this.id = ruleEntity.id;
     this.name = ruleEntity.name;
     this.numberOfTeams = ruleEntity.numberOfTeams;
     this.description = ruleEntity.description;
-    this.default_competition_name = ruleEntity.default_competition_name;
-    this.default_competition_src_image =
-      ruleEntity.default_competition_src_image;
+    this.defaultCompetitionName = ruleEntity.defaultCompetitionName;
+    this.defaultCompetitionSrcImage = ruleEntity.defaultCompetitionSrcImage;
   }
 }

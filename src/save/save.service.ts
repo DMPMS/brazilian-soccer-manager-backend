@@ -387,15 +387,27 @@ export class SaveService {
     return save;
   }
 
-  async findSaveById(saveId: number): Promise<SaveEntity> {
+  async findUserSaveById(
+    userId: number,
+    saveId: number,
+    relations?: RelationsOptionsType,
+  ): Promise<SaveEntity> {
     let findOptions = {};
 
     findOptions = {
       ...findOptions,
       where: {
+        userId: userId,
         id: saveId,
       },
     };
+
+    if (relations && Object.keys(relations).length > 0) {
+      findOptions = {
+        ...findOptions,
+        relations,
+      };
+    }
 
     const save = await this.saveRepository.findOne(findOptions);
 
@@ -407,12 +419,7 @@ export class SaveService {
   }
 
   async deleteSave(saveId: number, userId: number): Promise<DeleteResult> {
-    const save = await this.findSaveById(saveId);
-
-    if (save.userId !== userId) {
-      // Better not to say that the save does not belong to the user.
-      throw new NotFoundException(`saveId: ${saveId} not found.`);
-    }
+    const save = await this.findUserSaveById(userId, saveId);
 
     return this.saveRepository.delete({ id: save.id });
   }

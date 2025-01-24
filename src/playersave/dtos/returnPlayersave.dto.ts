@@ -35,7 +35,7 @@ export class ReturnPlayersaveDTO {
             (playersavePosition) =>
               new ReturnPlayersavePositionDTO(playersavePosition),
           )
-          .sort((a, b) => a.position.id - b.position.id)
+          .sort((a, b) => b.position.id - a.position.id)
       : undefined;
   }
 }
