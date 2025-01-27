@@ -225,6 +225,8 @@ export class SaveService {
       playersglobal.map(async (playerglobal) => {
         const teamsaveId = globalToSaveTeamIdMap[playerglobal.teamglobalId];
 
+        const morale = Math.floor(Math.random() * 5) + 1;
+
         const playersave = await this.dataSource
           .createQueryBuilder()
           .insert()
@@ -239,6 +241,7 @@ export class SaveService {
               birthdate: playerglobal.birthdate,
               overall: playerglobal.overall,
               stamina: PLAYERSAVE_STAMINA,
+              morale: morale,
             },
           ])
           .execute();

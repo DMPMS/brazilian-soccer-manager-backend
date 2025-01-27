@@ -2,6 +2,7 @@ import { CountryEntity } from 'src/country/entities/country.entity';
 import { PlayerglobalEntity } from 'src/playerglobal/entities/playerglobal.entity';
 import { PlayersavePositionEntity } from 'src/playersave_position/entities/playersave_position.entity';
 import { SaveEntity } from 'src/save/entities/save.entity';
+import { MoraleEnum } from 'src/shared/enums/Morale.enum';
 import { TeamsaveEntity } from 'src/teamsave/entities/teamsave.entity';
 import {
   Column,
@@ -42,6 +43,9 @@ export class PlayersaveEntity {
 
   @Column({ name: 'stamina', nullable: false })
   stamina: number;
+
+  @Column({ name: 'morale', nullable: false })
+  morale: MoraleEnum;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

@@ -2,6 +2,7 @@ import { ReturnCountryDTO } from 'src/country/dtos/returnCountry.dto';
 import { ReturnTeamsaveDTO } from 'src/teamsave/dtos/returnTeamsave.dto';
 import { PlayersaveEntity } from '../entities/playersave.entity';
 import { ReturnPlayersavePositionDTO } from 'src/playersave_position/dtos/returnPlayersavePosition.dto';
+import { MoraleEnum } from 'src/shared/enums/Morale.enum';
 
 export class ReturnPlayersaveDTO {
   id: number;
@@ -9,6 +10,7 @@ export class ReturnPlayersaveDTO {
   birthdate: string;
   overall: number;
   stamina: number;
+  morale: MoraleEnum;
 
   country?: ReturnCountryDTO;
   teamsave?: ReturnTeamsaveDTO;
@@ -20,6 +22,7 @@ export class ReturnPlayersaveDTO {
     this.birthdate = playersaveEntity.birthdate.toISOString().split('T')[0];
     this.overall = playersaveEntity.overall;
     this.stamina = playersaveEntity.stamina;
+    this.morale = playersaveEntity.morale;
 
     this.country = playersaveEntity.country
       ? new ReturnCountryDTO(playersaveEntity.country)

@@ -13,6 +13,7 @@ export class CreateTablePlayersave1722432015379 implements MigrationInterface {
             birthdate DATE NOT NULL,
             overall INTEGER NOT NULL,
             stamina INTEGER NOT NULL,
+            morale INTEGER NOT NULL,
 
             created_at timestamp without time zone DEFAULT now() NOT NULL,
             updated_at timestamp without time zone DEFAULT now() NOT NULL,
