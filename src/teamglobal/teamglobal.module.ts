@@ -12,7 +12,7 @@ import { PlayerglobalModule } from 'src/playerglobal/playerglobal.module';
     TypeOrmModule.forFeature([TeamglobalEntity]),
     CountryModule,
     forwardRef(() => ManagerglobalModule),
-    forwardRef(() => PlayerglobalModule),
+    PlayerglobalModule,
   ],
   providers: [TeamglobalService],
   controllers: [TeamglobalController],

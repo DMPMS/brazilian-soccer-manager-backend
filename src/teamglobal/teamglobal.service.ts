@@ -34,8 +34,6 @@ export class TeamglobalService {
 
     @Inject(forwardRef(() => ManagerglobalService))
     private readonly managerglobalService: ManagerglobalService,
-
-    @Inject(forwardRef(() => PlayerglobalService))
     private readonly playerglobalService: PlayerglobalService,
   ) {}
 
