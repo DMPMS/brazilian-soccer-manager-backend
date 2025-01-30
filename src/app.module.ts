@@ -23,6 +23,7 @@ import { PlayersavePositionModule } from './playersave_position/playersave_posit
 import { CompetitionsaveModule } from './competitionsave/competitionsave.module';
 import { CompetitionsaveTeamsaveModule } from './competitionsave_teamsave/competitionsave_teamsave.module';
 import { RoundModule } from './round/round.module';
+import { RankingModule } from './ranking/ranking.module';
 
 @Module({
   imports: [
@@ -60,6 +61,7 @@ import { RoundModule } from './round/round.module';
     CompetitionsaveModule,
     CompetitionsaveTeamsaveModule,
     RoundModule,
+    RankingModule,
   ],
   controllers: [],
   providers: [

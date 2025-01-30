@@ -3,6 +3,7 @@ import { ReturnRuleDTO } from 'src/rule/dtos/returnRule.dto';
 import { CompetitionsaveEntity } from '../entities/competitionsave.entity';
 import { ReturnCompetitionsaveTeamsaveDTO } from 'src/competitionsave_teamsave/dtos/returnCompetitionsaveTeamsave.dto';
 import { ReturnRoundDTO } from 'src/round/dtos/returnRound.dto';
+import { ReturnRankingDTO } from 'src/ranking/dtos/returnRanking.dto';
 
 export class ReturnCompetitionsaveDTO {
   id: number;
@@ -14,6 +15,7 @@ export class ReturnCompetitionsaveDTO {
   country?: ReturnCountryDTO;
   competitionssaveTeamsave?: ReturnCompetitionsaveTeamsaveDTO[];
   rounds?: ReturnRoundDTO[];
+  rankings?: ReturnRankingDTO[];
 
   constructor(competitionsaveEntity: CompetitionsaveEntity) {
     this.id = competitionsaveEntity.id;
@@ -41,6 +43,12 @@ export class ReturnCompetitionsaveDTO {
 
     this.rounds = competitionsaveEntity.rounds
       ? competitionsaveEntity.rounds.map((round) => new ReturnRoundDTO(round))
+      : undefined;
+
+    this.rankings = competitionsaveEntity.rankings
+      ? competitionsaveEntity.rankings.map(
+          (ranking) => new ReturnRankingDTO(ranking),
+        )
       : undefined;
   }
 }

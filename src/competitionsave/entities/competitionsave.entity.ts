@@ -1,4 +1,5 @@
 import { CompetitionglobalEntity } from 'src/competitionglobal/entities/competitionglobal.entity';
+import { RankingEntity } from 'src/ranking/entities/ranking.entity';
 import { CompetitionsaveTeamsaveEntity } from 'src/competitionsave_teamsave/entities/competitionsave_teamsave.entity';
 import { CountryEntity } from 'src/country/entities/country.entity';
 import { RoundEntity } from 'src/round/entities/round.entity';
@@ -75,4 +76,7 @@ export abstract class CompetitionsaveEntity {
 
   @OneToMany(() => RoundEntity, (round) => round.competitionsave)
   rounds?: RoundEntity[];
+
+  @OneToMany(() => RankingEntity, (ranking) => ranking.competitionsave)
+  rankings?: RankingEntity[];
 }

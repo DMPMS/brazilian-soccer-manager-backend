@@ -48,6 +48,9 @@ export class CompetitionsaveController {
           teamsaveAway: true,
         },
       },
+      rankings: {
+        teamsave: true,
+      },
     };
 
     return new ReturnCompetitionsaveDTO(

@@ -3,6 +3,7 @@ import { CountryEntity } from 'src/country/entities/country.entity';
 import { ManagersaveEntity } from 'src/managersave/entities/managersave.entity';
 import { MatchEntity } from 'src/match/entities/match.entity';
 import { PlayersaveEntity } from 'src/playersave/entities/playersave.entity';
+import { RankingEntity } from 'src/ranking/entities/ranking.entity';
 import { SaveEntity } from 'src/save/entities/save.entity';
 import { TeamglobalEntity } from 'src/teamglobal/entities/teamglobal.entity';
 import {
@@ -78,4 +79,7 @@ export class TeamsaveEntity {
 
   @OneToMany(() => MatchEntity, (match) => match.teamsaveAway)
   awayMatches?: MatchEntity[];
+
+  @OneToMany(() => RankingEntity, (ranking) => ranking.teamsave)
+  rankings?: RankingEntity[];
 }

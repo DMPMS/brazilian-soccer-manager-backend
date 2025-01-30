@@ -26,6 +26,7 @@ import { CompetitionsaveTeamsaveEntity } from 'src/competitionsave_teamsave/enti
 import { CountryService } from 'src/country/country.service';
 import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
 import { CompetitionsaveService } from 'src/competitionsave/competitionsave.service';
+import { RankingEntity } from 'src/ranking/entities/ranking.entity';
 
 interface CustomManager {
   countryId: number;
@@ -318,6 +319,25 @@ export class SaveService {
             {
               competitionsaveId: competitionsaveId,
               teamsaveId: teamsaveId,
+            },
+          ])
+          .execute();
+
+        await this.dataSource
+          .createQueryBuilder()
+          .insert()
+          .into(RankingEntity)
+          .values([
+            {
+              competitionsaveId: competitionsaveId,
+              teamsaveId: teamsaveId,
+              points: 0,
+              played: 0,
+              wins: 0,
+              draws: 0,
+              losses: 0,
+              goalsFor: 0,
+              goalsAgainst: 0,
             },
           ])
           .execute();
