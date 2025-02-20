@@ -1,5 +1,6 @@
 import { CompetitionglobalTeamglobalEntity } from 'src/competitionglobal_teamglobal/entities/competitionglobal_teamglobal.entity';
 import { CountryEntity } from 'src/country/entities/country.entity';
+import { SquadplanglobalEntity } from 'src/squadplanglobal/entities/squadplanglobal.entity';
 import { ManagerglobalEntity } from 'src/managerglobal/entities/managerglobal.entity';
 import { PlayerglobalEntity } from 'src/playerglobal/entities/playerglobal.entity';
 import { TeamsaveEntity } from 'src/teamsave/entities/teamsave.entity';
@@ -62,6 +63,12 @@ export class TeamglobalEntity {
     (playerglobal) => playerglobal.teamglobal,
   )
   playersglobal?: PlayerglobalEntity[];
+
+  @OneToOne(
+    () => SquadplanglobalEntity,
+    (squadplanglobal) => squadplanglobal.teamglobal,
+  )
+  squadplanglobal?: SquadplanglobalEntity;
 
   @OneToMany(() => TeamsaveEntity, (teamsave) => teamsave.teamglobal)
   teamssave?: TeamsaveEntity[];

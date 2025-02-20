@@ -29,7 +29,26 @@ export class InsertTablePlayerglobal1716835107887
       const countryId = 29;
       const teamglobalId = Math.floor(i / 11) + 1;
 
-      players += `('${name}', '${birthDate}', ${overall}, ${countryId}, ${teamglobalId})${i < 747 ? ',' : ';'}\n`;
+      players += `('${name}', '${birthDate}', ${overall}, ${countryId}, ${teamglobalId}),\n`;
+    }
+
+    for (let i = 0; i < 55; i++) {
+      const name = `Jogador Extra ${i + 1} (${748 + i + 1})`;
+
+      const minYear = currentYear - PLAYERGLOBAL_MAX_AGE;
+      const maxYear = currentYear - PLAYERGLOBAL_MIN_AGE;
+      const birthYear =
+        Math.floor(Math.random() * (maxYear - minYear + 1)) + minYear;
+      const birthMonth = Math.floor(Math.random() * 12) + 1;
+      const birthDay = Math.floor(Math.random() * 28) + 1;
+
+      const birthDate = `${birthYear}-${String(birthMonth).padStart(2, '0')}-${String(birthDay).padStart(2, '0')}`;
+
+      const overall = Math.floor(Math.random() * (80 - 55 + 1)) + 55;
+      const countryId = 29;
+      const teamglobalId = null;
+
+      players += `('${name}', '${birthDate}', ${overall}, ${countryId}, ${teamglobalId})${i < 54 ? ',' : ';'}\n`;
     }
 
     await queryRunner.query(`

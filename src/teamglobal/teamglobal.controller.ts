@@ -66,7 +66,14 @@ export class TeamglobalController {
     const relations = {
       country: true,
       managerglobal: true,
-      playersglobal: true,
+      playersglobal: {
+        playersglobalPosition: {
+          position: true,
+        },
+      },
+      squadplanglobal: {
+        formation: true,
+      },
     };
 
     return new ReturnTeamglobalDTO(

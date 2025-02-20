@@ -3,14 +3,17 @@ import { TeamglobalEntity } from '../entities/teamglobal.entity';
 import { ReturnCompetitionglobalTeamglobalDTO } from 'src/competitionglobal_teamglobal/dtos/returnCompetitionglobalTeamglobal.dto';
 import { ReturnPlayerglobalDTO } from 'src/playerglobal/dtos/returnPlayerglobal.dto';
 import { ReturnManagerglobalDTO } from 'src/managerglobal/dtos/returnManagerglobal.dto';
+import { ReturnSquadplanglobalDTO } from 'src/squadplanglobal/dtos/returnSquadplanglobal.dto';
 
 export class ReturnTeamglobalDTO {
   id: number;
   name: string;
   srcImage: string;
+
   country?: ReturnCountryDTO;
   managerglobal?: ReturnManagerglobalDTO;
   playersglobal?: ReturnPlayerglobalDTO[];
+  squadplanglobal?: ReturnSquadplanglobalDTO;
 
   playersglobalCount: number;
 
@@ -33,6 +36,10 @@ export class ReturnTeamglobalDTO {
       ? teamglobalEntity.playersglobal.map(
           (playerglobal) => new ReturnPlayerglobalDTO(playerglobal),
         )
+      : undefined;
+
+    this.squadplanglobal = teamglobalEntity.squadplanglobal
+      ? new ReturnSquadplanglobalDTO(teamglobalEntity.squadplanglobal)
       : undefined;
 
     this.playersglobalCount = teamglobalEntity.playersglobalCount;

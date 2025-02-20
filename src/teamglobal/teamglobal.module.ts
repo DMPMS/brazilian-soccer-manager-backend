@@ -6,6 +6,7 @@ import { TeamglobalEntity } from './entities/teamglobal.entity';
 import { CountryModule } from 'src/country/country.module';
 import { ManagerglobalModule } from 'src/managerglobal/managerglobal.module';
 import { PlayerglobalModule } from 'src/playerglobal/playerglobal.module';
+import { SquadplanglobalModule } from 'src/squadplanglobal/squadplanglobal.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { PlayerglobalModule } from 'src/playerglobal/playerglobal.module';
     CountryModule,
     forwardRef(() => ManagerglobalModule),
     PlayerglobalModule,
+    SquadplanglobalModule,
   ],
   providers: [TeamglobalService],
   controllers: [TeamglobalController],

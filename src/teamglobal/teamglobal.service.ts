@@ -18,6 +18,7 @@ import { countPlayerglobalByTeamglobalId } from 'src/playerglobal/dtos/countPlay
 import { CompetitionglobalTeamglobalEntity } from 'src/competitionglobal_teamglobal/entities/competitionglobal_teamglobal.entity';
 import { CompetitionglobalEntity } from 'src/competitionglobal/entities/competitionglobal.entity';
 import { RuleEnum } from 'src/shared/enums/Rule.enum';
+import { SquadplanglobalService } from 'src/squadplanglobal/squadplanglobal.service';
 
 const DEFAULT_WITHOUT_COMPETITIONGLOBAL_RULETYPE_LEAGUE = false;
 const DEFAULT_WITHOUT_COMPETITIONGLOBAL_RULETYPE_CUP = false;
@@ -35,11 +36,26 @@ export class TeamglobalService {
     @Inject(forwardRef(() => ManagerglobalService))
     private readonly managerglobalService: ManagerglobalService,
     private readonly playerglobalService: PlayerglobalService,
+    private readonly squadplanglobalService: SquadplanglobalService,
   ) {}
 
   async createTeamglobal(
     createTeamglobalDTO: CreateTeamglobalDTO,
   ): Promise<TeamglobalEntity> {
+    const allSquadplanglobalPlayerglobalIdsIncludedInPlayerglobalIds =
+      createTeamglobalDTO.squadplanglobalPlayerglobalIds.every(
+        (squadplanglobalPlayerglobalId) =>
+          createTeamglobalDTO.playerglobalIds.includes(
+            squadplanglobalPlayerglobalId,
+          ),
+      );
+
+    if (!allSquadplanglobalPlayerglobalIdsIncludedInPlayerglobalIds) {
+      throw new BadRequestException(
+        'All squadplanglobalPlayerglobalIds must be included in the playerglobalIds list.',
+      );
+    }
+
     await this.countryService.findCountryById(createTeamglobalDTO.countryId);
 
     const relations = { teamglobal: true };
@@ -70,6 +86,12 @@ export class TeamglobalService {
           playerglobalId,
         );
       }),
+    );
+
+    await this.squadplanglobalService.createSquadplanglobal(
+      teamglobal.id,
+      createTeamglobalDTO.squadplanglobalFormationId,
+      createTeamglobalDTO.squadplanglobalPlayerglobalIds,
     );
 
     return teamglobal;
@@ -254,7 +276,22 @@ export class TeamglobalService {
     updateTeamglobalDTO: UpdateTeamglobalDTO,
     teamglobalId: number,
   ): Promise<TeamglobalEntity> {
-    const teamglobal = await this.findTeamglobalById(teamglobalId);
+    const relations = { squadplanglobal: true };
+    const teamglobal = await this.findTeamglobalById(teamglobalId, relations);
+
+    const allSquadplanglobalPlayerglobalIdsIncludedInPlayerglobalIds =
+      updateTeamglobalDTO.squadplanglobalPlayerglobalIds.every(
+        (squadplanglobalPlayerglobalId) =>
+          updateTeamglobalDTO.playerglobalIds.includes(
+            squadplanglobalPlayerglobalId,
+          ),
+      );
+
+    if (!allSquadplanglobalPlayerglobalIdsIncludedInPlayerglobalIds) {
+      throw new BadRequestException(
+        'All squadplanglobalPlayerglobalIds must be included in the playerglobalIds list.',
+      );
+    }
 
     await this.countryService.findCountryById(updateTeamglobalDTO.countryId);
 
@@ -287,6 +324,13 @@ export class TeamglobalService {
       teamglobalId,
     );
 
+    await this.squadplanglobalService.updateSquadplanglobal(
+      teamglobal.squadplanglobal.id,
+      teamglobal.id,
+      updateTeamglobalDTO.squadplanglobalFormationId,
+      updateTeamglobalDTO.squadplanglobalPlayerglobalIds,
+    );
+
     return this.teamglobalRepository.save({
       ...teamglobal,
       ...updateTeamglobalDTO,
@@ -314,6 +358,10 @@ export class TeamglobalService {
           playerglobal.id,
         );
       }),
+    );
+
+    await this.squadplanglobalService.deleteSquaplanglobalByTeamglobalId(
+      teamglobalId,
     );
 
     return this.teamglobalRepository.delete({ id: teamglobalId });

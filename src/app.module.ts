@@ -24,6 +24,8 @@ import { CompetitionsaveModule } from './competitionsave/competitionsave.module'
 import { CompetitionsaveTeamsaveModule } from './competitionsave_teamsave/competitionsave_teamsave.module';
 import { RoundModule } from './round/round.module';
 import { RankingModule } from './ranking/ranking.module';
+import { SquadplanglobalModule } from './squadplanglobal/squadplanglobal.module';
+import { FormationModule } from './formation/formation.module';
 
 @Module({
   imports: [
@@ -62,6 +64,8 @@ import { RankingModule } from './ranking/ranking.module';
     CompetitionsaveTeamsaveModule,
     RoundModule,
     RankingModule,
+    FormationModule,
+    SquadplanglobalModule,
   ],
   controllers: [],
   providers: [
