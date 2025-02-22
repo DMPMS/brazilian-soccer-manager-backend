@@ -14,9 +14,9 @@ const validateImage = (srcImage: string): Promise<boolean> => {
         sharp(response.data)
           .metadata()
           .then(() => resolve(true))
-          .catch(() => resolve(false)); // Se a imagem não for válida
+          .catch(() => resolve(false));
       })
-      .catch(() => resolve(false)); // Se a URL não for acessível
+      .catch(() => resolve(false));
   });
 };
 

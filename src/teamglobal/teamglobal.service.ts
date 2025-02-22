@@ -88,11 +88,11 @@ export class TeamglobalService {
       }),
     );
 
-    await this.squadplanglobalService.createSquadplanglobal(
-      teamglobal.id,
-      createTeamglobalDTO.squadplanglobalFormationId,
-      createTeamglobalDTO.squadplanglobalPlayerglobalIds,
-    );
+    await this.squadplanglobalService.createSquadplanglobal({
+      teamglobalId: teamglobal.id,
+      formationId: createTeamglobalDTO.squadplanglobalFormationId,
+      playerglobalIds: createTeamglobalDTO.squadplanglobalPlayerglobalIds,
+    });
 
     return teamglobal;
   }
@@ -326,9 +326,11 @@ export class TeamglobalService {
 
     await this.squadplanglobalService.updateSquadplanglobal(
       teamglobal.squadplanglobal.id,
-      teamglobal.id,
-      updateTeamglobalDTO.squadplanglobalFormationId,
-      updateTeamglobalDTO.squadplanglobalPlayerglobalIds,
+      {
+        teamglobalId: teamglobal.id,
+        formationId: updateTeamglobalDTO.squadplanglobalFormationId,
+        playerglobalIds: updateTeamglobalDTO.squadplanglobalPlayerglobalIds,
+      },
     );
 
     return this.teamglobalRepository.save({

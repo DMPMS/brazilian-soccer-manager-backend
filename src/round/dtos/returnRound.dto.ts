@@ -18,7 +18,11 @@ export class ReturnRoundDTO {
       : undefined;
 
     this.matches = roundEntity.matches
-      ? roundEntity.matches.map((match) => new ReturnMatchDTO(match))
+      ? roundEntity.matches
+          .map((match) => new ReturnMatchDTO(match))
+          .sort(
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+          )
       : undefined;
   }
 }

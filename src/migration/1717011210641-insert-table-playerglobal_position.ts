@@ -1,4 +1,9 @@
 import { PositionEnum } from 'src/shared/enums/Position.enum';
+import { PositionRatingEnum } from 'src/shared/enums/PositionRating.enum';
+import {
+  PLAYERGLOBAL_MAX_PRIMARY_POSITIONS,
+  PLAYERGLOBAL_MAX_SECONDARY_POSITIONS,
+} from 'src/utils/constants/dtoValidators';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class InsertTablePlayerglobalPosition1717011210641
@@ -28,27 +33,30 @@ export class InsertTablePlayerglobalPosition1717011210641
 
       const playerPositions = new Set<{
         positionId: PositionEnum;
-        rating: number;
+        rating: PositionRatingEnum;
       }>();
 
       // If the first position is goalkeeper, the player can only have this primary position.
       if (shuffledPositionIds[0] === PositionEnum.GK) {
         playerPositions.add({
           positionId: 13,
-          rating: 1.0,
+          rating: PositionRatingEnum.Primary,
         });
       } else {
         const filteredPositionIds = shuffledPositionIds.filter(
           (positionId) => positionId !== PositionEnum.GK,
         );
 
-        const primaryPositionsCount = Math.floor(Math.random() * 3) + 1;
-        const secondaryPositionsCount = Math.floor(Math.random() * 6);
+        const primaryPositionsCount =
+          Math.floor(Math.random() * PLAYERGLOBAL_MAX_PRIMARY_POSITIONS) + 1;
+        const secondaryPositionsCount = Math.floor(
+          Math.random() * (PLAYERGLOBAL_MAX_SECONDARY_POSITIONS + 1),
+        );
 
         for (let j = 0; j < primaryPositionsCount; j++) {
           playerPositions.add({
             positionId: filteredPositionIds[j],
-            rating: 1.0,
+            rating: PositionRatingEnum.Primary,
           });
         }
 
@@ -59,7 +67,7 @@ export class InsertTablePlayerglobalPosition1717011210641
         ) {
           playerPositions.add({
             positionId: filteredPositionIds[j],
-            rating: 0.95,
+            rating: PositionRatingEnum.Secondary,
           });
         }
       }

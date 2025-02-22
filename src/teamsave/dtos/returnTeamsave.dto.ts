@@ -16,8 +16,7 @@ export class ReturnTeamsaveDTO {
   playerssave?: ReturnPlayersaveDTO[];
   competitionssaveTeamsave?: ReturnCompetitionsaveTeamsaveDTO[];
 
-  homeMatches?: ReturnMatchDTO[];
-  awayMatches?: ReturnMatchDTO[];
+  matches?: ReturnMatchDTO[];
 
   constructor(teamsaveEntity: TeamsaveEntity) {
     this.id = teamsaveEntity.id;
@@ -47,16 +46,23 @@ export class ReturnTeamsaveDTO {
         )
       : undefined;
 
-    this.homeMatches = teamsaveEntity.homeMatches
+    const homeMatches = teamsaveEntity.homeMatches
       ? teamsaveEntity.homeMatches.map(
           (homeMatche) => new ReturnMatchDTO(homeMatche),
         )
-      : undefined;
+      : [];
 
-    this.awayMatches = teamsaveEntity.awayMatches
+    const awayMatches = teamsaveEntity.awayMatches
       ? teamsaveEntity.awayMatches.map(
           (awayMatche) => new ReturnMatchDTO(awayMatche),
         )
-      : undefined;
+      : [];
+
+    this.matches =
+      homeMatches.length || awayMatches.length
+        ? [...homeMatches, ...awayMatches].sort(
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+          )
+        : undefined;
   }
 }

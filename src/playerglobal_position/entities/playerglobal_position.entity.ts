@@ -1,6 +1,7 @@
 import { PlayerglobalEntity } from 'src/playerglobal/entities/playerglobal.entity';
 import { PositionEntity } from 'src/position/entities/position.entity';
 import { PositionEnum } from 'src/shared/enums/Position.enum';
+import { PositionRatingEnum } from 'src/shared/enums/PositionRating.enum';
 import {
   Column,
   CreateDateColumn,
@@ -23,7 +24,7 @@ export class PlayerglobalPositionEntity {
   positionId: PositionEnum;
 
   @Column({ name: 'rating', type: 'decimal', nullable: false })
-  rating: number;
+  rating: PositionRatingEnum;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

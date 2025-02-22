@@ -12,13 +12,6 @@ export class MatchService {
   ) {}
 
   async createMatch(createMatchDTO: CreateMatchDTO): Promise<MatchEntity> {
-    return this.matchRepository.save({
-      roundId: createMatchDTO.roundId,
-      teamsaveHomeId: createMatchDTO.teamsaveHomeId,
-      teamsaveAwayId: createMatchDTO.teamsaveAwayId,
-      date: createMatchDTO.date,
-      teamsaveHomeGoals: null,
-      teamsaveAwayGoals: null,
-    });
+    return this.matchRepository.save(createMatchDTO);
   }
 }

@@ -42,7 +42,9 @@ export class ReturnCompetitionsaveDTO {
         : undefined;
 
     this.rounds = competitionsaveEntity.rounds
-      ? competitionsaveEntity.rounds.map((round) => new ReturnRoundDTO(round))
+      ? competitionsaveEntity.rounds
+          .map((round) => new ReturnRoundDTO(round))
+          .sort((a, b) => a.id - b.id)
       : undefined;
 
     this.rankings = competitionsaveEntity.rankings

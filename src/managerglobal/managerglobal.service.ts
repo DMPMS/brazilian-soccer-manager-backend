@@ -7,14 +7,13 @@ import {
 } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { ManagerglobalEntity } from './entities/managerglobal.entity';
-import { DataSource, DeleteResult, In, Not, Repository } from 'typeorm';
+import { DataSource, DeleteResult, In, Repository } from 'typeorm';
 import { CreateManagerglobalDTO } from './dtos/createManagerglobal.dto';
 import { CountryService } from 'src/country/country.service';
 import { TeamglobalService } from 'src/teamglobal/teamglobal.service';
 import { UpdateManagerglobalDTO } from './dtos/updateManagerglobal.dto';
 import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
 import { TeamglobalEntity } from 'src/teamglobal/entities/teamglobal.entity';
-import { PlayerglobalEntity } from 'src/playerglobal/entities/playerglobal.entity';
 
 const DEFAULT_WITHOUT_TEAMGLOBAL = false;
 @Injectable()
@@ -52,13 +51,13 @@ export class ManagerglobalService {
     };
 
     if (isWithoutTeamglobal === true) {
-      const managerglobalWithTeamglobalIds =
-        await this.findManagerglobalWithTeamglobalIds();
+      const managerglobalWithoutTeamglobalIds =
+        await this.findManagerglobalWithoutTeamglobalIds();
 
       findOptions = {
         ...findOptions,
         where: {
-          id: Not(In(managerglobalWithTeamglobalIds)),
+          id: In(managerglobalWithoutTeamglobalIds),
         },
       };
     }
@@ -79,20 +78,22 @@ export class ManagerglobalService {
     return managersglobal;
   }
 
-  async findManagerglobalWithTeamglobalIds(): Promise<number[]> {
-    const managerglobalWithTeamglobalIds = await this.dataSource
+  async findManagerglobalWithoutTeamglobalIds(): Promise<number[]> {
+    const managerglobalWithoutTeamglobalIds = await this.dataSource
       .createQueryBuilder()
-      .select('DISTINCT teamglobal.id')
-      .from(TeamglobalEntity, 'teamglobal')
-      .innerJoin(
-        PlayerglobalEntity,
-        'playerglobal',
-        'playerglobal.teamglobal_id = teamglobal.id',
+      .select('managerglobal.id')
+      .from(ManagerglobalEntity, 'managerglobal')
+      .leftJoin(
+        TeamglobalEntity,
+        'teamglobal',
+        'teamglobal.managerglobal_id = managerglobal.id',
       )
-      .getRawMany()
-      .then((results) => results.map((result) => result.id));
+      .where('teamglobal.managerglobal_id IS NULL')
+      .getRawMany();
 
-    return managerglobalWithTeamglobalIds;
+    return managerglobalWithoutTeamglobalIds.map(
+      (item) => item.managerglobal_id,
+    );
   }
 
   async findManagerglobalById(

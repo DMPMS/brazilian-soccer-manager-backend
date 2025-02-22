@@ -1,3 +1,4 @@
+import { FORMATION_ENUM_LENGTH } from 'src/shared/enums/Formation.enum';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class InsertTableSquadplanglobal1714668069287
@@ -7,7 +8,7 @@ export class InsertTableSquadplanglobal1714668069287
     let squadplans = '';
 
     for (let i = 0; i < 68; i++) {
-      const formationId = Math.floor(Math.random() * 5) + 1;
+      const formationId = Math.floor(Math.random() * FORMATION_ENUM_LENGTH) + 1;
       const teamglobalId = i + 1;
 
       const firstPlayerglobalId = (teamglobalId - 1) * 11 + 1;

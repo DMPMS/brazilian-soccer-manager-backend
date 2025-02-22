@@ -1,10 +1,11 @@
 import { ReturnPlayerglobalDTO } from 'src/playerglobal/dtos/returnPlayerglobal.dto';
 import { ReturnPositionDTO } from 'src/position/dtos/returnPosition.dto';
 import { PlayerglobalPositionEntity } from '../entities/playerglobal_position.entity';
+import { PositionRatingEnum } from 'src/shared/enums/PositionRating.enum';
 
 export class ReturnPlayerglobalPositionDTO {
   id: number;
-  rating: number;
+  rating: PositionRatingEnum;
 
   playerglobal?: ReturnPlayerglobalDTO;
   position?: ReturnPositionDTO;

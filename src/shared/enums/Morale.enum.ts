@@ -5,3 +5,5 @@ export enum MoraleEnum {
   High = 4,
   VeryHigh = 5,
 }
+
+export const MORALE_ENUM_LENGTH = Object.keys(MoraleEnum).length / 2;

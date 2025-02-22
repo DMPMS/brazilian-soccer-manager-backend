@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CompetitionglobalTeamglobalEntity } from './entities/competitionglobal_teamglobal.entity';
 import { DeleteResult, Repository } from 'typeorm';
+import { CreateCompetitionglobalTeamglobalDTO } from './dtos/createCompetitionglobalTeamglobal.dto';
 
 @Injectable()
 export class CompetitionglobalTeamglobalService {
@@ -11,13 +12,11 @@ export class CompetitionglobalTeamglobalService {
   ) {}
 
   async createCompetitionglobalTeamglobal(
-    competitionglobalId: number,
-    teamglobalId: number,
+    createCompetitionglobalTeamglobalDTO: CreateCompetitionglobalTeamglobalDTO,
   ): Promise<CompetitionglobalTeamglobalEntity> {
-    return this.competitionglobalTeamglobalRepository.save({
-      competitionglobalId,
-      teamglobalId,
-    });
+    return this.competitionglobalTeamglobalRepository.save(
+      createCompetitionglobalTeamglobalDTO,
+    );
   }
 
   async findAllCompetitionglobalTeamglobal(): Promise<

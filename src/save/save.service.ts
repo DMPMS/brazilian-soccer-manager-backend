@@ -27,6 +27,7 @@ import { CountryService } from 'src/country/country.service';
 import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
 import { CompetitionsaveService } from 'src/competitionsave/competitionsave.service';
 import { RankingEntity } from 'src/ranking/entities/ranking.entity';
+import { MORALE_ENUM_LENGTH } from 'src/shared/enums/Morale.enum';
 
 interface CustomManager {
   countryId: number;
@@ -226,7 +227,7 @@ export class SaveService {
       playersglobal.map(async (playerglobal) => {
         const teamsaveId = globalToSaveTeamIdMap[playerglobal.teamglobalId];
 
-        const morale = Math.floor(Math.random() * 5) + 1;
+        const morale = Math.floor(Math.random() * MORALE_ENUM_LENGTH) + 1;
 
         const playersave = await this.dataSource
           .createQueryBuilder()

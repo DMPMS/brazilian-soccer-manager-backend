@@ -167,8 +167,10 @@ export class CompetitionglobalService {
       await Promise.all(
         createCompetitionglobalDTO.teamglobalIds.map(async (teamglobalId) => {
           await this.competitionglobalTeamglobalService.createCompetitionglobalTeamglobal(
-            competitionglobal.id,
-            teamglobalId,
+            {
+              competitionglobalId: competitionglobal.id,
+              teamglobalId: teamglobalId,
+            },
           );
         }),
       );
@@ -342,8 +344,10 @@ export class CompetitionglobalService {
     await Promise.all(
       updateCompetitionglobalDTO.teamglobalIds.map(async (teamglobalId) => {
         await this.competitionglobalTeamglobalService.createCompetitionglobalTeamglobal(
-          competitionglobalId,
-          teamglobalId,
+          {
+            competitionglobalId: competitionglobal.id,
+            teamglobalId: teamglobalId,
+          },
         );
       }),
     );

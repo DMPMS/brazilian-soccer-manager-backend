@@ -3,7 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { SquadplanglobalEntity } from './entities/squadplanglobal.entity';
 import { DeleteResult, Repository } from 'typeorm';
 import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
-import { FormationEnum } from 'src/shared/enums/Formation.enum';
+import { CreateSquadplanglobalDTO } from './dtos/createSquadplanglobal.dto';
+import { UpdateSquadplanglobalDTO } from './dtos/updateSquadplanglobal.dto';
 
 @Injectable()
 export class SquadplanglobalService {
@@ -13,15 +14,9 @@ export class SquadplanglobalService {
   ) {}
 
   async createSquadplanglobal(
-    teamglobalId: number,
-    formationId: FormationEnum,
-    playerglobalIds: number[],
+    createSquadplanglobalDTO: CreateSquadplanglobalDTO,
   ): Promise<SquadplanglobalEntity> {
-    return this.squadplanglobalRepository.save({
-      teamglobalId,
-      formationId,
-      playerglobalIds,
-    });
+    return this.squadplanglobalRepository.save(createSquadplanglobalDTO);
   }
 
   async findSquadplanglobalByTeamglobalId(
@@ -58,18 +53,14 @@ export class SquadplanglobalService {
 
   async updateSquadplanglobal(
     squadplanglobalId: number,
-    teamglobalId: number,
-    formationId: FormationEnum,
-    playerglobalIds: number[],
+    updateSquadplanglobalDTO: UpdateSquadplanglobalDTO,
   ): Promise<SquadplanglobalEntity> {
     const squadplanglobal =
       await this.findSquadplanglobalByTeamglobalId(squadplanglobalId);
 
     return this.squadplanglobalRepository.save({
       ...squadplanglobal,
-      teamglobalId,
-      formationId,
-      playerglobalIds,
+      updateSquadplanglobalDTO,
     });
   }
 

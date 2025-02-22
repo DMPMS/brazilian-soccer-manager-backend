@@ -18,12 +18,11 @@ import { PlayerglobalPositionService } from 'src/playerglobal_position/playerglo
 import {
   PLAYERGLOBAL_MAX_PRIMARY_POSITIONS,
   PLAYERGLOBAL_MAX_SECONDARY_POSITIONS,
-  PLAYERGLOBAL_PRIMARY_POSITION_RATING,
-  PLAYERGLOBAL_SECONDARY_POSITION_RATING,
   TEAMGLOBAL_MAX_PLAYERSGLOBAL,
   TEAMGLOBAL_MIN_PLAYERSGLOBAL,
 } from 'src/utils/constants/dtoValidators';
 import { countPlayerglobalByTeamglobalId } from './dtos/countPlayerglobalByTeamglobalId.dto';
+import { PositionRatingEnum } from 'src/shared/enums/PositionRating.enum';
 
 const DEFAULT_WITHOUT_TEAMGLOBAL = false;
 
@@ -100,11 +99,11 @@ export class PlayerglobalService {
     await Promise.all(
       createPlayerglobalDTO.primaryPositionIds.map(
         async (primaryPositionId) => {
-          await this.playerglobalPositionService.createPlayerglobalPosition(
-            playerglobal.id,
-            primaryPositionId,
-            PLAYERGLOBAL_PRIMARY_POSITION_RATING,
-          );
+          await this.playerglobalPositionService.createPlayerglobalPosition({
+            playerglobalId: playerglobal.id,
+            positionId: primaryPositionId,
+            rating: PositionRatingEnum.Primary,
+          });
         },
       ),
     );
@@ -112,11 +111,11 @@ export class PlayerglobalService {
     await Promise.all(
       createPlayerglobalDTO.secondaryPositionIds.map(
         async (secondaryPositionId) => {
-          await this.playerglobalPositionService.createPlayerglobalPosition(
-            playerglobal.id,
-            secondaryPositionId,
-            PLAYERGLOBAL_SECONDARY_POSITION_RATING,
-          );
+          await this.playerglobalPositionService.createPlayerglobalPosition({
+            playerglobalId: playerglobal.id,
+            positionId: secondaryPositionId,
+            rating: PositionRatingEnum.Secondary,
+          });
         },
       ),
     );
@@ -284,14 +283,16 @@ export class PlayerglobalService {
         }
       }
     } else {
-      const teamglobal = await this.teamglobalService.findTeamglobalById(
-        playerglobal.teamglobalId,
-      );
-
-      if (teamglobal.playersglobalCount <= TEAMGLOBAL_MIN_PLAYERSGLOBAL) {
-        throw new BadRequestException(
-          `playerglobalId: ${playerglobalId} is in a teamglobal with the minimum number of playerglobals.`,
+      if (playerglobal.teamglobalId) {
+        const teamglobal = await this.teamglobalService.findTeamglobalById(
+          playerglobal.teamglobalId,
         );
+
+        if (teamglobal.playersglobalCount <= TEAMGLOBAL_MIN_PLAYERSGLOBAL) {
+          throw new BadRequestException(
+            `playerglobalId: ${playerglobalId} is in a teamglobal with the minimum number of playerglobals.`,
+          );
+        }
       }
 
       updatePlayerglobalDTO.teamglobalId = null;
@@ -302,23 +303,27 @@ export class PlayerglobalService {
     );
 
     await Promise.all(
-      updatePlayerglobalDTO.primaryPositionIds.map(async (positionId) => {
-        await this.playerglobalPositionService.createPlayerglobalPosition(
-          playerglobal.id,
-          positionId,
-          PLAYERGLOBAL_PRIMARY_POSITION_RATING,
-        );
-      }),
+      updatePlayerglobalDTO.primaryPositionIds.map(
+        async (primaryPositionId) => {
+          await this.playerglobalPositionService.createPlayerglobalPosition({
+            playerglobalId: playerglobal.id,
+            positionId: primaryPositionId,
+            rating: PositionRatingEnum.Primary,
+          });
+        },
+      ),
     );
 
     await Promise.all(
-      updatePlayerglobalDTO.secondaryPositionIds.map(async (positionId) => {
-        await this.playerglobalPositionService.createPlayerglobalPosition(
-          playerglobal.id,
-          positionId,
-          PLAYERGLOBAL_SECONDARY_POSITION_RATING,
-        );
-      }),
+      updatePlayerglobalDTO.secondaryPositionIds.map(
+        async (secondaryPositionId) => {
+          await this.playerglobalPositionService.createPlayerglobalPosition({
+            playerglobalId: playerglobal.id,
+            positionId: secondaryPositionId,
+            rating: PositionRatingEnum.Secondary,
+          });
+        },
+      ),
     );
 
     return this.playerglobalRepository.save({

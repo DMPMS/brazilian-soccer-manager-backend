@@ -11,20 +11,22 @@ export function generateRoundsAndMatches(
   ruleId: RuleEnum,
   teamsaveIds: number[],
 ): MatchType[][] {
+  const shuffledTeamsaveIds = teamsaveIds.sort(() => 0.5 - Math.random());
+
   if (ruleId === RuleEnum.BrazilianLeagueA) {
-    return generateForBrazilianLeagueA(teamsaveIds);
+    return generateForBrazilianLeagueA(shuffledTeamsaveIds);
   }
 
   if (ruleId === RuleEnum.BrazilianLeagueB) {
-    return generateForBrazilianLeagueB(teamsaveIds);
+    return generateForBrazilianLeagueB(shuffledTeamsaveIds);
   }
 
   if (ruleId === RuleEnum.BrazilianLeagueC) {
-    return generateForBrazilianLeagueC(teamsaveIds);
+    return generateForBrazilianLeagueC(shuffledTeamsaveIds);
   }
 
   if (ruleId === RuleEnum.BrazilianLeagueD) {
-    return generateForBrazilianLeagueD(teamsaveIds);
+    return generateForBrazilianLeagueD(shuffledTeamsaveIds);
   }
 
   // if (ruleId === RuleEnum.BrazilianCup) {

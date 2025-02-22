@@ -1,6 +1,7 @@
 import { ReturnRoundDTO } from 'src/round/dtos/returnRound.dto';
 import { ReturnTeamsaveDTO } from 'src/teamsave/dtos/returnTeamsave.dto';
 import { MatchEntity } from '../entities/match.entity';
+import { format } from 'date-fns-tz';
 
 export class ReturnMatchDTO {
   id: number;
@@ -14,7 +15,9 @@ export class ReturnMatchDTO {
 
   constructor(matchEntity: MatchEntity) {
     this.id = matchEntity.id;
-    this.date = matchEntity.date.toISOString().replace('T', ' ').slice(0, 19);
+    this.date = format(matchEntity.date, 'yyyy-MM-dd HH:mm:ss', {
+      timeZone: 'America/Sao_Paulo',
+    });
     this.teamsaveHomeGoals = matchEntity.teamsaveHomeGoals;
     this.teamsaveAwayGoals = matchEntity.teamsaveAwayGoals;
 
