@@ -80,8 +80,12 @@ export class CompetitionsaveService {
         saveId: saveId,
       },
       order: {
-        updatedAt: 'DESC',
-        id: 'DESC',
+        rule: {
+          country: {
+            name: 'ASC',
+          },
+          level: 'ASC',
+        },
       },
     };
 

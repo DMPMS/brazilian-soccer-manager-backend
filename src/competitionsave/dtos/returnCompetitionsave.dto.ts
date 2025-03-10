@@ -1,4 +1,3 @@
-import { ReturnCountryDTO } from 'src/country/dtos/returnCountry.dto';
 import { ReturnRuleDTO } from 'src/rule/dtos/returnRule.dto';
 import { CompetitionsaveEntity } from '../entities/competitionsave.entity';
 import { ReturnCompetitionsaveTeamsaveDTO } from 'src/competitionsave_teamsave/dtos/returnCompetitionsaveTeamsave.dto';
@@ -12,7 +11,6 @@ export class ReturnCompetitionsaveDTO {
   srcImage: string;
 
   rule?: ReturnRuleDTO;
-  country?: ReturnCountryDTO;
   competitionssaveTeamsave?: ReturnCompetitionsaveTeamsaveDTO[];
   rounds?: ReturnRoundDTO[];
   rankings?: ReturnRankingDTO[];
@@ -25,10 +23,6 @@ export class ReturnCompetitionsaveDTO {
 
     this.rule = competitionsaveEntity.rule
       ? new ReturnRuleDTO(competitionsaveEntity.rule)
-      : undefined;
-
-    this.country = competitionsaveEntity.country
-      ? new ReturnCountryDTO(competitionsaveEntity.country)
       : undefined;
 
     this.competitionssaveTeamsave =

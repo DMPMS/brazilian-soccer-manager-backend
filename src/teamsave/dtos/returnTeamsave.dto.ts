@@ -5,6 +5,8 @@ import { ReturnPlayersaveDTO } from 'src/playersave/dtos/returnPlayersave.dto';
 import { ReturnCompetitionsaveTeamsaveDTO } from 'src/competitionsave_teamsave/dtos/returnCompetitionsaveTeamsave.dto';
 import { ReturnMatchDTO } from 'src/match/dtos/returnMatch.dto';
 
+import * as dayjs from 'dayjs';
+
 export class ReturnTeamsaveDTO {
   id: number;
   name: string;
@@ -61,7 +63,7 @@ export class ReturnTeamsaveDTO {
     this.matches =
       homeMatches.length || awayMatches.length
         ? [...homeMatches, ...awayMatches].sort(
-            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+            (a, b) => dayjs(a.date).valueOf() - dayjs(b.date).valueOf(),
           )
         : undefined;
   }

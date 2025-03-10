@@ -3,7 +3,6 @@ import {
   IsArray,
   IsEnum,
   IsInt,
-  IsOptional,
   IsString,
   Length,
   Validate,
@@ -21,10 +20,6 @@ import { UniqueArray } from 'src/validators/uniqueArray';
 export class CreateCompetitionglobalDTO {
   @IsEnum(RuleEnum)
   ruleId: RuleEnum;
-
-  @IsOptional()
-  @IsInt()
-  countryId?: number;
 
   @IsString()
   @Length(COMPETITIONGLOBAL_MIN_LENGH_NAME, COMPETITIONGLOBAL_MAX_LENGH_NAME)

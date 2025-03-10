@@ -5,7 +5,9 @@ export class CreateTableRule1714923613973 implements MigrationInterface {
     queryRunner.query(`
         CREATE TABLE public.rule (
             id SERIAL NOT NULL,
+            country_id integer,
             name character varying NOT NULL,
+            level integer NOT NULL,
             number_of_teams integer NOT NULL,
             description TEXT NOT NULL,
             default_competition_name TEXT NOT NULL,
@@ -14,7 +16,8 @@ export class CreateTableRule1714923613973 implements MigrationInterface {
             created_at timestamp without time zone DEFAULT now() NOT NULL,
             updated_at timestamp without time zone DEFAULT now() NOT NULL,
 
-            primary key (id)
+            primary key (id),
+            foreign key (country_id) references public.country(id)
         );
     `);
   }

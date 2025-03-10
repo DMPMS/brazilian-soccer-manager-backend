@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { TeamsaveEntity } from './entities/teamsave.entity';
 import { PlayersaveService } from 'src/playersave/playersave.service';
 import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
-import { countPlayersaveByTeamsaveId } from 'src/playersave/dtos/countPlayersaveByTeamsaveId.dto';
+import { CountPlayersaveByTeamsaveId } from 'src/playersave/dtos/countPlayersaveByTeamsaveId.dto';
 import { SaveService } from 'src/save/save.service';
 
 @Injectable()
@@ -68,7 +68,7 @@ export class TeamsaveService {
 
   countPlayerssaveInTeamsave(
     teamsaveId: number,
-    countPlayerssaveList: countPlayersaveByTeamsaveId[],
+    countPlayerssaveList: CountPlayersaveByTeamsaveId[],
   ): number {
     const count = countPlayerssaveList.find(
       (item) => item.teamsave_id === teamsaveId,

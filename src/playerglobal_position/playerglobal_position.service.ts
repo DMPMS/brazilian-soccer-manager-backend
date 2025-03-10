@@ -24,9 +24,6 @@ export class PlayerglobalPositionService {
 
     findOptions = {
       ...findOptions,
-      order: {
-        id: 'ASC',
-      },
     };
 
     const playersglobalPosition =

@@ -18,7 +18,9 @@ export class CompetitionsaveController {
     @Query('saveId') saveId: number,
   ): Promise<ReturnCompetitionsaveDTO[]> {
     const relations = {
-      country: true,
+      rule: {
+        country: true,
+      },
     };
 
     return (
@@ -37,8 +39,9 @@ export class CompetitionsaveController {
     @Param('competitionsaveId') competitionsaveId,
   ): Promise<ReturnCompetitionsaveDTO> {
     const relations = {
-      rule: true,
-      country: true,
+      rule: {
+        country: true,
+      },
       competitionssaveTeamsave: {
         teamsave: true,
       },

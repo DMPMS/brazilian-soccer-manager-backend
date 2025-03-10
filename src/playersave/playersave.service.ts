@@ -3,7 +3,7 @@ import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { PlayersaveEntity } from './entities/playersave.entity';
 import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
-import { countPlayersaveByTeamsaveId } from './dtos/countPlayersaveByTeamsaveId.dto';
+import { CountPlayersaveByTeamsaveId } from './dtos/countPlayersaveByTeamsaveId.dto';
 import { SaveService } from 'src/save/save.service';
 
 @Injectable()
@@ -56,7 +56,7 @@ export class PlayersaveService {
     return playerssave;
   }
 
-  async countPlayersaveByTeamsaveId(): Promise<countPlayersaveByTeamsaveId[]> {
+  async countPlayersaveByTeamsaveId(): Promise<CountPlayersaveByTeamsaveId[]> {
     return await this.dataSource
       .createQueryBuilder()
       .select('playersave.teamsave_id')

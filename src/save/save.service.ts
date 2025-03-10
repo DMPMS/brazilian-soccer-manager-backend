@@ -283,7 +283,6 @@ export class SaveService {
               saveId: saveId,
               competitionglobalId: competitionglobal.id,
               ruleId: competitionglobal.ruleId,
-              countryId: competitionglobal.countryId,
               name: competitionglobal.name,
               season: competitionglobal.season,
               srcImage: competitionglobal.srcImage,

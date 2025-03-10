@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RuleEntity } from './entities/rule.entity';
 import { RuleEnum } from 'src/shared/enums/Rule.enum';
+import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
 
 @Injectable()
 export class RuleService {
@@ -11,7 +12,7 @@ export class RuleService {
     private readonly ruleRepository: Repository<RuleEntity>,
   ) {}
 
-  async findAllRule(): Promise<RuleEntity[]> {
+  async findAllRule(relations?: RelationsOptionsType): Promise<RuleEntity[]> {
     let findOptions = {};
 
     findOptions = {
@@ -20,6 +21,13 @@ export class RuleService {
         id: 'ASC',
       },
     };
+
+    if (relations && Object.keys(relations).length > 0) {
+      findOptions = {
+        ...findOptions,
+        relations,
+      };
+    }
 
     const rules = await this.ruleRepository.find(findOptions);
 
@@ -30,7 +38,10 @@ export class RuleService {
     return rules;
   }
 
-  async findRuleById(ruleId: RuleEnum): Promise<RuleEntity> {
+  async findRuleById(
+    ruleId: RuleEnum,
+    relations?: RelationsOptionsType,
+  ): Promise<RuleEntity> {
     let findOptions = {};
 
     findOptions = {
@@ -39,6 +50,13 @@ export class RuleService {
         id: ruleId,
       },
     };
+
+    if (relations && Object.keys(relations).length > 0) {
+      findOptions = {
+        ...findOptions,
+        relations,
+      };
+    }
 
     const rule = await this.ruleRepository.findOne(findOptions);
 

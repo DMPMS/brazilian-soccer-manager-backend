@@ -11,7 +11,11 @@ export class RuleController {
 
   @Get()
   async findAllRule(): Promise<ReturnRuleDTO[]> {
-    return (await this.ruleService.findAllRule()).map(
+    const relations = {
+      country: true,
+    };
+
+    return (await this.ruleService.findAllRule(relations)).map(
       (rule) => new ReturnRuleDTO(rule),
     );
   }

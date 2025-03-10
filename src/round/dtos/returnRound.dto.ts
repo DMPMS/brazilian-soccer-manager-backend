@@ -2,6 +2,8 @@ import { ReturnCompetitionsaveDTO } from 'src/competitionsave/dtos/returnCompeti
 import { RoundEntity } from '../entities/round.entity';
 import { ReturnMatchDTO } from 'src/match/dtos/returnMatch.dto';
 
+import * as dayjs from 'dayjs';
+
 export class ReturnRoundDTO {
   id: number;
   name: string;
@@ -20,9 +22,7 @@ export class ReturnRoundDTO {
     this.matches = roundEntity.matches
       ? roundEntity.matches
           .map((match) => new ReturnMatchDTO(match))
-          .sort(
-            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-          )
+          .sort((a, b) => dayjs(a.date).valueOf() - dayjs(b.date).valueOf())
       : undefined;
   }
 }

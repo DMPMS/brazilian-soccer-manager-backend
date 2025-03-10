@@ -1,7 +1,6 @@
 import { CompetitionglobalEntity } from 'src/competitionglobal/entities/competitionglobal.entity';
 import { RankingEntity } from 'src/ranking/entities/ranking.entity';
 import { CompetitionsaveTeamsaveEntity } from 'src/competitionsave_teamsave/entities/competitionsave_teamsave.entity';
-import { CountryEntity } from 'src/country/entities/country.entity';
 import { RoundEntity } from 'src/round/entities/round.entity';
 import { RuleEntity } from 'src/rule/entities/rule.entity';
 import { SaveEntity } from 'src/save/entities/save.entity';
@@ -30,9 +29,6 @@ export abstract class CompetitionsaveEntity {
 
   @Column({ name: 'rule_id', nullable: false })
   ruleId: RuleEnum;
-
-  @Column({ name: 'country_id', nullable: true })
-  countryId: number;
 
   @Column({ name: 'name', nullable: false })
   name: string;
@@ -63,10 +59,6 @@ export abstract class CompetitionsaveEntity {
   @ManyToOne(() => RuleEntity, (rule) => rule.competitionssave)
   @JoinColumn({ name: 'rule_id', referencedColumnName: 'id' })
   rule?: RuleEntity;
-
-  @ManyToOne(() => CountryEntity, (country) => country.competitionssave)
-  @JoinColumn({ name: 'country_id', referencedColumnName: 'id' })
-  country?: CountryEntity;
 
   @OneToMany(
     () => CompetitionsaveTeamsaveEntity,

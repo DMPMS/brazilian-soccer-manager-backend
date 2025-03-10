@@ -10,7 +10,6 @@ export class CreateTableCompetitionsave1722443937732
             save_id INTEGER NOT NULL,
             competitionglobal_id INTEGER,
             rule_id integer NOT NULL,
-            country_id integer,
             name character varying NOT NULL,
             season character varying NOT NULL,
             src_image character varying NOT NULL,
@@ -21,8 +20,7 @@ export class CreateTableCompetitionsave1722443937732
             primary key (id),
             foreign key (save_id) references public.save(id),
             foreign key (competitionglobal_id) references public.competitionglobal(id) ON DELETE SET NULL,
-            foreign key (rule_id) references public.rule(id),
-            foreign key (country_id) references public.country(id)
+            foreign key (rule_id) references public.rule(id)
         );
     `);
   }

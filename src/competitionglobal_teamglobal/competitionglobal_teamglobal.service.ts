@@ -26,9 +26,6 @@ export class CompetitionglobalTeamglobalService {
 
     findOptions = {
       ...findOptions,
-      order: {
-        id: 'ASC',
-      },
     };
 
     const competitionsglobalTeamglobal =

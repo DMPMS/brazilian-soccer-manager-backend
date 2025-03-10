@@ -4,5 +4,5 @@ export enum PositionRatingEnum {
   SameAreaPrimary = 0.8,
   SameAreaSecondary = 0.7,
   NonPlaying = 0.3,
-  NonGoalkeeper = 0.1,
+  NonPlayingGoalkeeper = 0.1,
 }

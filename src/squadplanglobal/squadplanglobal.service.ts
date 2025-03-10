@@ -60,7 +60,7 @@ export class SquadplanglobalService {
 
     return this.squadplanglobalRepository.save({
       ...squadplanglobal,
-      updateSquadplanglobalDTO,
+      ...updateSquadplanglobalDTO,
     });
   }
 

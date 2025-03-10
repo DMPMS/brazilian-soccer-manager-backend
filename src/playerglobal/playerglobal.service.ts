@@ -21,7 +21,7 @@ import {
   TEAMGLOBAL_MAX_PLAYERSGLOBAL,
   TEAMGLOBAL_MIN_PLAYERSGLOBAL,
 } from 'src/utils/constants/dtoValidators';
-import { countPlayerglobalByTeamglobalId } from './dtos/countPlayerglobalByTeamglobalId.dto';
+import { CountPlayerglobalByTeamglobalId } from './dtos/countPlayerglobalByTeamglobalId.dto';
 import { PositionRatingEnum } from 'src/shared/enums/PositionRating.enum';
 
 const DEFAULT_WITHOUT_TEAMGLOBAL = false;
@@ -392,7 +392,7 @@ export class PlayerglobalService {
   }
 
   async countPlayerglobalByTeamglobalId(): Promise<
-    countPlayerglobalByTeamglobalId[]
+    CountPlayerglobalByTeamglobalId[]
   > {
     return await this.dataSource
       .createQueryBuilder()

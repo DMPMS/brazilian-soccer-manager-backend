@@ -39,8 +39,9 @@ export class CompetitionglobalController {
   @Get()
   async findAllCompetitionglobal(): Promise<ReturnCompetitionglobalDTO[]> {
     const relations = {
-      rule: true,
-      country: true,
+      rule: {
+        country: true,
+      },
     };
 
     return (
@@ -56,8 +57,9 @@ export class CompetitionglobalController {
     @Param('competitionglobalId') competitionglobalId,
   ): Promise<ReturnCompetitionglobalDTO> {
     const relations = {
-      rule: true,
-      country: true,
+      rule: {
+        country: true,
+      },
       competitionsglobalTeamglobal: {
         teamglobal: true,
       },

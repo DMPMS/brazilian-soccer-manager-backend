@@ -1,4 +1,4 @@
-export interface countPlayersaveByTeamsaveId {
+export interface CountPlayersaveByTeamsaveId {
   teamsave_id: number;
   total: number;
 }

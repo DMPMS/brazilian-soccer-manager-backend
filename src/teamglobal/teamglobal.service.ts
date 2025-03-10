@@ -14,7 +14,7 @@ import { ManagerglobalService } from 'src/managerglobal/managerglobal.service';
 import { UpdateTeamglobalDTO } from './dtos/updateTeamglobal.dto';
 import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
 import { PlayerglobalService } from 'src/playerglobal/playerglobal.service';
-import { countPlayerglobalByTeamglobalId } from 'src/playerglobal/dtos/countPlayerglobalByTeamglobalId.dto';
+import { CountPlayerglobalByTeamglobalId } from 'src/playerglobal/dtos/countPlayerglobalByTeamglobalId.dto';
 import { CompetitionglobalTeamglobalEntity } from 'src/competitionglobal_teamglobal/entities/competitionglobal_teamglobal.entity';
 import { CompetitionglobalEntity } from 'src/competitionglobal/entities/competitionglobal.entity';
 import { RuleEnum } from 'src/shared/enums/Rule.enum';
@@ -371,7 +371,7 @@ export class TeamglobalService {
 
   countPlayersglobalInTeamglobal(
     teamglobalId: number,
-    countPlayersglobalList: countPlayerglobalByTeamglobalId[],
+    countPlayersglobalList: CountPlayerglobalByTeamglobalId[],
   ): number {
     const count = countPlayersglobalList.find(
       (item) => item.teamglobal_id === teamglobalId,
