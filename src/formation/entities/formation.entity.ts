@@ -1,4 +1,6 @@
+import { FormationEnum } from 'src/shared/enums/Formation.enum';
 import { SquadplanglobalEntity } from 'src/squadplanglobal/entities/squadplanglobal.entity';
+import { SquadplansaveEntity } from 'src/squadplansave/entities/squadplansave.entity';
 import {
   Column,
   CreateDateColumn,
@@ -11,7 +13,7 @@ import {
 @Entity({ name: 'formation' })
 export class FormationEntity {
   @PrimaryGeneratedColumn('rowid')
-  id: number;
+  id: FormationEnum;
 
   @Column({ name: 'name', nullable: false })
   name: string;
@@ -27,4 +29,10 @@ export class FormationEntity {
     (squadplanglobalEntity) => squadplanglobalEntity.formation,
   )
   squadplansglobal?: SquadplanglobalEntity[];
+
+  @OneToMany(
+    () => SquadplansaveEntity,
+    (squadplansaveEntity) => squadplansaveEntity.formation,
+  )
+  squadplanssave?: SquadplansaveEntity[];
 }

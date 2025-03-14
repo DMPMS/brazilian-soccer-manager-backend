@@ -1,8 +1,9 @@
 import { PositionAreaEnum } from 'src/shared/enums/PositionArea.enum';
 import { PositionEntity } from '../entities/position.entity';
+import { PositionEnum } from 'src/shared/enums/Position.enum';
 
 export class ReturnPositionDTO {
-  id: number;
+  id: PositionEnum;
   name: string;
   abbreviation: string;
   area: PositionAreaEnum;

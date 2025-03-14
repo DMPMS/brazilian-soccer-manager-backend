@@ -1,5 +1,6 @@
 import { PlayerglobalPositionEntity } from 'src/playerglobal_position/entities/playerglobal_position.entity';
 import { PlayersavePositionEntity } from 'src/playersave_position/entities/playersave_position.entity';
+import { PositionEnum } from 'src/shared/enums/Position.enum';
 import { PositionAreaEnum } from 'src/shared/enums/PositionArea.enum';
 import {
   Column,
@@ -13,7 +14,7 @@ import {
 @Entity({ name: 'position' })
 export class PositionEntity {
   @PrimaryGeneratedColumn('rowid')
-  id: number;
+  id: PositionEnum;
 
   @Column({ name: 'name', nullable: false })
   name: string;

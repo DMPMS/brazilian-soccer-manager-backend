@@ -1,6 +1,7 @@
 import { CompetitionglobalEntity } from 'src/competitionglobal/entities/competitionglobal.entity';
 import { CompetitionsaveEntity } from 'src/competitionsave/entities/competitionsave.entity';
 import { CountryEntity } from 'src/country/entities/country.entity';
+import { RuleEnum } from 'src/shared/enums/Rule.enum';
 import {
   Column,
   CreateDateColumn,
@@ -16,7 +17,7 @@ import {
 @Entity({ name: 'rule' })
 export class RuleEntity {
   @PrimaryGeneratedColumn('rowid')
-  id: number;
+  id: RuleEnum;
 
   @Column({ name: 'country_id', nullable: true })
   countryId: number;

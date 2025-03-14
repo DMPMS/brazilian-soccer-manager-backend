@@ -5,6 +5,7 @@ import { MatchEntity } from 'src/match/entities/match.entity';
 import { PlayersaveEntity } from 'src/playersave/entities/playersave.entity';
 import { RankingEntity } from 'src/ranking/entities/ranking.entity';
 import { SaveEntity } from 'src/save/entities/save.entity';
+import { SquadplansaveEntity } from 'src/squadplansave/entities/squadplansave.entity';
 import { TeamglobalEntity } from 'src/teamglobal/entities/teamglobal.entity';
 import {
   Column,
@@ -67,6 +68,12 @@ export class TeamsaveEntity {
 
   @OneToMany(() => PlayersaveEntity, (playersave) => playersave.teamsave)
   playerssave?: PlayersaveEntity[];
+
+  @OneToOne(
+    () => SquadplansaveEntity,
+    (squadplansave) => squadplansave.teamsave,
+  )
+  squadplansave?: SquadplansaveEntity;
 
   @OneToMany(
     () => CompetitionsaveTeamsaveEntity,

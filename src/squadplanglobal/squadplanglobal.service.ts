@@ -19,6 +19,23 @@ export class SquadplanglobalService {
     return this.squadplanglobalRepository.save(createSquadplanglobalDTO);
   }
 
+  async findAllSquadplanglobal(): Promise<SquadplanglobalEntity[]> {
+    let findOptions = {};
+
+    findOptions = {
+      ...findOptions,
+    };
+
+    const squadplansglobal =
+      await this.squadplanglobalRepository.find(findOptions);
+
+    if (!squadplansglobal) {
+      throw new NotFoundException(`Squadplansglobal not found.`);
+    }
+
+    return squadplansglobal;
+  }
+
   async findSquadplanglobalByTeamglobalId(
     teamglobalId: number,
     relations?: RelationsOptionsType,

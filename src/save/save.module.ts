@@ -11,12 +11,14 @@ import { CompetitionglobalModule } from 'src/competitionglobal/competitionglobal
 import { CompetitionglobalTeamglobalModule } from 'src/competitionglobal_teamglobal/competitionglobal_teamglobal.module';
 import { CountryModule } from 'src/country/country.module';
 import { CompetitionsaveModule } from 'src/competitionsave/competitionsave.module';
+import { SquadplanglobalModule } from 'src/squadplanglobal/squadplanglobal.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([SaveEntity]),
     ManagerglobalModule,
     TeamglobalModule,
+    SquadplanglobalModule,
     PlayerglobalModule,
     PlayerglobalPositionModule,
     CompetitionglobalModule,

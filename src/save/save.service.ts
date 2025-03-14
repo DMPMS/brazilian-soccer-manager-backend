@@ -28,6 +28,8 @@ import { RelationsOptionsType } from 'src/types/RelationsOptions.type';
 import { CompetitionsaveService } from 'src/competitionsave/competitionsave.service';
 import { RankingEntity } from 'src/ranking/entities/ranking.entity';
 import { MORALE_ENUM_LENGTH } from 'src/shared/enums/Morale.enum';
+import { SquadplanglobalService } from 'src/squadplanglobal/squadplanglobal.service';
+import { SquadplansaveEntity } from 'src/squadplansave/entities/squadplansave.entity';
 
 interface CustomManager {
   countryId: number;
@@ -44,6 +46,7 @@ export class SaveService {
     private readonly saveRepository: Repository<SaveEntity>,
     private readonly managerglobalService: ManagerglobalService,
     private readonly teamglobalService: TeamglobalService,
+    private readonly squadplanglobalService: SquadplanglobalService,
     private readonly playerglobalService: PlayerglobalService,
     private readonly playerglobalPositionService: PlayerglobalPositionService,
     private readonly competitionglobalService: CompetitionglobalService,
@@ -123,6 +126,9 @@ export class SaveService {
       await this.managerglobalService.findAllManagerglobal();
 
     const teamsglobal = await this.teamglobalService.findAllTeamglobal();
+
+    const squadplansglobal =
+      await this.squadplanglobalService.findAllSquadplanglobal();
 
     const playersglobal = await this.playerglobalService.findAllPlayerglobal();
 
@@ -249,6 +255,27 @@ export class SaveService {
           .execute();
 
         globalToSavePlayerIdMap[playerglobal.id] = playersave.identifiers[0].id;
+      }),
+    );
+
+    await Promise.all(
+      squadplansglobal.map(async (squadplanglobal) => {
+        const teamsaveId = globalToSaveTeamIdMap[squadplanglobal.teamglobalId];
+
+        await this.dataSource
+          .createQueryBuilder()
+          .insert()
+          .into(SquadplansaveEntity)
+          .values([
+            {
+              formationId: squadplanglobal.formationId,
+              teamsaveId: teamsaveId,
+              playersaveIds: squadplanglobal.playerglobalIds.map(
+                (playerglobalId) => globalToSavePlayerIdMap[playerglobalId],
+              ),
+            },
+          ])
+          .execute();
       }),
     );
 

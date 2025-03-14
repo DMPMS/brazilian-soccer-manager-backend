@@ -1,4 +1,4 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ManagerglobalController } from './managerglobal.controller';
 import { ManagerglobalService } from './managerglobal.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -10,7 +10,7 @@ import { TeamglobalModule } from 'src/teamglobal/teamglobal.module';
   imports: [
     TypeOrmModule.forFeature([ManagerglobalEntity]),
     CountryModule,
-    forwardRef(() => TeamglobalModule),
+    TeamglobalModule,
   ],
   controllers: [ManagerglobalController],
   providers: [ManagerglobalService],

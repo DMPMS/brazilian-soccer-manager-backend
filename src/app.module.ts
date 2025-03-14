@@ -26,6 +26,8 @@ import { RoundModule } from './round/round.module';
 import { RankingModule } from './ranking/ranking.module';
 import { SquadplanglobalModule } from './squadplanglobal/squadplanglobal.module';
 import { FormationModule } from './formation/formation.module';
+import { SquadplansaveModule } from './squadplansave/squadplansave.module';
+import { MatchModule } from './match/match.module';
 
 @Module({
   imports: [
@@ -66,6 +68,8 @@ import { FormationModule } from './formation/formation.module';
     RankingModule,
     FormationModule,
     SquadplanglobalModule,
+    SquadplansaveModule,
+    MatchModule,
   ],
   controllers: [],
   providers: [

@@ -6,18 +6,21 @@ import { ReturnCompetitionsaveTeamsaveDTO } from 'src/competitionsave_teamsave/d
 import { ReturnMatchDTO } from 'src/match/dtos/returnMatch.dto';
 
 import * as dayjs from 'dayjs';
+import { ReturnSquadplansaveDTO } from 'src/squadplansave/dtos/returnSquadplansave.dto';
 
 export class ReturnTeamsaveDTO {
   id: number;
   name: string;
   srcImage: string;
-  playerssaveCount: number;
 
   country?: ReturnCountryDTO;
   managersave?: ReturnManagersaveDTO;
   playerssave?: ReturnPlayersaveDTO[];
-  competitionssaveTeamsave?: ReturnCompetitionsaveTeamsaveDTO[];
+  squadplansave?: ReturnSquadplansaveDTO;
 
+  playerssaveCount: number;
+
+  competitionssaveTeamsave?: ReturnCompetitionsaveTeamsaveDTO[];
   matches?: ReturnMatchDTO[];
 
   constructor(teamsaveEntity: TeamsaveEntity) {
@@ -37,6 +40,10 @@ export class ReturnTeamsaveDTO {
       ? teamsaveEntity.playerssave.map(
           (playersave) => new ReturnPlayersaveDTO(playersave),
         )
+      : undefined;
+
+    this.squadplansave = teamsaveEntity.squadplansave
+      ? new ReturnSquadplansaveDTO(teamsaveEntity.squadplansave)
       : undefined;
 
     this.playerssaveCount = teamsaveEntity.playerssaveCount;
